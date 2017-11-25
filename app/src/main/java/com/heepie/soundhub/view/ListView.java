@@ -1,7 +1,9 @@
-package com.heepie.soundhub;
+package com.heepie.soundhub.view;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.heepie.soundhub.R;
 
 public class ListView extends AppCompatActivity {
 
