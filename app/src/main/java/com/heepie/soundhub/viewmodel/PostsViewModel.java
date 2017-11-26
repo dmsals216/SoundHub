@@ -9,6 +9,9 @@ import com.heepie.soundhub.model.User;
 
 /**
  * Created by Heepie on 2017. 11. 24..
+ * View Model은 View를 참조하지 않는다. 오직 비즈니스 로직(데이터를 표현하는 방법만 집중)
+ * ViewModel은 생산자, View는 소비자
+ * 소비자는 생산자가 누구인지 알아야하지만, 생산자는 소비자가 누구인지 몰라도 된다.
  */
 
 public class PostsViewModel extends BaseObservable

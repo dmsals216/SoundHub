@@ -12,6 +12,7 @@ import com.heepie.soundhub.utils.IModelGettable;
 
 /**
  * Created by Heepie on 2017. 11. 25..
+ * RecyclerView에서 공통으로 사용하는
  */
 
 public class RecyclerViewBinding {

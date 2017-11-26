@@ -15,5 +15,4 @@ public class User {
         this.user_image_path = user_image_path;
         this.user_like_count = user_like_count;
     }
-
 }
