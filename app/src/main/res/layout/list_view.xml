@@ -10,14 +10,9 @@
             name="view"
             type="com.heepie.soundhub.view.ListView"/>
         <variable
-            name="populPosts"
-            type="com.heepie.soundhub.viewmodel.PostsViewModel"/>
-        <variable
-            name="newPosts"
-            type="com.heepie.soundhub.viewmodel.PostsViewModel"/>
-        <variable
-            name="populUsers"
-            type="com.heepie.soundhub.viewmodel.UsersViewModel"/>
+            name="viewModel"
+            type="com.heepie.soundhub.viewmodel.ListViewModel"/>
+
 
     </data>
 
@@ -25,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:adapterAndlayout="@{view}"
-        app:items="@{populPosts.posts}"
+        app:setViewModel="@{viewModel}"
         >
 
     </android.support.v7.widget.RecyclerView>

@@ -84,14 +84,14 @@ public class RecyclerViewAdapter<T extends IModelGettable> extends RecyclerView.
 
         // 실질적인 데이터 설정
         public void bind(@NonNull F viewModel) {
-            switch (mViewType) {
+            /*switch (mViewType) {
                 case Const.VIEW_TYPE_POPULAR_POST:
                     ((ItemPostBinding)mBinding).setModel((Post)viewModel.getModel());
                     break;
                 case Const.VIEW_TYPE_POPULAR_USER:
-                    ((ItemUserBinding)mBinding).setModel((Post)viewModel.getModel());
+                    ((ItemUserBinding)mBinding).setModel((User)viewModel.getModel());
                     break;
-            }
+            }*/
 
             mBinding.executePendingBindings();
         }
