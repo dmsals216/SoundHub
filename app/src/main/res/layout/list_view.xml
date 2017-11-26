@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="view"
+            type="com.heepie.soundhub.view.ListView"/>
+        <variable
+            name="populPosts"
+            type="com.heepie.soundhub.viewmodel.PostsViewModel"/>
+        <variable
+            name="newPosts"
+            type="com.heepie.soundhub.viewmodel.PostsViewModel"/>
+        <variable
+            name="populUsers"
+            type="com.heepie.soundhub.viewmodel.UsersViewModel"/>
+
+    </data>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:adapterAndlayout="@{view}"
+        app:items="@{populPosts.posts}"
+        >
+
+    </android.support.v7.widget.RecyclerView>
+
+
+</layout>
