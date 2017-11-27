@@ -23,7 +23,7 @@
             android:layout_marginStart="35dp"
             android:elevation="1dp"
             android:onClick="@{viewModel::onClickedSignUp}"
-            android:visibility="@{(viewModel.showSignUp == true || viewModel.showSignIn == true)? View.GONE : View.VISIBLE}"
+            android:visibility="@{(viewModel.showSignUpOption == true || viewModel.showSignIn == true)? View.GONE : View.VISIBLE}"
             android:text="Create an account"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
@@ -37,7 +37,7 @@
             android:layout_marginStart="8dp"
             android:elevation="1dp"
             android:onClick="@{viewModel::onClickedSignIn}"
-            android:visibility="@{(viewModel.showSignUp == true || viewModel.showSignIn == true)? View.GONE : View.VISIBLE}"
+            android:visibility="@{(viewModel.showSignUpOption == true || viewModel.showSignIn == true)? View.GONE : View.VISIBLE}"
             android:text="Sign in"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -49,8 +49,60 @@
             android:layout_height="match_parent"
             android:background="#CC000000"
             android:elevation="2dp"
+            android:visibility="@{viewModel.showSignUpOption == true ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            >
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="10dp"
+                android:orientation="vertical">
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sign in with Google"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sign in with Naver"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+                    />
+
+                <Button
+                    android:id="@+id/signupEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sign up with your email address"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+                    android:onClick="@{viewModel::onClickedSignUpOption}"
+                    />
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/signupPopup"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#CC000000"
+            android:elevation="3dp"
             android:visibility="@{viewModel.showSignUp == true ? View.VISIBLE : View.GONE}"
-            android:onClick="@{viewModel::onClickedFrame}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -73,53 +125,7 @@
                     android:text="Create an Account"
                     android:textColor="#FF8899" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFAA"
-                    android:orientation="horizontal">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Id"
-                        android:textSize="15dp" />
-
-                    <EditText
-                        android:id="@+id/editSignupId"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:hint="Id"
-                        android:textSize="15dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFAA"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Name"
-                        android:textSize="15dp" />
-
-                    <EditText
-                        android:id="@+id/editSignupName"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:hint="Name"
-                        android:textSize="15dp" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -165,6 +171,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
                         android:hint="Password"
+                        android:inputType="textPassword"
                         android:textSize="15dp" />
 
                 </LinearLayout>
@@ -180,92 +187,43 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:text="Birthday"
+                        android:text="Name"
                         android:textSize="15dp" />
 
                     <EditText
-                        android:id="@+id/editSignupBirthday"
+                        android:id="@+id/editSignupName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:hint="Birthday"
+                        android:hint="Name"
                         android:textSize="15dp" />
 
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFAA"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Gender"
-                        android:textSize="15dp" />
-
-                    <RadioGroup
-                        android:id="@+id/signupGender"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:orientation="horizontal">
-
-                        <RadioButton
-                            android:id="@+id/radioMale"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            android:text="Male" />
-
-                        <RadioButton
-                            android:id="@+id/radioFemale"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Female" />
-
-                    </RadioGroup>
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#FFFFAA"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Phone"
-                        android:textSize="15dp" />
-
-                    <EditText
-                        android:id="@+id/editSignupPhone"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="4"
-                        android:hint="PhoneNumber"
-                        android:textSize="15dp" />
-
-                </LinearLayout>
-
-
-                <Button
-                    android:id="@+id/signupBtn"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:enabled="false"
-                    android:text="Sign up" />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    >
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:onClick="@{viewModel::onClickedFrame}"
+                        android:text="Cancel"
+                        android:layout_marginRight="8sp"
+                        />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Done"
+                        android:layout_marginLeft="8sp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
         </FrameLayout>
@@ -275,9 +233,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="#CC000000"
-            android:elevation="2dp"
+            android:elevation="3dp"
             android:visibility="@{viewModel.showSignIn == true ? View.VISIBLE : View.GONE}"
-            android:onClick="@{viewModel::onClickedFrame}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -291,13 +248,33 @@
                 android:orientation="vertical"
                 android:visibility="visible">
 
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sign in with Google"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+                    />
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Sign in with Naver"
+                    android:layout_marginRight="20sp"
+                    android:layout_marginLeft="20sp"
+                    />
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="8dp"
                     android:gravity="center"
-                    android:text="Sign in with your account"
-                    android:textColor="#FF8899" />
+                    android:text="Or sign in with your account"
+                    android:textColor="#FF8899"
+                    android:layout_marginTop="30sp"
+                    />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -343,16 +320,35 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
                         android:hint="Password"
+                        android:inputType="textPassword"
                         android:textSize="15dp" />
 
                 </LinearLayout>
 
-                <Button
-                    android:id="@+id/signinBtn"
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="Sign In" />
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal"
+                    >
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:onClick="@{viewModel::onClickedFrame}"
+                        android:text="Cancel"
+                        android:layout_marginRight="8sp"
+                        />
+
+                    <Button
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="Done"
+                        android:layout_marginLeft="8sp"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

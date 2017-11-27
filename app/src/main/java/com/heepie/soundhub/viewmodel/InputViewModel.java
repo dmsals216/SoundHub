@@ -11,13 +11,14 @@ import android.view.View;
 public class InputViewModel {
     public final String TAG = getClass().getSimpleName();
     public final ObservableField<Boolean> showSignUp = new ObservableField<>(false);
+    public final ObservableField<Boolean> showSignUpOption = new ObservableField<>(false);
     public final ObservableField<Boolean> showSignIn = new ObservableField<>(false);
 
     public void onClickedSignUp(View v) {
-        if (showSignUp.get())
-            showSignUp.set(false);
+        if (showSignUpOption.get())
+            showSignUpOption.set(false);
         else
-            showSignUp.set(true);
+            showSignUpOption.set(true);
         Log.d(TAG, "showSignUp: " + showSignUp.get());
     }
 
@@ -29,9 +30,17 @@ public class InputViewModel {
         Log.d(TAG, "showSignUp: " + showSignIn.get());
     }
 
+    public void onClickedSignUpOption(View v) {
+        if (showSignUp.get())
+            showSignUp.set(false);
+        else
+            showSignUp.set(true);
+        Log.d(TAG, "showSignUp: " + showSignUp.get());
+    }
+
     public void onClickedFrame(View v) {
-        showSignUp.set(false);
+        showSignUpOption.set(false);
         showSignIn.set(false);
-        v.setVisibility(View.GONE);
+        showSignUp.set(false);
     }
 }
