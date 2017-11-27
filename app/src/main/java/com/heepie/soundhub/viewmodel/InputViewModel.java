@@ -10,37 +10,37 @@ import android.view.View;
 
 public class InputViewModel {
     public final String TAG = getClass().getSimpleName();
-    public boolean showSignUp = false;
-    public boolean showSignUpOption = false;
-    public boolean showSignIn = false;
+    public final ObservableField<Boolean> showSignUp = new ObservableField<>(false);
+    public final ObservableField<Boolean> showSignUpOption = new ObservableField<>(false);
+    public final ObservableField<Boolean> showSignIn = new ObservableField<>(false);
 
     public void onClickedSignUp(View v) {
-        if (showSignUpOption)
-            showSignUpOption = false;
+        if (showSignUpOption.get())
+            showSignUpOption.set(false);
         else
-            showSignUpOption = true;
-        Log.d(TAG, "showSignUp: " + showSignUp);
+            showSignUpOption.set(true);
+        Log.d(TAG, "showSignUp: " + showSignUp.get());
     }
 
     public void onClickedSignIn(View v) {
-        if (showSignIn)
-            showSignIn = false;
+        if (showSignIn.get())
+            showSignIn.set(false);
         else
-            showSignIn = true;
-        Log.d(TAG, "showSignUp: " + showSignIn);
+            showSignIn.set(true);
+        Log.d(TAG, "showSignUp: " + showSignIn.get());
     }
 
     public void onClickedSignUpOption(View v) {
-        if (showSignUp)
-            showSignUp = false;
+        if (showSignUp.get())
+            showSignUp.set(false);
         else
-            showSignUp = true;
-        Log.d(TAG, "showSignUp: " + showSignUp);
+            showSignUp.set(true);
+        Log.d(TAG, "showSignUp: " + showSignUp.get());
     }
 
     public void onClickedFrame(View v) {
-        showSignUpOption = false;
-        showSignIn = false;
-        showSignUp = false;
+        showSignUpOption.set(false);
+        showSignIn.set(false);
+        showSignUp.set(false);
     }
 }
