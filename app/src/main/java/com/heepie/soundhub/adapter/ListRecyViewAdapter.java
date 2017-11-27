@@ -8,25 +8,29 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.heepie.soundhub.BR;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.ItemPostBinding;
 import com.heepie.soundhub.databinding.ItemUserBinding;
+import com.heepie.soundhub.databinding.NewPostViewBinding;
+import com.heepie.soundhub.databinding.PopulPostViewBinding;
+import com.heepie.soundhub.databinding.PopulUserViewBinding;
 import com.heepie.soundhub.model.Post;
 import com.heepie.soundhub.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.IModelGettable;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostViewModel;
+import com.heepie.soundhub.viewmodel.PostsViewModel;
 import com.heepie.soundhub.viewmodel.UserViewModel;
+import com.heepie.soundhub.viewmodel.UsersViewModel;
 
 /**
  * Created by Heepie on 2017. 11. 27..
  */
 
-public class ListRecyViewAdapter<T extends IModelGettable> extends RecyclerView.Adapter<ListRecyViewAdapter.ListHolder> {
+public class ListRecyViewAdapter<T extends IModelGettable> extends RecyclerView.Adapter<ListRecyViewAdapter.Holder> {
     ListViewModel mItems;
-    UserViewModel uVmodel;
-    PostViewModel pVModel;
 
     public void setItems(ListViewModel mItems) {
         this.mItems = mItems;
@@ -35,50 +39,66 @@ public class ListRecyViewAdapter<T extends IModelGettable> extends RecyclerView.
     @Override
     public int getItemViewType(int position) {
         // 1.1 첫번째 위치는 ViewPager로 표현하기 위해 타입 설정
-        if (position < mItems.populUsers.size())
-            return Const.VIEW_TYPE_POPULAR_USER;
-        else if (position < mItems.populUsers.size() + mItems.populPosts.size())
-            return Const.VIEW_TYPE_POPULAR_POST;
-        else
-            return Const.VIEW_TYPE_NEW_POST;
+        switch (position) {
+            case 0:
+                return Const.VIEW_TYPE_POPULAR_USER;
+            case 1:
+                return Const.VIEW_TYPE_POPULAR_POST;
+            case 2:
+                return Const.VIEW_TYPE_NEW_POST;
+            default:
+                return -1;
+        }
     }
 
     @Override
-    public ListHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
+        // 각각의 리사이클러 뷰 설정
         switch (viewType) {
             case Const.VIEW_TYPE_POPULAR_USER:
-                ItemUserBinding populUserBinding = DataBindingUtil.inflate(inflater, R.layout.item_user, parent,false);
-                ListHolder<ItemUserBinding, UserViewModel> userHolder = new ListHolder<>(populUserBinding, viewType);
-                return userHolder;
+                PopulUserViewBinding populUserViewBinding = DataBindingUtil.inflate(inflater, R.layout.popul_user_view, parent,false);
+                populUserViewBinding.setViewModel(mItems.populUsers);
+                populUserViewBinding.setContext(parent.getContext());
+
+                Holder<UsersViewModel> usersHolder = new Holder<>(populUserViewBinding, viewType);
+                return usersHolder;
 
             case Const.VIEW_TYPE_POPULAR_POST:
-                ItemPostBinding populPostBinding = DataBindingUtil.inflate(inflater, R.layout.item_post, parent, false);
-                ListHolder<ItemPostBinding, PostViewModel> pPostHolder = new ListHolder<>(populPostBinding, viewType);
-                return pPostHolder;
+                PopulPostViewBinding populPostViewBinding = DataBindingUtil.inflate(inflater, R.layout.popul_post_view, parent, false);
+                populPostViewBinding.setViewModel(mItems.populPosts);
+                populPostViewBinding.setContext(parent.getContext());
+
+                Holder<PostsViewModel> populPostsHolder = new Holder<>(populPostViewBinding, viewType);
+                return populPostsHolder;
 
             case Const.VIEW_TYPE_NEW_POST:
-                ItemPostBinding newPostBinding = DataBindingUtil.inflate(inflater, R.layout.item_post, parent, false);
-                ListHolder<ItemPostBinding, PostViewModel> nPostHolder = new ListHolder<>(newPostBinding, viewType);
-                return nPostHolder;
+                NewPostViewBinding newPostViewBinding = DataBindingUtil.inflate(inflater, R.layout.new_post_view, parent, false);
+                newPostViewBinding.setViewModel(mItems.newPosts);
+                newPostViewBinding.setContext(parent.getContext());
+
+                Holder<PostsViewModel> newPostsHolder = new Holder<>(newPostViewBinding, viewType);
+                return newPostsHolder;
+
             default:
                 return null;
         }
     }
 
     @Override
-    public void onBindViewHolder(ListHolder holder, int position) {
+    public void onBindViewHolder(Holder holder, int position) {
         // 1.1 첫번째 위치는 ViewPager로 표현하기 위해 타입 설정
-        if (position < mItems.populUsers.size()) {
-            uVmodel = mItems.populUsers.get(position);
-            holder.bind(uVmodel);
-        } else if (position < mItems.populUsers.size() + mItems.populPosts.size()) {
-            pVModel = mItems.populPosts.get(position-mItems.populUsers.size());
-            holder.bind(pVModel);
-        } else {
-            pVModel = mItems.newPosts.get(position-mItems.populUsers.size()-mItems.populPosts.size());
-            holder.bind(pVModel);
+        switch (position) {
+            case 0:
+                holder.bind(mItems.populUsers);
+                break;
+            case 1:
+                holder.bind(mItems.populPosts);
+                break;
+            case 2:
+                holder.bind(mItems.newPosts);
+                break;
         }
     }
 
@@ -87,35 +107,37 @@ public class ListRecyViewAdapter<T extends IModelGettable> extends RecyclerView.
         if (mItems == null)
             return 0;
         else {
-            return mItems.populUsers.size() + mItems.newPosts.size() + mItems.populPosts.size();
+            return 3;
         }
     }
 
-    class ListHolder<E extends ViewDataBinding, F extends IModelGettable> extends RecyclerView.ViewHolder {
-        private E mBinding;
+    class Holder<E extends IModelGettable> extends RecyclerView.ViewHolder {
+        private final ViewDataBinding mBinding;
+
         private int mViewType;
 
-        public ListHolder(E binding, int viewType) {
+        public Holder(ViewDataBinding binding, int viewType) {
             super(binding.getRoot());
             mBinding = binding;
             mViewType = viewType;
         }
 
-        // 실질적인 데이터 설정
-        public void bind(@NonNull F viewModel) {
+        public void bind(@NonNull E viewsModel) {
+
             switch (mViewType) {
                 case Const.VIEW_TYPE_POPULAR_USER:
-                    ((ItemUserBinding)mBinding).setModel((User)viewModel.getModel());
+                    ((PopulUserViewBinding)mBinding).setViewModel((UsersViewModel)viewsModel);
                     break;
                 case Const.VIEW_TYPE_POPULAR_POST:
-                    ((ItemPostBinding)mBinding).setModel((Post)viewModel.getModel());
+                    ((PopulPostViewBinding)mBinding).setViewModel((PostsViewModel)viewsModel);
                     break;
                 case Const.VIEW_TYPE_NEW_POST:
-                    ((ItemPostBinding)mBinding).setModel((Post)viewModel.getModel());
+                    ((NewPostViewBinding)mBinding).setViewModel((PostsViewModel)viewsModel);
                     break;
             }
 
             mBinding.executePendingBindings();
+
         }
     }
 }

@@ -8,22 +8,19 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.heepie.soundhub.adapter.ListRecyViewAdapter;
-import com.heepie.soundhub.adapter.RecyclerViewAdapter;
+import com.heepie.soundhub.adapter.PopulPostAdapter;
+import com.heepie.soundhub.adapter.PopulUserAdapter;
 import com.heepie.soundhub.utils.IModelGettable;
 import com.heepie.soundhub.viewmodel.ListViewModel;
+import com.heepie.soundhub.viewmodel.PostViewModel;
+import com.heepie.soundhub.viewmodel.UserViewModel;
 
 /**
  * Created by Heepie on 2017. 11. 25..
  */
 
 public class RecyclerViewBinding {
-    /*@BindingAdapter("items")
-    public static <T extends IModelGettable> void setItems(View view, ObservableArrayList<T> items) {
-        if (view instanceof RecyclerView) {
-            RecyclerViewAdapter<T> adapter = (RecyclerViewAdapter<T>)((RecyclerView)view).getAdapter();
-            adapter.setmItems(items);
-        }
-    }*/
+
 
     @BindingAdapter("setViewModel")
     public static <T extends IModelGettable> void setViewModel(View view, ListViewModel items) {
@@ -40,6 +37,37 @@ public class RecyclerViewBinding {
         ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
 
     }
+
+    @BindingAdapter("setViewModelPopulUser")
+    public static <T extends IModelGettable> void setViewModelPopulUser(View view, ObservableArrayList<UserViewModel> items) {
+        if (view instanceof RecyclerView) {
+            PopulUserAdapter adapter = (PopulUserAdapter)((RecyclerView)view).getAdapter();
+            adapter.setItems(items);
+        }
+    }
+
+    @BindingAdapter("adapterAndlayoutPopulUser")
+    public static void setAdapterAndLayoutManagerPopulUser(View view, Context context) {
+        PopulUserAdapter adapter = new PopulUserAdapter();
+        ((RecyclerView)view).setAdapter(adapter);
+        ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+    }
+
+    @BindingAdapter("setViewModelPopulPost")
+    public static <T extends IModelGettable> void setViewModelPopulPost(View view, ObservableArrayList<PostViewModel> items) {
+        if (view instanceof RecyclerView) {
+            PopulPostAdapter adapter = (PopulPostAdapter)((RecyclerView)view).getAdapter();
+            adapter.setItems(items);
+        }
+    }
+
+    @BindingAdapter("adapterAndlayoutPopulPost")
+    public static void setAdapterAndLayoutManagerPopulPost(View view, Context context) {
+        PopulPostAdapter adapter = new PopulPostAdapter();
+        ((RecyclerView)view).setAdapter(adapter);
+        ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
+    }
+
 
     /* @BindingAdapter 인자 2개 넣기 예제
     <ImageView

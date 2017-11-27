@@ -13,29 +13,29 @@ import com.heepie.soundhub.model.User;
 
 public class ListViewModel extends BaseObservable {
     @Bindable
-    public ObservableArrayList<UserViewModel> populUsers;
+    public UsersViewModel populUsers;
 
     @Bindable
-    public ObservableArrayList<PostViewModel> populPosts;
+    public PostsViewModel populPosts;
 
     @Bindable
-    public ObservableArrayList<PostViewModel> newPosts;
+    public PostsViewModel newPosts;
 
     public ListViewModel() {
-        populUsers  = new ObservableArrayList<>();
-        populPosts  = new ObservableArrayList<>();
-        newPosts    = new ObservableArrayList<>();
+        populUsers = new UsersViewModel();
+        populPosts = new PostsViewModel();
+        newPosts = new PostsViewModel();
     }
 
     public void addPopulUser(String user_name, int user_image_path, String user_like_count) {
-        this.populUsers.add(new UserViewModel(new User(user_name, user_image_path, user_like_count)));
+        this.populUsers.getModel().add(new UserViewModel(new User(user_name, user_image_path, user_like_count)));
     }
 
     public void addPopulPost(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag) {
-        this.populPosts.add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
+        this.populPosts.getModel().add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
     }
 
     public void addNewPost(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag) {
-        this.newPosts.add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
+        this.newPosts.getModel().add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
     }
 }

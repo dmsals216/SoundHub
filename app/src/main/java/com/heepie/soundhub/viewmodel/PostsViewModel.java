@@ -6,12 +6,13 @@ import android.databinding.ObservableArrayList;
 
 import com.heepie.soundhub.model.Post;
 import com.heepie.soundhub.model.User;
+import com.heepie.soundhub.utils.IModelGettable;
 
 /**
  * Created by Heepie on 2017. 11. 24..
  */
 
-public class PostsViewModel extends BaseObservable
+public class PostsViewModel extends BaseObservable implements IModelGettable<ObservableArrayList<PostViewModel>>
 {
     @Bindable
     public ObservableArrayList<PostViewModel> posts;
@@ -25,11 +26,12 @@ public class PostsViewModel extends BaseObservable
         this.posts.add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
     }
 
-    public ObservableArrayList<PostViewModel> getPosts() {
+    public ObservableArrayList<PostViewModel> getModel() {
         return posts;
     }
 
     public void setPosts(ObservableArrayList<PostViewModel> posts) {
         this.posts = posts;
     }
+
 }
