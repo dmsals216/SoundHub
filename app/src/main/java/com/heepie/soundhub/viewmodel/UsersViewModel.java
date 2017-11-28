@@ -4,13 +4,14 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 
+import com.heepie.soundhub.Interfaces.IModelGettable;
 import com.heepie.soundhub.model.User;
 
 /**
  * Created by Heepie on 2017. 11. 25..
  */
 
-public class UsersViewModel extends BaseObservable {
+public class UsersViewModel extends BaseObservable implements IModelGettable<ObservableArrayList<UserViewModel>> {
     @Bindable
     public ObservableArrayList<UserViewModel> users;
 
@@ -23,7 +24,8 @@ public class UsersViewModel extends BaseObservable {
         this.users.add(new UserViewModel(new User(user_name, user_image_path, user_like_count)));
     }
 
-    public ObservableArrayList<UserViewModel> getPosts() {
+    @Override
+    public ObservableArrayList<UserViewModel> getModel() {
         return users;
     }
 

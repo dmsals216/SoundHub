@@ -13,8 +13,9 @@ public class Post {
     public String like_count;
     public String comment_count;
     public String tag;
+    public boolean isShow;
 
-    public Post(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag) {
+    public Post(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag, boolean isShow) {
         this.user = user;
         this.title = title;
         this.post_image_path = post_image_path;
@@ -22,6 +23,7 @@ public class Post {
         this.like_count = like_count;
         this.comment_count = comment_count;
         this.tag = tag;
+        this.isShow = isShow;
     }
 
 

@@ -1,7 +1,12 @@
 package com.heepie.soundhub.binding;
 
+import android.app.Activity;
 import android.databinding.BindingAdapter;
 import android.net.Uri;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -14,6 +19,16 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
  */
 
 public class ViewBinding {
+    /*@BindingAdapter({"setActivity", "setToolbar"})
+    public static void setToolbar(View view, Activity activity, View toolbar) {
+        if (view instanceof DrawerLayout) {
+            ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                    activity, (DrawerLayout)view, (Toolbar) toolbar, 0, 0);
+//            ((DrawerLayout)view).addDrawerListener(toggle);
+            toggle.syncState();
+        }
+    }*/
+
     @BindingAdapter("loadImage")
     public static void setLoadImage(ImageView view, String path) {
         Glide.with(view.getContext())
