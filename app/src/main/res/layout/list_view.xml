@@ -19,8 +19,8 @@
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:adapterAndlayout="@{view}"
-        app:setViewModel="@{viewModel}"
+        app:context="@{view}"
+        app:setOuterViewModel="@{viewModel}"
         >
 
     </android.support.v7.widget.RecyclerView>

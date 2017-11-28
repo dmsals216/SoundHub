@@ -5,31 +5,24 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.heepie.soundhub.BR;
 import com.heepie.soundhub.R;
-import com.heepie.soundhub.databinding.ItemPostBinding;
-import com.heepie.soundhub.databinding.ItemUserBinding;
 import com.heepie.soundhub.databinding.NewPostViewBinding;
 import com.heepie.soundhub.databinding.PopulPostViewBinding;
 import com.heepie.soundhub.databinding.PopulUserViewBinding;
-import com.heepie.soundhub.model.Post;
-import com.heepie.soundhub.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.IModelGettable;
 import com.heepie.soundhub.viewmodel.ListViewModel;
-import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
-import com.heepie.soundhub.viewmodel.UserViewModel;
 import com.heepie.soundhub.viewmodel.UsersViewModel;
 
 /**
  * Created by Heepie on 2017. 11. 27..
+ * 레이아웃에 의존성이 없는 공통 RecyclerViewAdapter
  */
 
-public class ListRecyViewAdapter<T extends IModelGettable> extends RecyclerView.Adapter<ListRecyViewAdapter.Holder> {
+public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView.Adapter<OuterRecyViewAdapter.Holder> {
     ListViewModel mItems;
 
     public void setItems(ListViewModel mItems) {
