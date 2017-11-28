@@ -16,14 +16,96 @@
 
     </data>
 
-    <android.support.v7.widget.RecyclerView
+    <!--<android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:context="@{view}"
-        app:setOuterViewModel="@{viewModel}"
         >
 
-    </android.support.v7.widget.RecyclerView>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/navigation"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"
+            app:headerLayout="@layout/navigation_header"
+            app:menu="@menu/drawer" />
+
+    </android.support.v4.widget.DrawerLayout>-->
 
 
+
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="?attr/colorPrimary"
+                android:minHeight="?attr/actionBarSize"
+                android:theme="?attr/actionBarTheme"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.v4.widget.DrawerLayout
+            android:id="@+id/drawerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.CoordinatorLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <android.support.v7.widget.RecyclerView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    app:context="@{view}"
+                    app:setOuterViewModel="@{viewModel}"
+                    >
+
+                </android.support.v7.widget.RecyclerView>
+
+            </android.support.design.widget.CoordinatorLayout>
+
+            <!-- app:menu는 메뉴 설정 -->
+            <android.support.design.widget.NavigationView
+                android:id="@+id/navigation"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start|left"
+                app:menu="@menu/drawer"
+                />
+        </android.support.v4.widget.DrawerLayout>
+
+    </LinearLayout>
 </layout>
