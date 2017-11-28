@@ -4,8 +4,8 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
 
+import com.heepie.soundhub.Interfaces.IModelGettable;
 import com.heepie.soundhub.model.User;
-import com.heepie.soundhub.utils.IModelGettable;
 
 /**
  * Created by Heepie on 2017. 11. 25..

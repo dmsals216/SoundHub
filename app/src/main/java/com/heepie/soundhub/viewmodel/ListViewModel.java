@@ -31,11 +31,11 @@ public class ListViewModel extends BaseObservable {
         this.populUsers.getModel().add(new UserViewModel(new User(user_name, user_image_path, user_like_count)));
     }
 
-    public void addPopulPost(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag) {
-        this.populPosts.getModel().add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
+    public void addPopulPost(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag, boolean isShow) {
+        this.populPosts.getModel().add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag, isShow)));
     }
 
-    public void addNewPost(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag) {
-        this.newPosts.getModel().add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag)));
+    public void addNewPost(User user, String title, int post_image_path, String music_length, String like_count, String comment_count, String tag, boolean isShow) {
+        this.newPosts.getModel().add(new PostViewModel(new Post(user, title, post_image_path, music_length, like_count, comment_count, tag, isShow)));
     }
 }

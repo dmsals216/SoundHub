@@ -21,31 +21,33 @@ public class ListView extends AppCompatActivity {
         ListViewModel listViewModel = new ListViewModel();
 
         // 더미 데이터 생성
-        for (int i=0; i<10; i=i+1) {
+        for (int i=0; i<20; i=i+1) {
             listViewModel.addPopulUser("populUser " + i, R.drawable.test, "1 " + i);
         }
 
-        for (int i=11; i<20; i=i+1) {
+        for (int i=0; i<5; i=i+1) {
             listViewModel.addPopulPost(
-                    new User("populPost " + i, R.drawable.test, "1 " + i),
+                    new User("populPost " + i, R.drawable.test2, "1 " + i),
                     "Title " + i,
-                    R.drawable.test,
+                    R.drawable.test2,
                     "05:00" + i,
                     "10 " + i,
                     "15 " + i,
-                    "#Vocal #Piano" + i
+                    "#Vocal #Piano" + i,
+                    true
             );
         }
 
-        for (int i=21; i<30; i=i+1) {
+        for (int i=0; i<5; i=i+1) {
             listViewModel.addNewPost(
-                    new User("newPost " + i, R.drawable.test, "1 " + i),
+                    new User("newPost " + i, R.drawable.test3, "1 " + i),
                     "Title " + i,
-                    R.drawable.test,
+                    R.drawable.test3,
                     "05:00" + i,
                     "10 " + i,
                     "15 " + i,
-                    "#Vocal #Piano" + i
+                    "#Vocal #Piano" + i,
+                    true
             );
         }
 

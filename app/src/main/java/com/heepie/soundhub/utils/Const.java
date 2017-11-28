@@ -13,4 +13,5 @@ public class Const {
     public static final int LOCATION_PPOPULAR_POST = 20;
     public static final int LOCATION_NEW_POST = 30;
 
+    public static final int DEFAULT_COUNT_OF_SHOW_ITEM = 5;
 }

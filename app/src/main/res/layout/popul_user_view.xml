@@ -30,6 +30,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/colorUser"
             app:context="@{context}"
             app:setInnerViewModel="@{viewModel.users}"
             app:layoutType="@{Const.VIEW_TYPE_POPULAR_USER}"

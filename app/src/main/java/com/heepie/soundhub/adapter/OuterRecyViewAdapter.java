@@ -7,12 +7,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
+import com.heepie.soundhub.Interfaces.IModelGettable;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.NewPostViewBinding;
 import com.heepie.soundhub.databinding.PopulPostViewBinding;
 import com.heepie.soundhub.databinding.PopulUserViewBinding;
 import com.heepie.soundhub.utils.Const;
-import com.heepie.soundhub.utils.IModelGettable;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
 import com.heepie.soundhub.viewmodel.UsersViewModel;

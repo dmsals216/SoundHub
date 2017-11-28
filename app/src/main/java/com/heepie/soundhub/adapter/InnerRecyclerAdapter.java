@@ -5,23 +5,39 @@ import android.databinding.ObservableArrayList;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
 import com.heepie.soundhub.BR;
-import com.heepie.soundhub.utils.IModelGettable;
+import com.heepie.soundhub.Interfaces.IModelGettable;
+import com.heepie.soundhub.Interfaces.IShowable;
 
 /**
  * Created by Heepie on 2017. 11. 28..
  */
 
-public class InnerRecyclerAdapter<T extends IModelGettable> extends RecyclerView.Adapter<InnerRecyclerAdapter.Holder> {
+public class InnerRecyclerAdapter<T extends IModelGettable, F extends IShowable> extends RecyclerView.Adapter<InnerRecyclerAdapter.Holder> {
+    private int index;
     ObservableArrayList<T> mItems;
+    ObservableArrayList<T> realItems;
     int layoutResId;
+
+    public InnerRecyclerAdapter() {
+//        index=0;
+    }
 
     public void setItems(ObservableArrayList<T> mItems, int layoutResId) {
         this.mItems = mItems;
         this.layoutResId = layoutResId;
+
+        // ture 데이터 개수 확인
+        /*for (int i=0; i<mItems.size(); i=i+1) {
+            F model = (F)mItems.get(i);
+            if (model.isShow()) {
+                index += 1;
+            }
+        }*/
     }
 
     @Override
@@ -35,16 +51,19 @@ public class InnerRecyclerAdapter<T extends IModelGettable> extends RecyclerView
 
     @Override
     public void onBindViewHolder(InnerRecyclerAdapter.Holder holder, int position) {
-        holder.bind(mItems.get(position).getModel());
+        F model = (F)mItems.get(position);
+
+        if (model.isShow())
+            holder.bind(mItems.get(position).getModel());
     }
 
     @Override
     public int getItemCount() {
         if (mItems == null)
             return 0;
+
         return mItems.size();
     }
-
 
     public class Holder extends RecyclerView.ViewHolder {
         private ViewDataBinding mBinding;

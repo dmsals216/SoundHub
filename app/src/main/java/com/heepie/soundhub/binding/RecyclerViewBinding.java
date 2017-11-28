@@ -8,12 +8,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 
+import com.heepie.soundhub.Interfaces.IModelGettable;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.InnerRecyclerAdapter;
 import com.heepie.soundhub.adapter.OuterRecyViewAdapter;
+import com.heepie.soundhub.model.User;
 import com.heepie.soundhub.utils.Const;
-import com.heepie.soundhub.utils.IModelGettable;
 import com.heepie.soundhub.viewmodel.ListViewModel;
+import com.heepie.soundhub.viewmodel.PostViewModel;
+import com.heepie.soundhub.viewmodel.UserViewModel;
 
 /**
  * Created by Heepie on 2017. 11. 25..
@@ -37,31 +40,45 @@ public class RecyclerViewBinding {
         if (view instanceof RecyclerView) {
             int layoutResId=-1;
 
-            // 어뎁터 생성 및 설정
-            InnerRecyclerAdapter<T> adapter = new InnerRecyclerAdapter<>();
-            ((RecyclerView)view).setAdapter(adapter);
-
-            Log.i("heepie", "In Bind + " + adapter + " " + layoutType);
+//            Log.i("heepie", "In Bind + " + adapter + " " + layoutType);
 
             // 레이아웃 리소트 설정 및 레이아웃 매니저 설정
             switch (layoutType) {
                 case Const.VIEW_TYPE_POPULAR_USER:
+                    // 어뎁터 생성 및 설정
+                    InnerRecyclerAdapter<T , UserViewModel> userAdapter = new InnerRecyclerAdapter<>();
+                    ((RecyclerView)view).setAdapter(userAdapter);
+
                     layoutResId = R.layout.item_user;
                     ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
+                    // ViewModel 설정
+                    userAdapter.setItems(items, layoutResId);
                     break;
                 case Const.VIEW_TYPE_POPULAR_POST:
+                    // 어뎁터 생성 및 설정
+                    InnerRecyclerAdapter<T , PostViewModel> pPostAdapter = new InnerRecyclerAdapter<>();
+                    ((RecyclerView)view).setAdapter(pPostAdapter);
+
                     layoutResId = R.layout.item_post;
                     ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
+
+                    // ViewModel 설정
+                    pPostAdapter.setItems(items, layoutResId);
                     break;
                 case Const.VIEW_TYPE_NEW_POST:
                     layoutResId = R.layout.item_post;
+                    // 어뎁터 생성 및 설정
+                    InnerRecyclerAdapter<T , PostViewModel> nPostAdapter = new InnerRecyclerAdapter<>();
+                    ((RecyclerView)view).setAdapter(nPostAdapter);
+
                     ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
                     Log.i("heepie", "In Switch");
+
+                    // ViewModel 설정
+                    nPostAdapter.setItems(items, layoutResId);
                     break;
             }
-
-            // ViewModel 설정
-            adapter.setItems(items, layoutResId);
         }
     }
 }
