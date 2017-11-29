@@ -12,12 +12,13 @@ import android.view.ViewGroup;
 import com.heepie.soundhub.BR;
 import com.heepie.soundhub.Interfaces.IModelGettable;
 import com.heepie.soundhub.Interfaces.IShowable;
+import com.heepie.soundhub.handler.ViewHandler;
 
 /**
  * Created by Heepie on 2017. 11. 28..
  */
 
-public class InnerRecyclerAdapter<T extends IModelGettable, F extends IShowable> extends RecyclerView.Adapter<InnerRecyclerAdapter.Holder> {
+public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends RecyclerView.Adapter<InnerRecyclerAdapter.Holder> {
     private int index;
     ObservableArrayList<T> mItems;
     ObservableArrayList<T> realItems;
@@ -51,7 +52,7 @@ public class InnerRecyclerAdapter<T extends IModelGettable, F extends IShowable>
 
     @Override
     public void onBindViewHolder(InnerRecyclerAdapter.Holder holder, int position) {
-        F model = (F)mItems.get(position);
+        T model = (T)mItems.get(position);
 
         if (model.isShow())
             holder.bind(mItems.get(position).getModel());
@@ -75,7 +76,10 @@ public class InnerRecyclerAdapter<T extends IModelGettable, F extends IShowable>
 
         public void bind(@NonNull Object obj) {
             mBinding.setVariable(BR.model, obj);
+            mBinding.setVariable(BR.viewhandler, new ViewHandler());
             mBinding.executePendingBindings();
         }
     }
+
+
 }

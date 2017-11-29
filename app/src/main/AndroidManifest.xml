@@ -10,15 +10,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.ListView">
-
-        </activity>
-        <activity android:name=".view.LoginView">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".view.LoginView"></activity>
+        <activity android:name=".view.DetailView"></activity>
     </application>
 
 </manifest>
