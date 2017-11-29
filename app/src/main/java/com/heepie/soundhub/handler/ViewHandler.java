@@ -12,20 +12,23 @@ import com.heepie.soundhub.view.DetailView;
 
 public class ViewHandler {
     public void onClickItem(View v) {
-        Intent intent = new Intent(v.getContext(), DetailView.class);
+        Intent intent=null;
 
         switch (v.getId()) {
             case R.id.item_user:
                 // 넘겨줄 데이터 설정
-                intent.putExtra("title", "Detail User");
+//                intent.putExtra("title", "Detail User");
                 break;
 
             case R.id.item_post:
+                intent = new Intent(v.getContext(), DetailView.class);
                 // 넘겨줄 데이터 설정
                 intent.putExtra("title", "Detail Post");
+
                 break;
 
         }
-        v.getContext().startActivity(intent);
+        if (intent != null)
+            v.getContext().startActivity(intent);
     }
 }
