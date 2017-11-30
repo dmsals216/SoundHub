@@ -1,12 +1,15 @@
 package com.heepie.soundhub.handler;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.logic.UserApi;
+import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.view.DetailView;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
 import com.heepie.soundhub.viewmodel.UserViewModel;
 
@@ -33,7 +36,7 @@ public class ViewHandler {
             case R.id.populMoreBtn:
                 int startIndex = PostApi.populPostIndex;
 
-                for (int i=startIndex; i<startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
+                for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
                     if (PostApi.posts.size() > i) {
                         viewModel.addPostViewModel(PostApi.posts.get(i));
                         PostApi.populPostIndex++;
@@ -53,7 +56,19 @@ public class ViewHandler {
                 }*/
                 break;
         }
+    }
 
+    public void onClickPostItem(View v, Post model) {
+        Intent intent=null;
 
+        intent = new Intent(v.getContext(), DetailView.class);
+        // 넘겨줄 데이터 설정
+        intent.putExtra("title", "Detail Post");
+//        intent.putExtra("model", model);
+
+//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
+
+        if (intent != null)
+            v.getContext().startActivity(intent);
     }
 }

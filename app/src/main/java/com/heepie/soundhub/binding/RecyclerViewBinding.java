@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.heepie.soundhub.Interfaces.IModelGettable;
+import com.heepie.soundhub.Interfaces.IShowable;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.InnerRecyclerAdapter;
 import com.heepie.soundhub.adapter.OuterRecyViewAdapter;
@@ -36,7 +37,7 @@ public class RecyclerViewBinding {
     }
 
     @BindingAdapter({"setInnerViewModel", "layoutType", "context"})
-    public static <T extends IModelGettable> void setInnerViewModel(View view, ObservableArrayList<T> items, int layoutType, Context context) {
+    public static <T extends IModelGettable & IShowable> void setInnerViewModel(View view, ObservableArrayList<T> items, int layoutType, Context context) {
         if (view instanceof RecyclerView) {
             int layoutResId=-1;
 
@@ -46,8 +47,9 @@ public class RecyclerViewBinding {
             switch (layoutType) {
                 case Const.VIEW_TYPE_POPULAR_USER:
                     // 어뎁터 생성 및 설정
-                    InnerRecyclerAdapter<T , UserViewModel> userAdapter = new InnerRecyclerAdapter<>();
+                    InnerRecyclerAdapter<T> userAdapter = new InnerRecyclerAdapter<>();
                     ((RecyclerView)view).setAdapter(userAdapter);
+
 
                     layoutResId = R.layout.item_user;
                     ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
@@ -57,7 +59,7 @@ public class RecyclerViewBinding {
                     break;
                 case Const.VIEW_TYPE_POPULAR_POST:
                     // 어뎁터 생성 및 설정
-                    InnerRecyclerAdapter<T , PostViewModel> pPostAdapter = new InnerRecyclerAdapter<>();
+                    InnerRecyclerAdapter<T> pPostAdapter = new InnerRecyclerAdapter<>();
                     ((RecyclerView)view).setAdapter(pPostAdapter);
 
                     layoutResId = R.layout.item_post;
@@ -69,7 +71,7 @@ public class RecyclerViewBinding {
                 case Const.VIEW_TYPE_NEW_POST:
                     layoutResId = R.layout.item_post;
                     // 어뎁터 생성 및 설정
-                    InnerRecyclerAdapter<T , PostViewModel> nPostAdapter = new InnerRecyclerAdapter<>();
+                    InnerRecyclerAdapter<T> nPostAdapter = new InnerRecyclerAdapter<>();
                     ((RecyclerView)view).setAdapter(nPostAdapter);
 
                     ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));

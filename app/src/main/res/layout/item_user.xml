@@ -8,9 +8,13 @@
         <variable
             name="model"
             type="com.heepie.soundhub.domain.model.User"/>
+        <variable
+            name="viewhandler"
+            type="com.heepie.soundhub.handler.ViewHandler"/>
     </data>
 
     <LinearLayout
+        android:id="@+id/item_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
@@ -24,10 +28,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="150dp"
+                    android:layout_height="80dp"
+                    android:scaleType="fitXY"
                     app:srcCompat="@mipmap/ic_launcher"
                     />
                 <!--app:loadImage="@{model.user_image_path}"-->
@@ -35,9 +40,9 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/imageButton"
-                    android:layout_alignEnd="@+id/imageButton"
-                    android:layout_alignRight="@+id/imageButton"
+                    android:layout_alignBottom="@+id/imageView"
+                    android:layout_alignEnd="@+id/imageView"
+                    android:layout_alignRight="@+id/imageView"
                     />
                 <!--android:text="@{model.user_like_count}"-->
                 <TextView
