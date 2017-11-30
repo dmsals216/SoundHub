@@ -20,6 +20,10 @@ public class UsersViewModel extends BaseObservable implements IModelGettable<Obs
         this.users = new ObservableArrayList<>();
     }
 
+    public void addUserViewModel(UserViewModel viewModel) {
+        this.users.add(viewModel);
+    }
+
     public void addUser(String id, String nickname, String email, String instrument) {
         this.users.add(new UserViewModel(new User(id, nickname, email, instrument)));
     }

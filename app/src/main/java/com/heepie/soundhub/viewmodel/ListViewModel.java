@@ -37,4 +37,12 @@ public class ListViewModel extends BaseObservable {
     public void addNewPost(User author, String author_track, String title, String master_track) {
         this.newPosts.getModel().add(new PostViewModel(new Post(author_track, author, title, master_track)));
     }
+
+    public void addPopulPost(PostViewModel postViewModel) {
+        this.populPosts.getModel().add(postViewModel);
+    }
+
+    public void addPopulUser(UserViewModel userViewModel) {
+        this.populUsers.getModel().add(userViewModel);
+    }
 }

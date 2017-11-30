@@ -1,5 +1,6 @@
 package com.heepie.soundhub.view;
 
+import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,10 +11,12 @@ import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.ListViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
 import com.heepie.soundhub.domain.logic.PostApi;
+import com.heepie.soundhub.domain.logic.UserApi;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
+import com.heepie.soundhub.viewmodel.UserViewModel;
 
 public class ListView extends AppCompatActivity {
     private ListViewBinding listBinding;
@@ -29,14 +32,15 @@ public class ListView extends AppCompatActivity {
         initToolbar();
         initTabLayout();
         initData();
-        setList();
+
+        listBinding.setViewModel(listViewModel);
+        listBinding.setView(this);
 
     }
 
     private void initTabLayout() {
         listBinding.tabLayout.addTab(listBinding.tabLayout.newTab().setText("Genre"));
         listBinding.tabLayout.addTab(listBinding.tabLayout.newTab().setText("Instrument"));
-
         // 리스너 설정 필요
     }
 
@@ -44,39 +48,8 @@ public class ListView extends AppCompatActivity {
         // 더미 데이터 생성
         listViewModel = new ListViewModel();
 
-
-        for (int i=0; i<20; i=i+1) {
-            listViewModel.addPopulUser(i+"", "nickname " + 1, "test@hello.com " + i, "G");
-        }
-
-        /*for (int i=0; i<5; i=i+1) {
-            listViewModel.addPopulPost(
-                    new TestUser("populPost " + i, R.drawable.test2, "1 " + i),
-                    "Title " + i,
-                    R.drawable.test2,
-                    "05:00" + i,
-                    "10 " + i,
-                    "15 " + i,
-                    "#Vocal #Piano" + i,
-                    true
-            );
-        }*/
-
-        /*for (int i=0; i<5; i=i+1) {
-            listViewModel.addNewPost(
-                    new TestUser("newPost " + i, R.drawable.test3, "1 " + i),
-                    "Title " + i,
-                    R.drawable.test3,
-                    "05:00" + i,
-                    "10 " + i,
-                    "15 " + i,
-                    "#Vocal #Piano" + i,
-                    true
-            );
-        }*/
-
-
-
+        setPopulPostList();
+        setPopulUserList();
     }
 
     private void initToolbar() {
@@ -91,24 +64,27 @@ public class ListView extends AppCompatActivity {
         toggle.syncState();
     }
 
-    private void setList() {
-        PostApi.getPosts((code, msg, data) -> {
+    private void setPopulPostList() {
+        PostApi.getInstance().getData((code, msg, data) -> {
             /*입력 데이터 확인
             for (PostViewModel item : PostApi.posts) {
                 Log.e("heepie", item.getModel().toString());
             }*/
 
-            PostsViewModel populPosts = new PostsViewModel();
-            populPosts.setPosts(PostApi.posts);
-
-            listViewModel.populPosts = populPosts;
-
-            for (PostViewModel i : populPosts.posts) {
-                Log.e("heepie", i.getModel().toString());
+            for (PostViewModel i : PostApi.posts) {
+                listViewModel.populPosts.addPostViewModel(i);
             }
-
-            listBinding.setViewModel(listViewModel);
-            listBinding.setView(this);
         });
+    }
+
+    private void setPopulUserList() {
+//        서버 측 API 완료 시 주석 제거
+        /*UserApi.getInstance().getData((code, msg, data) -> {
+            for (UserViewModel u : UserApi.users) {
+                Log.e("heepie", u.getModel().toString());
+                listViewModel.populUsers.addUserViewModel(u);
+            }
+        });*/
+
     }
 }
