@@ -1,12 +1,15 @@
 package com.heepie.soundhub.domain.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.Expose;
 
 /**
  * Created by Heepie on 2017. 11. 30..
  */
 
-public class Post
+public class Post implements Parcelable
 {
     private String author_track;
 
@@ -29,6 +32,28 @@ public class Post
 
     @Expose()
     public boolean isShow = true;
+
+    protected Post(Parcel in) {
+        author_track = in.readString();
+        id = in.readString();
+        author = in.readParcelable(User.class.getClassLoader());
+        title = in.readString();
+        master_track = in.readString();
+        comment_tracks = in.createTypedArray(Comment_tracks.CREATOR);
+        isShow = in.readByte() != 0;
+    }
+
+    public static final Creator<Post> CREATOR = new Creator<Post>() {
+        @Override
+        public Post createFromParcel(Parcel in) {
+            return new Post(in);
+        }
+
+        @Override
+        public Post[] newArray(int size) {
+            return new Post[size];
+        }
+    };
 
     public String getAuthor_track ()
     {
@@ -94,6 +119,22 @@ public class Post
     public String toString()
     {
         return "ClassPojo [author_track = "+author_track+", id = "+id+", author = "+author+", title = "+title+", master_track = "+master_track+", comment_tracks = "+comment_tracks+"]";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(author_track);
+        dest.writeString(id);
+        dest.writeParcelable(author, flags);
+        dest.writeString(title);
+        dest.writeString(master_track);
+        dest.writeTypedArray(comment_tracks, flags);
+        dest.writeByte((byte) (isShow ? 1 : 0));
     }
 }
 
