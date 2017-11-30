@@ -1,6 +1,6 @@
 package com.heepie.soundhub.domain.logic;
 
-import com.heepie.soundhub.Interfaces.IPostCallback;
+import com.heepie.soundhub.Interfaces.ICallback;
 
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -30,5 +30,5 @@ abstract class AbsApi {
     }
 
     // 전체 데이터를 가져오는 메소드
-    public abstract void getData(IPostCallback callback);
+    public abstract void getData(ICallback callback);
 }

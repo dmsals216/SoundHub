@@ -79,12 +79,25 @@ public class ListView extends AppCompatActivity {
 
     private void setPopulUserList() {
 //        서버 측 API 완료 시 주석 제거
-        /*UserApi.getInstance().getData((code, msg, data) -> {
+        UserApi.getInstance().getData((code, msg, data) -> {
             for (UserViewModel u : UserApi.users) {
                 Log.e("heepie", u.getModel().toString());
                 listViewModel.populUsers.addUserViewModel(u);
             }
-        });*/
+        });
+    }
 
+    private void setNewPostList() {
+//        서버 측 API 완료 시 주석 제거
+        /*PostApi.getInstance().getData((code, msg, data) -> {
+            *//*입력 데이터 확인
+            for (PostViewModel item : PostApi.posts) {
+                Log.e("heepie", item.getModel().toString());
+            }*//*
+
+            for (PostViewModel i : PostApi.posts) {
+                listViewModel.newPosts.addPostViewModel(i);
+            }
+        });*/
     }
 }

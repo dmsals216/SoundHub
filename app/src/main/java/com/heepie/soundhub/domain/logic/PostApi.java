@@ -6,7 +6,7 @@ package com.heepie.soundhub.domain.logic;
 
 import android.databinding.ObservableArrayList;
 
-import com.heepie.soundhub.Interfaces.IPostCallback;
+import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 
@@ -23,6 +23,8 @@ import retrofit2.http.GET;
  */
 
 public class PostApi extends AbsApi {
+    public static int populPostIndex = 0;
+    public static int newPostIndex = 0;
     private static PostApi instance;
     public static ObservableArrayList<PostViewModel> posts = new ObservableArrayList<>();
 
@@ -37,7 +39,7 @@ public class PostApi extends AbsApi {
     }
 
     @Override
-    public void getData(IPostCallback callback) {
+    public void getData(ICallback callback) {
         createRetrofit();
 
         // Retrofit으로 서비스 생성
