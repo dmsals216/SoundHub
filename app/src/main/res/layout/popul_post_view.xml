@@ -11,6 +11,9 @@
         <variable
             name="viewModel"
             type="com.heepie.soundhub.viewmodel.PostsViewModel"/>
+        <variable
+            name="viewhandler"
+            type="com.heepie.soundhub.handler.ViewHandler"/>
     </data>
 
     <LinearLayout
@@ -39,10 +42,11 @@
         </android.support.v7.widget.RecyclerView>
 
         <Button
+            android:id="@+id/populMoreBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="더보기"
-            android:onClick="@{viewModel::onClickedPopulPostMoreBtn}"
+            android:onClick="@{(view) -> viewhandler.onClickedMoreBtn(view, viewModel)}"
             />
     </LinearLayout>
 

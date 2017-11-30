@@ -43,32 +43,4 @@ public class PostsViewModel extends BaseObservable implements IModelGettable<Obs
     public void setPosts(ObservableArrayList<PostViewModel> posts) {
         this.posts = posts;
     }
-
-    // 네트워크로 입력 받은 데이터 추가
-    public void onClickedPopulPostMoreBtn(View v) {
-        // 더미 데이터
-        /*for (int i=0; i<4; i=i+1) {
-            posts.add(new PostViewModel(new TestPost(new TestUser("AddPopulPost ", R.drawable.test2, "1 "), "Title ",
-                    R.drawable.test2,
-                    "05:00",
-                    "10 ",
-                    "15 ",
-                    "#Vocal #Piano",
-                    true)));
-        }*/
-    }
-
-    // 네트워크로 입력 받은 데이터 추가
-    public void onClickedNewPostMoreBtn(View v) {
-        // 더미 데이터
-        /*for (int i=0; i<4; i=i+1) {
-            posts.add(new PostViewModel(new TestPost(new TestUser("AddPopulPost ", R.drawable.test3, "1 "), "Title ",
-                    R.drawable.test3,
-                    "05:00",
-                    "10 ",
-                    "15 ",
-                    "#Vocal #Piano",
-                    true)));
-        }*/
-    }
 }

@@ -13,6 +13,7 @@ import com.heepie.soundhub.databinding.NavigationHeaderBinding;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.logic.UserApi;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
@@ -71,14 +72,16 @@ public class ListView extends AppCompatActivity {
                 Log.e("heepie", item.getModel().toString());
             }*/
 
-            for (PostViewModel i : PostApi.posts) {
-                listViewModel.populPosts.addPostViewModel(i);
+            for (int i=0; i< Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
+                if (PostApi.posts.get(i) != null) {
+                    listViewModel.populPosts.addPostViewModel(PostApi.posts.get(i));
+                    PostApi.populPostIndex++;
+                }
             }
         });
     }
 
     private void setPopulUserList() {
-//        서버 측 API 완료 시 주석 제거
         UserApi.getInstance().getData((code, msg, data) -> {
             for (UserViewModel u : UserApi.users) {
                 Log.e("heepie", u.getModel().toString());

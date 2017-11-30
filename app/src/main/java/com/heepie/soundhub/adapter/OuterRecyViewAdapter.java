@@ -5,6 +5,7 @@ import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.heepie.soundhub.Interfaces.IModelGettable;
@@ -12,6 +13,7 @@ import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.NewPostViewBinding;
 import com.heepie.soundhub.databinding.PopulPostViewBinding;
 import com.heepie.soundhub.databinding.PopulUserViewBinding;
+import com.heepie.soundhub.handler.ViewHandler;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
@@ -62,6 +64,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
                 PopulPostViewBinding populPostViewBinding = DataBindingUtil.inflate(inflater, R.layout.popul_post_view, parent, false);
                 populPostViewBinding.setViewModel(mItems.populPosts);
                 populPostViewBinding.setContext(parent.getContext());
+                populPostViewBinding.setViewhandler(ViewHandler.getIntance());
 
                 Holder<PostsViewModel> populPostsHolder = new Holder<>(populPostViewBinding, viewType);
                 return populPostsHolder;
@@ -70,6 +73,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
                 NewPostViewBinding newPostViewBinding = DataBindingUtil.inflate(inflater, R.layout.new_post_view, parent, false);
                 newPostViewBinding.setViewModel(mItems.newPosts);
                 newPostViewBinding.setContext(parent.getContext());
+                newPostViewBinding.setViewhandler(ViewHandler.getIntance());
 
                 Holder<PostsViewModel> newPostsHolder = new Holder<>(newPostViewBinding, viewType);
                 return newPostsHolder;
