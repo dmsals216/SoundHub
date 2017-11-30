@@ -1,21 +1,21 @@
 package com.heepie.soundhub.view;
 
 import android.databinding.DataBindingUtil;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.util.Log;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.ListViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
-import com.heepie.soundhub.model.User;
+import com.heepie.soundhub.domain.logic.PostApi;
+import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.model.TestUser;
 import com.heepie.soundhub.viewmodel.ListViewModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListView extends AppCompatActivity {
     private ListViewBinding listBinding;
@@ -31,6 +31,7 @@ public class ListView extends AppCompatActivity {
         initTabLayout();
         initData();
 
+        setList();
     }
 
     private void initTabLayout() {
@@ -51,7 +52,7 @@ public class ListView extends AppCompatActivity {
 
         for (int i=0; i<5; i=i+1) {
             listViewModel.addPopulPost(
-                    new User("populPost " + i, R.drawable.test2, "1 " + i),
+                    new TestUser("populPost " + i, R.drawable.test2, "1 " + i),
                     "Title " + i,
                     R.drawable.test2,
                     "05:00" + i,
@@ -64,7 +65,7 @@ public class ListView extends AppCompatActivity {
 
         for (int i=0; i<5; i=i+1) {
             listViewModel.addNewPost(
-                    new User("newPost " + i, R.drawable.test3, "1 " + i),
+                    new TestUser("newPost " + i, R.drawable.test3, "1 " + i),
                     "Title " + i,
                     R.drawable.test3,
                     "05:00" + i,
@@ -89,5 +90,12 @@ public class ListView extends AppCompatActivity {
                 this, listBinding.drawerLayout, listBinding.toolbar, 0, 0);
 //            ((DrawerLayout)view).addDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    private void setList() {
+        PostApi.getPosts((code, msg, data) -> {
+            for (Post item : PostApi.posts)
+                Log.e("heepie", item.toString());
+        });
     }
 }

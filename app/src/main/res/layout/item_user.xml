@@ -7,7 +7,7 @@
     <data>
         <variable
             name="model"
-            type="com.heepie.soundhub.model.User"/>
+            type="com.heepie.soundhub.model.TestUser"/>
     </data>
 
     <LinearLayout

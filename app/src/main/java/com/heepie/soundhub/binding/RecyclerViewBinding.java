@@ -12,7 +12,6 @@ import com.heepie.soundhub.Interfaces.IModelGettable;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.InnerRecyclerAdapter;
 import com.heepie.soundhub.adapter.OuterRecyViewAdapter;
-import com.heepie.soundhub.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostViewModel;

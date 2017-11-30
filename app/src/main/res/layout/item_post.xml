@@ -7,7 +7,7 @@
     <data>
         <variable
             name="model"
-            type="com.heepie.soundhub.model.Post"/>
+            type="com.heepie.soundhub.model.TestPost"/>
     </data>
 
     <LinearLayout
@@ -60,7 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
-                            android:text="@{model.user.user_name}" />
+                            android:text="@{model.testUser.user_name}" />
 
                         <TextView
                             android:id="@+id/list_music_length"
@@ -81,7 +81,7 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:loadCircleImage="@{model.user.user_image_path}"
+                    app:loadCircleImage="@{model.testUser.user_image_path}"
                     app:srcCompat="@mipmap/ic_launcher_round" />
 
                 <ImageView
