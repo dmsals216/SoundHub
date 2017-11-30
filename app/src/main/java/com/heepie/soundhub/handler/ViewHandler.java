@@ -1,9 +1,12 @@
 package com.heepie.soundhub.handler;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.heepie.soundhub.R;
+import com.heepie.soundhub.model.Post;
 import com.heepie.soundhub.view.DetailView;
 
 /**
@@ -11,23 +14,20 @@ import com.heepie.soundhub.view.DetailView;
  */
 
 public class ViewHandler {
-    public void onClickItem(View v) {
+    final String TAG = getClass().getSimpleName() + " ";
+
+    public void onClickPostItem(View v, Post model) {
         Intent intent=null;
 
-        switch (v.getId()) {
-            case R.id.item_user:
-                // 넘겨줄 데이터 설정
-//                intent.putExtra("title", "Detail User");
-                break;
+        intent = new Intent(v.getContext(), DetailView.class);
+        // 넘겨줄 데이터 설정
+        intent.putExtra("title", "Detail Post");
+        intent.putExtra("model", model);
 
-            case R.id.item_post:
-                intent = new Intent(v.getContext(), DetailView.class);
-                // 넘겨줄 데이터 설정
-                intent.putExtra("title", "Detail Post");
+//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
 
-                break;
+        Log.i("heepie", TAG + model.toString());
 
-        }
         if (intent != null)
             v.getContext().startActivity(intent);
     }
