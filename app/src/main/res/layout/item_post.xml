@@ -7,7 +7,7 @@
     <data>
         <variable
             name="model"
-            type="com.heepie.soundhub.model.TestPost"/>
+            type="com.heepie.soundhub.domain.model.Post"/>
     </data>
 
     <LinearLayout
@@ -60,7 +60,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
-                            android:text="@{model.testUser.user_name}" />
+                            android:text="@{model.author.nickname}" />
 
                         <TextView
                             android:id="@+id/list_music_length"
@@ -68,7 +68,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="right"
                             android:gravity="right"
-                            android:text="@{model.music_length}" />
+                            android:text="음악 길이" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -81,8 +81,9 @@
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:loadCircleImage="@{model.testUser.user_image_path}"
                     app:srcCompat="@mipmap/ic_launcher_round" />
+
+                <!--app:loadCircleImage="@{model.testUser.user_image_path}"-->
 
                 <ImageView
                     android:id="@+id/list_post_image"
@@ -95,8 +96,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/list_user_image"
-                    app:loadImage="@{model.post_image_path}"
                     app:srcCompat="@mipmap/ic_launcher" />
+                <!--app:loadImage="@{model.post_image_path}"-->
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -114,21 +115,24 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="4"
-                        android:text="@{model.tag}" />
+                        />
+                    <!--android:text="@{model.tag}"-->
 
                     <TextView
                         android:id="@+id/list_like_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@{model.like_count}" />
+                        />
+                    <!--android:text="@{model.like_count}"-->
 
                     <TextView
                         android:id="@+id/list_comment_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="@{model.comment_count}" />
+                        />
+                    <!--android:text="@{model.comment_count}"-->
                 </LinearLayout>
 
             </android.support.constraint.ConstraintLayout>

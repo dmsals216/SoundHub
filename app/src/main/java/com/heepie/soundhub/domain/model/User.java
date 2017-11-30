@@ -20,6 +20,13 @@ public class User
 
     private String last_login;
 
+    public User(String id, String nickname, String email, String instrument) {
+        this.id = id;
+        this.nickname = nickname;
+        this.email = email;
+        this.instrument = instrument;
+    }
+
     public String getId ()
     {
         return id;

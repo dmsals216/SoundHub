@@ -1,5 +1,7 @@
 package com.heepie.soundhub.domain.model;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by Heepie on 2017. 11. 30..
  */
@@ -17,6 +19,16 @@ public class Post
     private String master_track;
 
     private Comment_tracks[] comment_tracks;
+
+    public Post(String author_track, User author, String title, String master_track) {
+        this.author_track = author_track;
+        this.author = author;
+        this.title = title;
+        this.master_track = master_track;
+    }
+
+    @Expose()
+    public boolean isShow = true;
 
     public String getAuthor_track ()
     {

@@ -7,8 +7,11 @@ package com.heepie.soundhub.domain.logic;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.heepie.soundhub.Interfaces.IRetrofitCallback;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.viewmodel.PostViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ import retrofit2.http.POST;
  */
 
 public class PostApi {
-    public static ObservableArrayList<Post> posts = new ObservableArrayList<>();;
+    public static ObservableArrayList<PostViewModel> posts = new ObservableArrayList<>();;
 
     public static void getPosts(IRetrofitCallback callback) {
         Retrofit.Builder rBuilder = new Retrofit.Builder();
@@ -36,7 +39,8 @@ public class PostApi {
         // 기본 URL 설정
         rBuilder.baseUrl(IPost.SERVER_URL);
         // Gson 팩토리로 JSON 데이터 처리 설정
-        rBuilder.addConverterFactory(GsonConverterFactory.create());
+        rBuilder.addConverterFactory(GsonConverterFactory.create(/*new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()*/));
+
         // RxJava2 어뎁터 사용 설정
         rBuilder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         // 해당 Retrofit 생성
@@ -52,12 +56,20 @@ public class PostApi {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         post -> {
-//                            Log.e("heepie", post.code() + "\n" +
-//                                    post.message() + "\n" +
-//                                    post.body());
+                            /* 서버와 통신 테스트
+                            Log.e("heepie", post.code() + "\n" +
+                                    post.message() + "\n" +
+                                    post.body());*/
+
+                            // 데이터 입력
                             for (Post item : post.body()) {
-                                posts.add(item);
+                                posts.add(new PostViewModel(item));
                             }
+
+                            /* 입력 받은 데이터 확인
+                            for (PostViewModel i : posts) {
+                                Log.e("heepie", i.getModel().toString());
+                            }*/
                             callback.initData(post.code(), post.message(), post.body());
                         });
     }

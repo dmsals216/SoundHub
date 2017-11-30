@@ -11,14 +11,13 @@ import com.heepie.soundhub.databinding.ListViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
-import com.heepie.soundhub.model.TestUser;
 import com.heepie.soundhub.viewmodel.ListViewModel;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.heepie.soundhub.viewmodel.PostViewModel;
+import com.heepie.soundhub.viewmodel.PostsViewModel;
 
 public class ListView extends AppCompatActivity {
     private ListViewBinding listBinding;
+    private ListViewModel listViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +29,8 @@ public class ListView extends AppCompatActivity {
         initToolbar();
         initTabLayout();
         initData();
-
         setList();
+
     }
 
     private void initTabLayout() {
@@ -43,14 +42,14 @@ public class ListView extends AppCompatActivity {
 
     private void initData() {
         // 더미 데이터 생성
-        ListViewModel listViewModel = new ListViewModel();
+        listViewModel = new ListViewModel();
 
 
         for (int i=0; i<20; i=i+1) {
-            listViewModel.addPopulUser("populUser " + i, R.drawable.test, "1 " + i);
+            listViewModel.addPopulUser(i+"", "nickname " + 1, "test@hello.com " + i, "G");
         }
 
-        for (int i=0; i<5; i=i+1) {
+        /*for (int i=0; i<5; i=i+1) {
             listViewModel.addPopulPost(
                     new TestUser("populPost " + i, R.drawable.test2, "1 " + i),
                     "Title " + i,
@@ -61,9 +60,9 @@ public class ListView extends AppCompatActivity {
                     "#Vocal #Piano" + i,
                     true
             );
-        }
+        }*/
 
-        for (int i=0; i<5; i=i+1) {
+        /*for (int i=0; i<5; i=i+1) {
             listViewModel.addNewPost(
                     new TestUser("newPost " + i, R.drawable.test3, "1 " + i),
                     "Title " + i,
@@ -74,10 +73,10 @@ public class ListView extends AppCompatActivity {
                     "#Vocal #Piano" + i,
                     true
             );
-        }
+        }*/
 
-        listBinding.setViewModel(listViewModel);
-        listBinding.setView(this);
+
+
     }
 
     private void initToolbar() {
@@ -94,8 +93,22 @@ public class ListView extends AppCompatActivity {
 
     private void setList() {
         PostApi.getPosts((code, msg, data) -> {
-            for (Post item : PostApi.posts)
-                Log.e("heepie", item.toString());
+            /*입력 데이터 확인
+            for (PostViewModel item : PostApi.posts) {
+                Log.e("heepie", item.getModel().toString());
+            }*/
+
+            PostsViewModel populPosts = new PostsViewModel();
+            populPosts.setPosts(PostApi.posts);
+
+            listViewModel.populPosts = populPosts;
+
+            for (PostViewModel i : populPosts.posts) {
+                Log.e("heepie", i.getModel().toString());
+            }
+
+            listBinding.setViewModel(listViewModel);
+            listBinding.setView(this);
         });
     }
 }
