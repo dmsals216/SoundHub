@@ -1,5 +1,6 @@
 package com.heepie.soundhub.domain.logic;
 
+import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.Interfaces.ICallback;
 
 import retrofit2.Retrofit;
@@ -12,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 abstract class AbsApi {
-    public static final String SERVER_URL = "https://soundhub.che1.co.kr/";
+    public static final String SERVER_URL = BuildConfig.SERVER_URL;
     Retrofit retrofit;
 
     public void createRetrofit() {
