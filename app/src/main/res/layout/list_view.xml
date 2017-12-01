@@ -94,7 +94,7 @@
                 </android.support.design.widget.TabLayout>
             </android.support.design.widget.AppBarLayout>
 
-            <android.support.design.widget.CoordinatorLayout
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -107,7 +107,23 @@
 
                 </android.support.v7.widget.RecyclerView>
 
-            </android.support.design.widget.CoordinatorLayout>
+                <android.support.design.widget.FloatingActionButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom|end"
+                    android:layout_marginBottom="24dp"
+                    android:layout_marginEnd="24dp"
+                    android:src="@android:drawable/ic_menu_upload"
+                    android:onClick="@{viewModel::onClickedUpLoad}"
+                    app:backgroundTint="@android:color/holo_green_dark"
+                    app:elevation="6dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:pressedTranslationZ="12dp" />
+
+            </android.support.constraint.ConstraintLayout>
+
+
 
         </LinearLayout>
 

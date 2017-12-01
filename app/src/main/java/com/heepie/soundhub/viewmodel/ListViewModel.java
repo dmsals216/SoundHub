@@ -2,6 +2,8 @@ package com.heepie.soundhub.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.view.View;
+import android.widget.Toast;
 
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
@@ -44,5 +46,9 @@ public class ListViewModel extends BaseObservable {
 
     public void addPopulUser(UserViewModel userViewModel) {
         this.populUsers.getModel().add(userViewModel);
+    }
+
+    public void onClickedUpLoad(View view) {
+        Toast.makeText(view.getContext(), "Clicked UpLoad", Toast.LENGTH_SHORT).show();
     }
 }
