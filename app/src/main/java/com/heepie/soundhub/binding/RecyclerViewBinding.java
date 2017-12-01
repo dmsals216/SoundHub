@@ -83,4 +83,10 @@ public class RecyclerViewBinding {
             }
         }
     }
+
+    @BindingAdapter("setViewModel")
+    public static <T extends IModelGettable & IShowable> void setViewModel(View view, PostViewModel viewModel) {
+
+
+    }
 }

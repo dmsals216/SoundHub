@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.List;
+
 /**
  * Created by Heepie on 2017. 11. 30..
  */
@@ -21,7 +23,55 @@ public class Post implements Parcelable
 
     private String master_track;
 
-    private Comment_tracks[] comment_tracks;
+    private List<Comment_tracks> comment_tracks;
+
+    public String getAuthor_track() {
+        return author_track;
+    }
+
+    public void setAuthor_track(String author_track) {
+        this.author_track = author_track;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public User getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(User author) {
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getMaster_track() {
+        return master_track;
+    }
+
+    public void setMaster_track(String master_track) {
+        this.master_track = master_track;
+    }
+
+    public List<Comment_tracks> getComment_tracks() {
+        return comment_tracks;
+    }
+
+    public void setComment_tracks(List<Comment_tracks> comment_tracks) {
+        this.comment_tracks = comment_tracks;
+    }
 
     public Post(String author_track, User author, String title, String master_track) {
         this.author_track = author_track;
@@ -39,7 +89,7 @@ public class Post implements Parcelable
         author = in.readParcelable(User.class.getClassLoader());
         title = in.readString();
         master_track = in.readString();
-        comment_tracks = in.createTypedArray(Comment_tracks.CREATOR);
+        comment_tracks = in.createTypedArrayList(Comment_tracks.CREATOR);
         isShow = in.readByte() != 0;
     }
 
@@ -54,66 +104,6 @@ public class Post implements Parcelable
             return new Post[size];
         }
     };
-
-    public String getAuthor_track ()
-    {
-        return author_track;
-    }
-
-    public void setAuthor_track (String author_track)
-    {
-        this.author_track = author_track;
-    }
-
-    public String getId ()
-    {
-        return id;
-    }
-
-    public void setId (String id)
-    {
-        this.id = id;
-    }
-
-    public User getAuthor ()
-    {
-        return author;
-    }
-
-    public void setAuthor (User author)
-    {
-        this.author = author;
-    }
-
-    public String getTitle ()
-    {
-        return title;
-    }
-
-    public void setTitle (String title)
-    {
-        this.title = title;
-    }
-
-    public String getMaster_track ()
-{
-    return master_track;
-}
-
-    public void setMaster_track (String master_track)
-    {
-        this.master_track = master_track;
-    }
-
-    public Comment_tracks[] getComment_tracks ()
-    {
-        return comment_tracks;
-    }
-
-    public void setComment_tracks (Comment_tracks[] comment_tracks)
-    {
-        this.comment_tracks = comment_tracks;
-    }
 
     @Override
     public String toString()
@@ -133,7 +123,7 @@ public class Post implements Parcelable
         dest.writeParcelable(author, flags);
         dest.writeString(title);
         dest.writeString(master_track);
-        dest.writeTypedArray(comment_tracks, flags);
+        dest.writeTypedList(comment_tracks);
         dest.writeByte((byte) (isShow ? 1 : 0));
     }
 }
