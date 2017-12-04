@@ -7,6 +7,9 @@
         <variable
             name="model"
             type="com.heepie.soundhub.domain.model.Post"/>
+        <variable
+            name="viewModel"
+            type="com.heepie.soundhub.viewmodel.DetailViewModel"/>
 
     </data>
 
@@ -24,7 +27,8 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
                 android:theme="?attr/actionBarTheme"
@@ -34,7 +38,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="8"
                 android:orientation="vertical"
                 >
 
@@ -153,11 +158,59 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="3"
+
                     android:background="@android:color/holo_green_dark">
 
                 </ExpandableListView>
 
             </LinearLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/comment_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                app:contentInsetEnd="0dp"
+                app:contentInsetLeft="0dp"
+                app:contentInsetRight="0dp"
+                app:contentInsetStart="0dp"
+                >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickedMerge}"
+                        android:text="음원 만들기"
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickedPlayPause}"
+                        android:text="재생"
+                        />
+
+                    <Button
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:onClick="@{viewModel::onClickedUpLoad}"
+                        android:text="업로드"
+                        />
+
+                </LinearLayout>
+
+            </android.support.v7.widget.Toolbar>
 
         </LinearLayout>
 
@@ -169,6 +222,8 @@
             android:layout_gravity="start|left"
             app:menu="@menu/drawer"
             />
+
+
 
     </android.support.v4.widget.DrawerLayout>
 

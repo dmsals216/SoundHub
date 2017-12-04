@@ -1,10 +1,13 @@
 package com.heepie.soundhub.domain.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Heepie on 2017. 11. 30..
  */
 
-public class User
+public class User implements Parcelable
 {
     private String id;
 
@@ -26,6 +29,28 @@ public class User
         this.email = email;
         this.instrument = instrument;
     }
+
+    protected User(Parcel in) {
+        id = in.readString();
+        is_active = in.readString();
+        is_staff = in.readString();
+        nickname = in.readString();
+        email = in.readString();
+        instrument = in.readString();
+        last_login = in.readString();
+    }
+
+    public static final Creator<User> CREATOR = new Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel in) {
+            return new User(in);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 
     public String getId ()
     {
@@ -101,6 +126,22 @@ public class User
     public String toString()
     {
         return "ClassPojo [id = "+id+", is_active = "+is_active+", is_staff = "+is_staff+", nickname = "+nickname+", email = "+email+", instrument = "+instrument+", last_login = "+last_login+"]";
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(is_active);
+        dest.writeString(is_staff);
+        dest.writeString(nickname);
+        dest.writeString(email);
+        dest.writeString(instrument);
+        dest.writeString(last_login);
     }
 }
 
