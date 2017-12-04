@@ -1,5 +1,7 @@
 package com.heepie.soundhub.utils;
 
+import com.heepie.soundhub.domain.model.User;
+
 /**
  * Created by Heepie on 2017. 11. 25..
  */
@@ -18,4 +20,9 @@ public class Const {
 
     public static final int CATEGORY_GENRE = 1;
     public static final int CATEGORY_INSTRUMENT = 2;
+
+
+
+    public static User user;
+    public static String TOKEN;
 }

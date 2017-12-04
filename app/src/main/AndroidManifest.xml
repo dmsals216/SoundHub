@@ -15,6 +15,8 @@
         <activity android:name=".view.ListView"></activity>
         <activity android:name=".view.LoginView"></activity>
         <activity android:name=".view.DetailView"></activity>
+        <activity android:name=".view.MusicUploadView"></activity>
+        <activity android:name=".view.UserPageView"></activity>
         <activity android:name=".BaseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

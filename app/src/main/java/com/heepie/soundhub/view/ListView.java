@@ -1,5 +1,6 @@
 package com.heepie.soundhub.view;
 
+import android.content.Intent;
 import android.databinding.Bindable;
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;
@@ -40,7 +41,7 @@ public class ListView extends AppCompatActivity {
         listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
 
         // 더미 데이터 생성
-        listViewModel = new ListViewModel();
+        listViewModel = new ListViewModel(this);
 
         initToolbar();
         initTabLayout();
@@ -124,9 +125,9 @@ public class ListView extends AppCompatActivity {
                         listBinding.drawerLayout.closeDrawers();
                         break;
                     case "User Home":
-
-
-
+                        Intent intent = new Intent(ListView.this, UserPageView.class);
+                        intent.putExtra("user", Const.user);
+                        startActivity(intent);
                         break;
                 }
 

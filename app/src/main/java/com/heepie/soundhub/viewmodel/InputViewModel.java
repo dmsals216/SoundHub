@@ -11,6 +11,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.heepie.soundhub.domain.logic.UserApi;
+import com.heepie.soundhub.domain.model.User;
+import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;
 import com.heepie.soundhub.view.ListView;
 
@@ -46,6 +48,11 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
     public final ObservableBoolean checkPassword = new ObservableBoolean(false);
     public final ObservableBoolean checkPassCheck = new ObservableBoolean(false);
     public final ObservableBoolean checkName = new ObservableBoolean(false);
+
+    public class LoginResult {
+        String token;
+        User user;
+    }
 
     private Context context;
     private Activity activity;
@@ -125,11 +132,14 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
         UserApi.IUser service = RetrofitUtil.getInstance().create(UserApi.IUser.class);
         RequestBody email1 = RequestBody.create(MediaType.parse("text/plain"), email.get());
         RequestBody password1 = RequestBody.create(MediaType.parse("text/plain"), password.get());
-        Call<Result> response = service.getLogin(email1, password1);
-        response.enqueue(new Callback<Result>() {
+        Call<LoginResult> response = service.getLogin(email1, password1);
+        response.enqueue(new Callback<LoginResult>() {
             @Override
-            public void onResponse(Call<Result> call, Response<Result> response) {
+            public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
                 if(response.isSuccessful()) {
+                    LoginResult result = response.body();
+                    Const.TOKEN = result.token;
+                    Const.user = result.user;
                     Intent intent = new Intent(context, ListView.class);
                     context.startActivity(intent);
                     activity.finish();
@@ -139,7 +149,7 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
             }
 
             @Override
-            public void onFailure(Call<Result> call, Throwable t) {
+            public void onFailure(Call<LoginResult> call, Throwable t) {
                 Toast.makeText(context, "로그인에 실패 하셨습니다", Toast.LENGTH_SHORT).show();
             }
         });

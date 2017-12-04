@@ -78,5 +78,16 @@ public class ViewHandler {
             v.getContext().startActivity(intent);
     }
 
+    public void onClickUserItem(View v, Post model) {
+        Intent intent = new Intent(v.getContext(), DetailView.class);
+        // 넘겨줄 데이터 설정
+        intent.putExtra("title", "Detail Post");
+        intent.putExtra("model", model);
+
+//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
+
+        if (intent != null)
+            v.getContext().startActivity(intent);
+    }
 
 }
