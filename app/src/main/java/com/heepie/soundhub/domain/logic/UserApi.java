@@ -12,8 +12,15 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.adapter.rxjava2.Result;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 /**
  * Created by Heepie on 2017. 11. 30..
@@ -68,5 +75,13 @@ public class UserApi extends AbsApi {
     public interface IUser {
         @GET("post/")
         Observable<Response<List<User>>> getUser();
+
+        @Multipart
+        @POST("user/signup/")
+        Call<Result> getData(@Part("email") String email, @Part("password1") String password1, @Part("password2") String password2, @Part("instrument") String instrument, @Part("nickname") String nickname);
+
+        @Multipart
+        @POST("user/login/")
+        Call<Result> getLogin(@Part("email") RequestBody email, @Part("password") RequestBody password);
     }
 }
