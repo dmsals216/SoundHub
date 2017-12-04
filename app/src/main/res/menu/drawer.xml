@@ -7,6 +7,11 @@
             android:title="Home"
             android:background="@android:color/transparent"
             />
+        <item
+            android:icon="@drawable/home"
+            android:title="User Home"
+            android:background="@android:color/transparent"
+            />
     </group>
 
 

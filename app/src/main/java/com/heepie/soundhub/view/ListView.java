@@ -9,9 +9,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.heepie.soundhub.R;
@@ -115,14 +117,24 @@ public class ListView extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Toast.makeText(ListView.this, item.getTitle(), Toast.LENGTH_SHORT).show();
-                listBinding.category.setVisibility(View.GONE);
-                initData();
-                listBinding.drawerLayout.closeDrawers();
+                switch (item.getTitle().toString()) {
+                    case "Home":
+                        listBinding.category.setVisibility(View.GONE);
+                        initData();
+                        listBinding.drawerLayout.closeDrawers();
+                        break;
+                    case "User Home":
+
+
+
+                        break;
+                }
+
+
+
                 return true;
             }
         });
-
-
     }
 
     private void setPopulPostList() {
@@ -169,8 +181,6 @@ public class ListView extends AppCompatActivity {
         // 1. 서버와 통신 후 카테고리 정보 가져오기
 
         // 2. 해당 카테고리 설정
-
-
     }
 
     public void onClickedCategory(View v) {

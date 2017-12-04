@@ -22,7 +22,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
-            android:id="@+id/circleImageView"
+            android:id="@+id/user_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginBottom="8dp"
@@ -44,7 +44,7 @@
             android:layout_marginTop="8dp"
             android:text="해당 Nick_Name"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/circleImageView"
+            app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
