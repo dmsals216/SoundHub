@@ -11,7 +11,7 @@ import com.heepie.soundhub.viewmodel.InputViewModel;
 public class LoginView extends AppCompatActivity {
     public final String TAG = getClass().getSimpleName();
 
-    InputViewModel inputViewModel = new InputViewModel();
+    InputViewModel inputViewModel = new InputViewModel(this, this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
