@@ -8,6 +8,7 @@ import android.databinding.ObservableArrayList;
 
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 
 import java.util.List;
@@ -40,6 +41,9 @@ public class PostApi extends AbsApi {
 
     @Override
     public void getData(ICallback callback) {
+        // 데이터 초기화
+        posts.clear();
+
         createRetrofit();
 
         // Retrofit으로 서비스 생성
@@ -68,6 +72,10 @@ public class PostApi extends AbsApi {
                             }*/
                             callback.initData(post.code(), post.message(), post.body());
                         });
+    }
+
+    public void getData(String category, ICallback callback) {
+
     }
 
     public interface IPost {

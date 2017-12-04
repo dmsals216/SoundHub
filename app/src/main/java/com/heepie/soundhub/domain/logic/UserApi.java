@@ -36,6 +36,9 @@ public class UserApi extends AbsApi {
 
     @Override
     public void getData(ICallback callback) {
+        // 데이터 초기화
+        users.clear();
+
 //        서버 측 완료시 제거
         createRetrofit();
 
