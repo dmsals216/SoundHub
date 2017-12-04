@@ -3,6 +3,7 @@ package com.heepie.soundhub.handler;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.logic.PostApi;
@@ -36,10 +37,15 @@ public class ViewHandler {
             case R.id.populMoreBtn:
                 int startIndex = PostApi.populPostIndex;
 
-                for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
-                    if (PostApi.posts.size() > i) {
-                        viewModel.addPostViewModel(PostApi.posts.get(i));
-                        PostApi.populPostIndex++;
+                // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
+                if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
+                    Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
+                } else {
+                    for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
+                        if (PostApi.posts.size() > i) {
+                            viewModel.addPostViewModel(PostApi.posts.get(i));
+                            PostApi.populPostIndex++;
+                        }
                     }
                 }
                 break;
@@ -64,11 +70,13 @@ public class ViewHandler {
         intent = new Intent(v.getContext(), DetailView.class);
         // 넘겨줄 데이터 설정
         intent.putExtra("title", "Detail Post");
-//        intent.putExtra("model", model);
+        intent.putExtra("model", model);
 
 //        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
 
         if (intent != null)
             v.getContext().startActivity(intent);
     }
+
+
 }
