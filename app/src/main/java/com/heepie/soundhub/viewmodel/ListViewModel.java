@@ -28,6 +28,12 @@ public class ListViewModel extends BaseObservable {
         newPosts = new PostsViewModel();
     }
 
+    public void resetData() {
+        populUsers.users.clear();
+        populPosts.posts.clear();
+        newPosts.posts.clear();
+    }
+
     public void addPopulUser(String id, String nickname, String email, String instrument) {
         this.populUsers.getModel().add(new UserViewModel((new User(id, nickname, email, instrument))));
     }
