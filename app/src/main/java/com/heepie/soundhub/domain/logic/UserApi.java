@@ -78,7 +78,7 @@ public class UserApi extends AbsApi {
 
         @Multipart
         @POST("user/signup/")
-        Call<Result> getData(@Part("email") String email, @Part("password1") String password1, @Part("password2") String password2, @Part("instrument") String instrument, @Part("nickname") String nickname);
+        Call<Result> getData(@Part("email") RequestBody email, @Part("password1") RequestBody password1, @Part("password2") RequestBody password2, @Part("instrument") RequestBody instrument, @Part("nickname") RequestBody nickname);
 
         @Multipart
         @POST("user/login/")
