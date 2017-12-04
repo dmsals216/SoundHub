@@ -97,7 +97,12 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
 
     public void onClickedNewSignUp(View v) {
         UserApi.IUser service = RetrofitUtil.getInstance().create(UserApi.IUser.class);
-        Call<Result> response = service.getData(email.get(), password.get(), password.get(), instrument.get(), name.get());
+        RequestBody email1 = RequestBody.create(MediaType.parse("text/plain"), email.get());
+        RequestBody password1 = RequestBody.create(MediaType.parse("text/plain"), password.get());
+        RequestBody password2 = RequestBody.create(MediaType.parse("text/plain"), password.get());
+        RequestBody instrument1 = RequestBody.create(MediaType.parse("text/plain"), instrument.get());
+        RequestBody name1 = RequestBody.create(MediaType.parse("text/plain"), name.get());
+        Call<Result> response = service.getData(email1, password1, password2, instrument1, name1);
         response.enqueue(new Callback<Result>() {
             @Override
             public void onResponse(Call<Result> call, Response<Result> response) {
