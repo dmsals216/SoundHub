@@ -58,4 +58,7 @@ dependencies {
 
 //    To use CircleImageView
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+//    To use audioWave
+    implementation 'com.github.alxrm:audiowave-progressbar:0.9'
 }

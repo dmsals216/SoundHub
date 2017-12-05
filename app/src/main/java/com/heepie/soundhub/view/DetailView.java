@@ -44,7 +44,6 @@ public class DetailView extends AppCompatActivity {
     }
 
     private void initData() {
-//        Log.i("heepie", getIntent().getStringExtra("title"));
         Post model = getIntent().getParcelableExtra("model");
         Log.i("heepie", TAG + model.toString());
         binding.setModel(model);

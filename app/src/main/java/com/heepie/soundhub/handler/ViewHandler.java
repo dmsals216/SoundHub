@@ -72,8 +72,6 @@ public class ViewHandler {
         intent.putExtra("title", "Detail Post");
         intent.putExtra("model", model);
 
-//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
-
         if (intent != null)
             v.getContext().startActivity(intent);
     }
@@ -84,10 +82,7 @@ public class ViewHandler {
         intent.putExtra("title", "Detail Post");
         intent.putExtra("model", model);
 
-//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
-
         if (intent != null)
             v.getContext().startActivity(intent);
     }
-
 }

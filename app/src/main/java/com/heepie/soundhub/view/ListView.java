@@ -91,12 +91,10 @@ public class ListView extends AppCompatActivity {
     private void initData(String category) {
         listViewModel.resetData();
 
-
         setPopulUserList(category);
         setPopulPostList(category);
         // 추후 구현
 //        setNewPostList();
-
 
     }
 
@@ -131,8 +129,6 @@ public class ListView extends AppCompatActivity {
                         startActivity(intent);
                         break;
                 }
-
-
 
                 return true;
             }

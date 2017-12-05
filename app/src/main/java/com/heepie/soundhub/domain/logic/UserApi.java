@@ -3,6 +3,7 @@ package com.heepie.soundhub.domain.logic;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 
+import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.viewmodel.InputViewModel;
@@ -45,7 +46,6 @@ public class UserApi extends AbsApi {
         return instance;
     }
 
-    @Override
     public void getData(ICallback callback) {
         getData("",callback);
     }
@@ -55,7 +55,7 @@ public class UserApi extends AbsApi {
         users.clear();
 
 //        서버 측 완료시 제거
-        createRetrofit();
+        createRetrofit(BuildConfig.SERVER_URL);
 
         // Retrofit으로 서비스 생성
         IUser server = retrofit.create(IUser.class);
