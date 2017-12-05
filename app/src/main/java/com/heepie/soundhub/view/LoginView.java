@@ -44,16 +44,13 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         loginWithStart();
-
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         loginViewBinding = DataBindingUtil.setContentView(this, R.layout.login_view);
         loginViewBinding.setViewModel(inputViewModel);
         setListener();
+    }
 
+    private void loginWithNaverStart() {
         mOAuthLoginModule = OAuthLogin.getInstance();
         mOAuthLoginModule.init(this
                 ,BuildConfig.NAVER_CLIENT_ID
@@ -65,7 +62,18 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         }
     }
 
-    private void loginWithStart() {
+    private void loginWithGoogleStart() {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        if(null != account) {
+            Intent intent = new Intent(this, ListView.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    private void loginWithServerStart() {
         SharedPreferences sp = getSharedPreferences("User", Context.MODE_PRIVATE);
         if(!sp.getString("userEmail", "").equals("")) {
             UserApi.IUser service = RetrofitUtil.getInstance().create(UserApi.IUser.class);
@@ -94,6 +102,12 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         }
     }
 
+    private void loginWithStart() {
+        loginWithServerStart();
+        loginWithGoogleStart();
+        loginWithNaverStart();
+    }
+
     private void setListener() {
         loginViewBinding.signInButton.setOnClickListener(view -> {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -112,12 +126,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     @Override
     protected void onStart() {
         super.onStart();
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        if(null != account) {
-            Intent intent = new Intent(this, ListView.class);
-            startActivity(intent);
-            finish();
-        }
+
 
 
     }

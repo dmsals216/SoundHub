@@ -23,6 +23,10 @@ public class User implements Parcelable
 
     private String last_login;
 
+    public User(){
+
+    }
+
     public User(String id, String nickname, String email, String instrument) {
         this.id = id;
         this.nickname = nickname;
