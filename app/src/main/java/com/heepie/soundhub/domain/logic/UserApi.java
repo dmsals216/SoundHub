@@ -47,6 +47,10 @@ public class UserApi extends AbsApi {
 
     @Override
     public void getData(ICallback callback) {
+        getData("",callback);
+    }
+
+    public void getData(String category, ICallback callback) {
         // 데이터 초기화
         users.clear();
 
@@ -58,6 +62,9 @@ public class UserApi extends AbsApi {
 
         // 서비스를 생성
         Observable<Response<List<User>>> observable = server.getUser();
+
+        // 카테고리 데이터 서버로부터 전달 받을 시, 주석 제거
+//        Observable<Response<List<User>>> observable = server.getUser(category);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -80,8 +87,11 @@ public class UserApi extends AbsApi {
     }
 
     public interface IUser {
-        @GET("post/")
+        @GET("user/")
         Observable<Response<List<User>>> getUser();
+
+        @GET("user/{parm1}")
+        Observable<Response<List<User>>> getUser(@Path("parm1") String category);
 
         @Multipart
         @POST("user/signup/")
@@ -95,5 +105,8 @@ public class UserApi extends AbsApi {
         @Multipart
         @PATCH("user/{id}/")
         Call<User> getModify(@Path("id") String id, @Header("Authorization")String token, @Part("nickname")RequestBody nickname, @Part("instrument")RequestBody instrument);
+
+
+
     }
 }

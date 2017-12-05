@@ -14,6 +14,7 @@ public class Const {
     public static final int DEFAULT_COUNT_OF_SHOW_ITEM = 5;
     public static final int MAX_COUNT_OF_SHOW_ITEM = 15;
 
+
     public static final String ACTION_MUSIC_NOT_INIT = "NOT_INIT";
     public static final String ACTION_MUSIC_PLAY = "PLAY";
     public static final String ACTION_MUSIC_PAUSE = "PAUSE";
@@ -25,4 +26,7 @@ public class Const {
 
     public static User user;
     public static String TOKEN;
+
+    public static final String CATEGORY_DEFAULT = "CATEGORY_DEFAULT";
+
 }
