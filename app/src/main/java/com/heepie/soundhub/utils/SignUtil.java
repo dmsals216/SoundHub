@@ -11,7 +11,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.domain.model.User;
-import com.heepie.soundhub.view.ListView;
 import com.heepie.soundhub.view.LoginView;
 import com.nhn.android.naverlogin.OAuthLogin;
 
