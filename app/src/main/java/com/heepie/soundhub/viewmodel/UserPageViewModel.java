@@ -60,13 +60,8 @@ public class UserPageViewModel {
         UserApi.IUser service = RetrofitUtil.getInstance().create(UserApi.IUser.class);
         RequestBody name = RequestBody.create(MediaType.parse("text/plain"), userName.get());
         RequestBody instrument = RequestBody.create(MediaType.parse("text/plain"), userInstrument.get());
-        Log.e("haha", userName.get());
-        Log.e("haah", userInstrument.get());
-        Log.e("ahah", Const.user.getId());
-        Log.e("afjia", Const.TOKEN);
 
-        Call<User> response = service.getModify(Const.user.getId(), Const.TOKEN, name, instrument);
-        Log.e("hafa", response.request().url().toString());
+        Call<User> response = service.getModify(Const.user.getId(), "Token " + Const.TOKEN, name, instrument);
         response.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -75,6 +70,7 @@ public class UserPageViewModel {
                     Const.user = response.body();
                     userName.set(Const.user.getNickname());
                     userInstrument.set(Const.user.getInstrument());
+                    Toast.makeText(context, "회원 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, "회원수정에 실패 하셨습니다", Toast.LENGTH_SHORT).show();
                 }
