@@ -3,6 +3,7 @@ package com.heepie.soundhub.viewmodel;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.adapters.TextViewBindingAdapter;
@@ -50,16 +51,20 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
     public final ObservableBoolean checkName = new ObservableBoolean(false);
 
     public class LoginResult {
-        String token;
-        User user;
+        public String token;
+        public User user;
     }
 
     private Context context;
-    private Activity activity;
+    private LoginModelListener listener;
 
-    public InputViewModel(Context context, Activity activity) {
+    public InputViewModel(Context context, LoginModelListener listener) {
         this.context = context;
-        this.activity = activity;
+        this.listener = listener;
+    }
+
+    public interface LoginModelListener {
+        public void activityClose();
     }
 
     public void onClickedSignUp(View v) {
@@ -140,9 +145,14 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
                     LoginResult result = response.body();
                     Const.TOKEN = result.token;
                     Const.user = result.user;
+                    SharedPreferences sp = context.getSharedPreferences("User", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.putString("userEmail", email.get());
+                    editor.putString("userPass", password.get());
+                    editor.commit();
                     Intent intent = new Intent(context, ListView.class);
                     context.startActivity(intent);
-                    activity.finish();
+                    listener.activityClose();
                 }else {
                     Toast.makeText(context, "로그인에 실패 하셨습니다", Toast.LENGTH_SHORT).show();
                 }
@@ -186,6 +196,5 @@ public class InputViewModel implements TextViewBindingAdapter.OnTextChanged{
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(name.get());
         return m.matches();
-
     }
 }

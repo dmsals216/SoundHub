@@ -51,18 +51,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign in with Google"
-                android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button"
+                android:layout_width="240dp"
+                android:layout_height="55dp" />
 
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign in with Facebook"
-                android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+                android:id="@+id/buttonOAuthLoginImg"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp" />
 
             <Button
                 android:id="@+id/button6"
@@ -86,23 +83,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <Button
-                android:id="@+id/button7"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/sign_in_button2"
+                android:layout_width="240dp"
+                android:layout_height="55dp"
                 android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:text="Sign in with Google"
-                android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+                android:layout_marginRight="50dp" />
 
-            <Button
-                android:id="@+id/button8"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="50dp"
-                android:layout_marginRight="50dp"
-                android:text="Sign in with Facebook"
-                android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+            <com.nhn.android.naverlogin.ui.view.OAuthLoginButton
+                android:id="@+id/buttonOAuthLoginImg2"
+                android:layout_width="300dp"
+                android:layout_height="50dp" />
 
             <TextView
                 android:layout_width="match_parent"
