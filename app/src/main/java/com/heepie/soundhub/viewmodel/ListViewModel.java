@@ -1,5 +1,7 @@
 package com.heepie.soundhub.viewmodel;
 
+import android.content.Context;
+import android.content.Intent;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.view.View;
@@ -7,6 +9,7 @@ import android.widget.Toast;
 
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
+import com.heepie.soundhub.view.MusicUploadView;
 
 /**
  * Created by Heepie on 2017. 11. 27..
@@ -21,11 +24,13 @@ public class ListViewModel extends BaseObservable {
 
     @Bindable
     public PostsViewModel newPosts;
+    private Context context;
 
-    public ListViewModel() {
+    public ListViewModel(Context context) {
         populUsers = new UsersViewModel();
         populPosts = new PostsViewModel();
         newPosts = new PostsViewModel();
+        this.context = context;
     }
 
     public void resetData() {
@@ -56,5 +61,7 @@ public class ListViewModel extends BaseObservable {
 
     public void onClickedUpLoad(View view) {
         Toast.makeText(view.getContext(), "Clicked UpLoad", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(context, MusicUploadView.class);
+        context.startActivity(intent);
     }
 }
