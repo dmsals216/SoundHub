@@ -3,10 +3,12 @@ package com.heepie.soundhub.Controller;
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.util.Log;
 
 import com.heepie.soundhub.utils.Const;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,23 +44,17 @@ public class PlayerController {
         return instance;
     }
 
-    /*public void setMusic(String url) {
-        Log.d(TAG, "setMusic: " + url);
-        new Thread(() -> {
-            player.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            try {
-                player.setDataSource(url);
-                player.prepare();
-                play();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }).start();
-    }*/
-
     public void setMusic(List<String> urls) {
-        for (String url : urls) {
+        // audio 파형을 그리기 위한 데이터
+        File file = new File(context.getExternalFilesDir(null) + File.separator + "heepie2.mp3");
+        if(file.exists()){
+            MediaPlayer player = MediaPlayer.create(context, Uri.fromFile(file));
+            player.start();
+        } else {
+            Log.e("heepie", "없음");
+        }
+
+        /*for (String url : urls) {
             Log.d(TAG, "setMusic: " + url);
 
             new Thread(() -> {
@@ -78,7 +74,7 @@ public class PlayerController {
                 }
 
             }).start();
-        }
+        }*/
     }
 
     public void play() {
@@ -87,8 +83,6 @@ public class PlayerController {
                 track.start();
             }).start();
         }
-
-//        player.start();
         playerStatus = Const.ACTION_MUSIC_PLAY;
     }
 
@@ -98,7 +92,6 @@ public class PlayerController {
                 track.pause();
             }).start();
         }
-
         playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
 

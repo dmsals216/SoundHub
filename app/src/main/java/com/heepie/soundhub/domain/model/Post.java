@@ -1,5 +1,6 @@
 package com.heepie.soundhub.domain.model;
 
+import android.databinding.BaseObservable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
