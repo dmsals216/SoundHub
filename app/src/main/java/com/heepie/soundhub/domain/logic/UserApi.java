@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.User;
+import com.heepie.soundhub.viewmodel.InputViewModel;
 import com.heepie.soundhub.viewmodel.UserViewModel;
 
 import java.util.List;
@@ -18,9 +19,12 @@ import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 /**
  * Created by Heepie on 2017. 11. 30..
@@ -81,10 +85,15 @@ public class UserApi extends AbsApi {
 
         @Multipart
         @POST("user/signup/")
-        Call<Result> getData(@Part("email") String email, @Part("password1") String password1, @Part("password2") String password2, @Part("instrument") String instrument, @Part("nickname") String nickname);
+        Call<Result> getData(@Part("email") RequestBody email, @Part("password1") RequestBody password1,
+                                                 @Part("password2") RequestBody password2, @Part("instrument") RequestBody instrument, @Part("nickname") RequestBody nickname);
 
         @Multipart
         @POST("user/login/")
-        Call<Result> getLogin(@Part("email") RequestBody email, @Part("password") RequestBody password);
+        Call<InputViewModel.LoginResult> getLogin(@Part("email") RequestBody email, @Part("password") RequestBody password);
+
+        @Multipart
+        @PATCH("user/{id}/")
+        Call<User> getModify(@Path("id") String id, @Header("Authorization")String token, @Part("nickname")RequestBody nickname, @Part("instrument")RequestBody instrument);
     }
 }
