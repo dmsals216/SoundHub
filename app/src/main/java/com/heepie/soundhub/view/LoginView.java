@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -63,15 +64,19 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     }
 
     private void loginWithGoogleStart() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestIdToken(getString(R.string.server_client_id)).build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(null != account) {
+            Log.e("haha", gso.getServerClientId() + "");
+            Log.e("haha", account.getIdToken() + "" );
+            Log.e("haha", account.getEmail() + "");
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();
         }
     }
+
 
     private void loginWithServerStart() {
         SharedPreferences sp = getSharedPreferences("User", Context.MODE_PRIVATE);
@@ -147,6 +152,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            Log.e("haha", account.getIdToken() + "");
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();
