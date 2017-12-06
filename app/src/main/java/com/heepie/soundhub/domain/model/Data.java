@@ -6,8 +6,7 @@ import java.util.List;
  * Created by Heepie on 2017. 12. 6..
  */
 
-public class Data
-{
+public class Data {
     private List<User> pop_users;
 
     private List<Post> pop_posts;
@@ -42,12 +41,6 @@ public class Data
     public void setRecent_posts (List<Post> recent_posts)
     {
         this.recent_posts = recent_posts;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [pop_users = "+pop_users+", pop_posts = "+pop_posts+", recent_posts = "+recent_posts+"]";
     }
 }
 

@@ -1,10 +1,13 @@
 package com.heepie.soundhub.domain.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Heepie on 2017. 12. 6..
  */
 
-public class Comment_track {
+public class Comment_track implements Parcelable {
     private String id;
 
     // 코멘트 등록자
@@ -68,8 +71,39 @@ public class Comment_track {
     }
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [id = "+id+", author = "+author+", post = "+post+", instrument = "+instrument+", comment_track = "+comment_track+"]";
+    public int describeContents() {
+        return 0;
     }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.author);
+        dest.writeString(this.post);
+        dest.writeString(this.instrument);
+        dest.writeString(this.comment_track);
+    }
+
+    public Comment_track() {
+    }
+
+    protected Comment_track(Parcel in) {
+        this.id = in.readString();
+        this.author = in.readString();
+        this.post = in.readString();
+        this.instrument = in.readString();
+        this.comment_track = in.readString();
+    }
+
+    public static final Creator<Comment_track> CREATOR = new Creator<Comment_track>() {
+        @Override
+        public Comment_track createFromParcel(Parcel source) {
+            return new Comment_track(source);
+        }
+
+        @Override
+        public Comment_track[] newArray(int size) {
+            return new Comment_track[size];
+        }
+    };
 }
