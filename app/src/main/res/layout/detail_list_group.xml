@@ -5,8 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="model"
-            type="com.heepie.soundhub.domain.model.Post"/>
+            name="name"
+            type="java.lang.String"/>
     </data>
 
     <LinearLayout
@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{model.title}"
+            android:text="@{name}"
             android:padding="4dp"
             />
 

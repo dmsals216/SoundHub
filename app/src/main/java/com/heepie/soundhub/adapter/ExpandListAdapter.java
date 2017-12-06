@@ -74,18 +74,26 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        DetailListGroupBinding groupBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_group, parent,false);
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            DetailListGroupBinding groupBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_group, parent, false);
+            groupBinding.setName((String)getGroup(groupPosition));
 
-        return groupBinding.getRoot();
+            return groupBinding.getRoot();
+        }
+        return convertView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        DetailListChildBinding childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent,false);
+        if (convertView == null) {
+            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+            DetailListChildBinding childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent, false);
+            childBinding.setVariable(BR.model, getChild(groupPosition, childPosition));
 
-        return childBinding.getRoot();
+            return childBinding.getRoot();
+        }
+        return convertView;
     }
 
     @Override
