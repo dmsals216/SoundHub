@@ -68,9 +68,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(null != account) {
-            Log.e("haha", gso.getServerClientId() + "");
-            Log.e("haha", account.getIdToken() + "" );
-            Log.e("haha", account.getEmail() + "");
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();
@@ -131,9 +128,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     @Override
     protected void onStart() {
         super.onStart();
-
-
-
     }
 
     @Override
