@@ -13,7 +13,7 @@ import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.viewmodel.DetailViewModel;
 
 public class DetailView extends AppCompatActivity {
-    final String TAG = getClass().getSimpleName() + " ";
+    final String TAG = getClass().getSimpleName();
     private DetailViewBinding binding;
     private DetailViewModel viewModel;
 

@@ -6,17 +6,25 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Heepie on 2017. 11. 30..
  */
 
-public class Post implements Parcelable
-{
+public class Post implements Parcelable {
     private String author_track;
 
+    private String created_date;
+
+    private String genre;
+
     private String id;
+
+    private String num_comments;
+
+    private String num_liked;
 
     private User author;
 
@@ -24,7 +32,15 @@ public class Post implements Parcelable
 
     private String master_track;
 
-    private List<Comment_tracks> comment_tracks;
+    private String[] liked;
+
+    private HashMap<String, List<Comment_track>> comment_tracks;
+
+    private String instrument;
+
+    public Post() {
+
+    }
 
     public String getAuthor_track() {
         return author_track;
@@ -34,12 +50,44 @@ public class Post implements Parcelable
         this.author_track = author_track;
     }
 
+    public String getCreated_date() {
+        return created_date;
+    }
+
+    public void setCreated_date(String created_date) {
+        this.created_date = created_date;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public String getNum_comments() {
+        return num_comments;
+    }
+
+    public void setNum_comments(String num_comments) {
+        this.num_comments = num_comments;
+    }
+
+    public String getNum_liked() {
+        return num_liked;
+    }
+
+    public void setNum_liked(String num_liked) {
+        this.num_liked = num_liked;
     }
 
     public User getAuthor() {
@@ -66,32 +114,42 @@ public class Post implements Parcelable
         this.master_track = master_track;
     }
 
-    public List<Comment_tracks> getComment_tracks() {
+    public String[] getLiked() {
+        return liked;
+    }
+
+    public void setLiked(String[] liked) {
+        this.liked = liked;
+    }
+
+    public HashMap<String, List<Comment_track>> getComment_tracks() {
         return comment_tracks;
     }
 
-    public void setComment_tracks(List<Comment_tracks> comment_tracks) {
+    public void setComment_tracks(HashMap<String, List<Comment_track>> comment_tracks) {
         this.comment_tracks = comment_tracks;
     }
 
-    public Post(String author_track, User author, String title, String master_track) {
-        this.author_track = author_track;
-        this.author = author;
-        this.title = title;
-        this.master_track = master_track;
+    public String getInstrument() {
+        return instrument;
     }
 
-    @Expose()
-    public boolean isShow = true;
+    public void setInstrument(String instrument) {
+        this.instrument = instrument;
+    }
 
     protected Post(Parcel in) {
         author_track = in.readString();
+        created_date = in.readString();
+        genre = in.readString();
         id = in.readString();
+        num_comments = in.readString();
+        num_liked = in.readString();
         author = in.readParcelable(User.class.getClassLoader());
         title = in.readString();
         master_track = in.readString();
-        comment_tracks = in.createTypedArrayList(Comment_tracks.CREATOR);
-        isShow = in.readByte() != 0;
+        liked = in.createStringArray();
+        instrument = in.readString();
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
@@ -107,12 +165,6 @@ public class Post implements Parcelable
     };
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [author_track = "+author_track+", id = "+id+", author = "+author+", title = "+title+", master_track = "+master_track+", comment_tracks = "+comment_tracks+"]";
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
@@ -120,12 +172,16 @@ public class Post implements Parcelable
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(author_track);
+        dest.writeString(created_date);
+        dest.writeString(genre);
         dest.writeString(id);
+        dest.writeString(num_comments);
+        dest.writeString(num_liked);
         dest.writeParcelable(author, flags);
         dest.writeString(title);
         dest.writeString(master_track);
-        dest.writeTypedList(comment_tracks);
-        dest.writeByte((byte) (isShow ? 1 : 0));
+        dest.writeStringArray(liked);
+        dest.writeString(instrument);
     }
 }
 

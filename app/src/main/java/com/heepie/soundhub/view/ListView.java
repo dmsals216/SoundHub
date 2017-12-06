@@ -20,6 +20,8 @@ import android.widget.Toast;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.ListViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
+import com.heepie.soundhub.databinding.NewPostViewBinding;
+import com.heepie.soundhub.databinding.PopulPostViewBinding;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.logic.UserApi;
 import com.heepie.soundhub.domain.model.Post;
@@ -39,6 +41,8 @@ public class ListView extends AppCompatActivity {
 
         // Binding 초기화
         listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
+
+
 
         // 더미 데이터 생성
         listViewModel = new ListViewModel(this);
@@ -90,13 +94,18 @@ public class ListView extends AppCompatActivity {
 
     private void initData(String category) {
         listViewModel.resetData();
+        listViewModel.setDisplayData(category);
+    }
+
+/*    private void initData(String category) {
+        listViewModel.resetData();
 
         setPopulUserList(category);
         setPopulPostList(category);
         // 추후 구현
 //        setNewPostList();
 
-    }
+    }*/
 
     private void initToolbar() {
         // 데이터 바인딩으로 변경해야 함
@@ -135,12 +144,12 @@ public class ListView extends AppCompatActivity {
         });
     }
 
-    private void setPopulPostList(String category) {
+/*    private void setPopulPostList(String category) {
         PostApi.getInstance().getData(category, (code, msg, data) -> {
-            /*입력 데이터 확인
+            *//*입력 데이터 확인
             for (PostViewModel item : PostApi.posts) {
                 Log.e("heepie", item.getModel().toString());
-            }*/
+            }*//*
 
             for (int i=0; i< Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
                 if (PostApi.posts.get(i) != null) {
@@ -149,16 +158,16 @@ public class ListView extends AppCompatActivity {
                 }
             }
         });
-    }
+    }*/
 
-    private void setPopulUserList(String category) {
+    /*private void setPopulUserList(String category) {
         UserApi.getInstance().getData(category, (code, msg, data) -> {
             for (UserViewModel u : UserApi.users) {
                 Log.e("heepie", u.getModel().toString());
                 listViewModel.populUsers.addUserViewModel(u);
             }
         });
-    }
+    }*/
 
     private void setNewPostList(String category) {
 //        서버 측 API 완료 시 주석 제거

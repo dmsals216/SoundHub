@@ -11,7 +11,6 @@ import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.logic.FileApi;
-import com.heepie.soundhub.domain.model.Comment_tracks;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
 
@@ -79,13 +78,13 @@ public class DetailViewModel {
         Log.d(TAG, "onClickedPlay: Clicked");
         switch (PlayerController.playerStatus) {
             case Const.ACTION_MUSIC_NOT_INIT:
-                checkSelectedTrack();
+//                checkSelectedTrack();
 
                 player.setMusic(urls);
                 ((Button)view).setText("일시정지");
                 break;
             case Const.ACTION_MUSIC_PAUSE:
-                player.play();
+//                player.play();
                 ((Button)view).setText("일시정지");
                 break;
 
@@ -101,12 +100,12 @@ public class DetailViewModel {
         Toast.makeText(view.getContext(), "onClickedUpLoad", Toast.LENGTH_SHORT).show();
     }
 
-    // 체크박스로 선택된 track 추출
+/*    // 체크박스로 선택된 track 추출
     public void checkSelectedTrack() {
         // 임시 데이터
         for (Comment_tracks track : post.getComment_tracks()) {
             Log.d(TAG, "checkSelectedTrack: Url " + track.getComment_track());
             urls.add(track.getComment_track());
         }
-    }
+    }*/
 }

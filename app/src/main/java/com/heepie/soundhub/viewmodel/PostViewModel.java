@@ -27,6 +27,6 @@ public class PostViewModel extends BaseObservable implements IModelGettable<Post
     @Override
     public boolean isShow() {
         return true;
-//        return model.isShow;
+//        return model.getIsShow();
     }
 }

@@ -9,6 +9,8 @@ import android.os.Parcelable;
 
 public class User implements Parcelable
 {
+    private String total_liked;
+
     private String id;
 
     private String is_active;
@@ -23,14 +25,76 @@ public class User implements Parcelable
 
     private String last_login;
 
-    public User(String id, String nickname, String email, String instrument) {
+    public User() {
+
+    }
+
+    public String getTotal_liked() {
+        return total_liked;
+    }
+
+    public void setTotal_liked(String total_liked) {
+        this.total_liked = total_liked;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public String getIs_active() {
+        return is_active;
+    }
+
+    public void setIs_active(String is_active) {
+        this.is_active = is_active;
+    }
+
+    public String getIs_staff() {
+        return is_staff;
+    }
+
+    public void setIs_staff(String is_staff) {
+        this.is_staff = is_staff;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getInstrument() {
+        return instrument;
+    }
+
+    public void setInstrument(String instrument) {
         this.instrument = instrument;
     }
 
+    public String getLast_login() {
+        return last_login;
+    }
+
+    public void setLast_login(String last_login) {
+        this.last_login = last_login;
+    }
+
     protected User(Parcel in) {
+        total_liked = in.readString();
         id = in.readString();
         is_active = in.readString();
         is_staff = in.readString();
@@ -52,82 +116,6 @@ public class User implements Parcelable
         }
     };
 
-    public String getId ()
-    {
-        return id;
-    }
-
-    public void setId (String id)
-    {
-        this.id = id;
-    }
-
-    public String getIs_active ()
-    {
-        return is_active;
-    }
-
-    public void setIs_active (String is_active)
-    {
-        this.is_active = is_active;
-    }
-
-    public String getIs_staff ()
-    {
-        return is_staff;
-    }
-
-    public void setIs_staff (String is_staff)
-    {
-        this.is_staff = is_staff;
-    }
-
-    public String getNickname ()
-    {
-        return nickname;
-    }
-
-    public void setNickname (String nickname)
-    {
-        this.nickname = nickname;
-    }
-
-    public String getEmail ()
-    {
-        return email;
-    }
-
-    public void setEmail (String email)
-    {
-        this.email = email;
-    }
-
-    public String getInstrument ()
-    {
-        return instrument;
-    }
-
-    public void setInstrument (String instrument)
-    {
-        this.instrument = instrument;
-    }
-
-    public String getLast_login ()
-{
-    return last_login;
-}
-
-    public void setLast_login (String last_login)
-    {
-        this.last_login = last_login;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "ClassPojo [id = "+id+", is_active = "+is_active+", is_staff = "+is_staff+", nickname = "+nickname+", email = "+email+", instrument = "+instrument+", last_login = "+last_login+"]";
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -135,6 +123,7 @@ public class User implements Parcelable
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(total_liked);
         dest.writeString(id);
         dest.writeString(is_active);
         dest.writeString(is_staff);
