@@ -47,7 +47,7 @@ public class DetailView extends AppCompatActivity {
     private void initData() {
         Post model = getIntent().getParcelableExtra("model");
 //        Post model = DataAPI.getInstance().getModelData().getRecent_posts().get(0);
-        Log.d(TAG, "initData: " + model.toString());
+        Log.d(TAG, "initData: " + model.getComment_tracks().keySet());
 
         binding.setModel(model);
         // ViewModel에 설정
