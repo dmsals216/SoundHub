@@ -60,6 +60,7 @@ public class ViewBinding {
                 .into(view);
     }
 
+    // Audio 파일을 Wave로 바꿔주는 Adapter
     @BindingAdapter("setWave")
     public static void setWave(AudioWaveView audioWaveView, String path) {
         byte[] musicByte=null;

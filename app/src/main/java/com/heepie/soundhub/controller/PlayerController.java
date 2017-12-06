@@ -8,6 +8,7 @@ import android.util.Log;
 import com.heepie.soundhub.utils.Const;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -22,7 +23,7 @@ public class PlayerController {
     public static String playerStatus;
 
     private static PlayerController instance;
-    private MediaPlayer player;
+    private MediaPlayer mPlayer;
     private List<MediaPlayer> playerList;
 
     private Context context;
@@ -30,7 +31,7 @@ public class PlayerController {
     private AtomicInteger countOfsession;
 
     private PlayerController() {
-        player = new MediaPlayer();
+        mPlayer = new MediaPlayer();
         playerStatus = Const.ACTION_MUSIC_NOT_INIT;
         playerList = new ArrayList<>();
         countOfsession = new AtomicInteger(0);
@@ -51,9 +52,23 @@ public class PlayerController {
         } else {
             Log.e("heepie", "없음");
         }
+
+        /*public void setMusic(String url) {
+            Log.d(TAG, "setMusic: " + url);
+            new Thread(() -> {
+                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                try {
+                    player.setDataSource(url);
+                    player.prepare();
+                    play(playerList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }).start();*/
+
     }
 
-    public void play() {
+    private void play(List<MediaPlayer> playerList) {
         for (MediaPlayer track : playerList) {
             new Thread(() -> {
                 track.start();
@@ -70,6 +85,22 @@ public class PlayerController {
         }
         playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
+
+    public void startPlaying(String mFileName) {
+        try {
+            mPlayer.setDataSource(mFileName);
+            mPlayer.prepare();
+            mPlayer.start();
+        } catch (IOException e) {
+            Log.e(TAG, "prepare() failed");
+        }
+    }
+
+    private void stopPlaying() {
+        mPlayer.release();
+        mPlayer = null;
+    }
+
 
     public void initPlayer(Context context) {
         this.context = context;
