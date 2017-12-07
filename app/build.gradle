@@ -19,6 +19,7 @@ android {
             buildConfigField "String", "NAVER_CLIENT_ID", "\"Ywlv5FlboNgwv3yyPOX3\""
             buildConfigField "String", "NAVER_CLIENT_PW", "\"Pj8BFTHyQD\""
             buildConfigField "String", "NAVER_CLIENT_NAME", "\"SoundHub\""
+            buildConfigField "String", "GOOGLE_CLIENT_ID", "\"316999981907-onsccon0ovrkv8tm7eaqrl5vn7q7a3eq.apps.googleusercontent.com\""
         }
 
         release {

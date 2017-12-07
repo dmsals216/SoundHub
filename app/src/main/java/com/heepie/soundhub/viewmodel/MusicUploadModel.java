@@ -9,6 +9,7 @@ import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;
+import com.heepie.soundhub.utils.SignUtil;
 
 import java.io.File;
 
@@ -29,15 +30,23 @@ public class MusicUploadModel {
     public interface MusicUpload {
         String setModel();
         void finishActivityss();
+        void logout();
     }
 
     Context context;
     MusicUpload listener;
     public ObservableField<String> title = new ObservableField<>("");
     public ObservableField<String> file_name = new ObservableField<>("");
+    public ObservableField<String> instrument = new ObservableField<>("");
+    public ObservableField<String> genre = new ObservableField<>("");
+
     public MusicUploadModel(Context context, MusicUpload listener) {
         this.context = context;
         this.listener = listener;
+    }
+
+    public void onClickedLogout(View view) {
+        listener.logout();
     }
 
     public void onClickedDone(View v) {
@@ -47,11 +56,12 @@ public class MusicUploadModel {
         File file = new File(mediaPath);
         file_name.set(file.getName());
         RequestBody title1 = RequestBody.create(MediaType.parse("text/plain"), title.get());
-
+        RequestBody instrument1 = RequestBody.create(MediaType.parse("text/plain"), instrument.get());
+        RequestBody genre1 = RequestBody.create(MediaType.parse("text/plain"), genre.get());
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part author_track = MultipartBody.Part.createFormData("author_track", file.getName(), requestBody);
 
-        Call<Post> response = upload.getLogin("Token " + Const.TOKEN + "", title1, author_track);
+        Call<Post> response = upload.getLogin("Token " + Const.TOKEN + "", title1, instrument1, genre1, author_track);
         response.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {

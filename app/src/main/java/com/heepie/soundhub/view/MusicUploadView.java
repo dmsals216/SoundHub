@@ -57,4 +57,9 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
         finish();
     }
 
+    @Override
+    public void logout() {
+        SignUtil.logout(this, this);
+    }
+
 }

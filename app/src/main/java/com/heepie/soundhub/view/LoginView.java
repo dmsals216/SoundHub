@@ -64,10 +64,11 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     }
 
     private void loginWithGoogleStart() {
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestIdToken(getString(R.string.server_client_id)).build();
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().requestIdToken(BuildConfig.GOOGLE_CLIENT_ID).build();
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(null != account) {
+            Log.e("haha", account.getIdToken());
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();

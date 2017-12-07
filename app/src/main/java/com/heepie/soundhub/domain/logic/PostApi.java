@@ -96,7 +96,7 @@ public class PostApi extends AbsApi {
 
         @Multipart
         @POST("post/")
-        Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part MultipartBody.Part author_track);
+        Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part("instrument") RequestBody instrument, @Part("genre") RequestBody genre, @Part MultipartBody.Part author_track);
         @GET("post/{parm1}")
         Observable<Response<List<Post>>> getPost(@Path("parm1") String category);
     }
