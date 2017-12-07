@@ -113,9 +113,15 @@ public class DetailViewModel {
 
         if (onRecording) {
             Toast.makeText(view.getContext(), "onRecording", Toast.LENGTH_SHORT).show();
+
+            // 재생을 멈추고 녹음 시작
+            player.stopPlaying();
             recorder.startRecording();
+
             ((Button)view).setText("녹음 중지");
         } else {
+
+            // 녹음을 멈추고 재생 시작
             player.startPlaying(recorder.stopRecording());
             Toast.makeText(view.getContext(), "offRecording", Toast.LENGTH_SHORT).show();
             ((Button)view).setText("녹음 시작");

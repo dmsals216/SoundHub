@@ -97,9 +97,9 @@ public class PlayerController {
         }
     }
 
-    private void stopPlaying() {
-        mPlayer.release();
-        mPlayer = null;
+    public void stopPlaying() {
+        mPlayer.reset();
+//        mPlayer = null;
     }
 
 
