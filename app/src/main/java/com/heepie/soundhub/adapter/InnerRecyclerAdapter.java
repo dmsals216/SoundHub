@@ -31,14 +31,6 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
     public void setItems(ObservableArrayList<T> mItems, int layoutResId) {
         this.mItems = mItems;
         this.layoutResId = layoutResId;
-
-        // ture 데이터 개수 확인
-        /*for (int i=0; i<mItems.size(); i=i+1) {
-            F model = (F)mItems.get(i);
-            if (model.isShow()) {
-                index += 1;
-            }
-        }*/
     }
 
     @Override
@@ -82,6 +74,4 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
             mBinding.executePendingBindings();
         }
     }
-
-
 }

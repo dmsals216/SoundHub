@@ -22,7 +22,8 @@ public class BaseActivity extends AppCompatActivity {
 
     private static final int REQ_CODE = 999;
     private static final String permissions[] = {
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.RECORD_AUDIO
     };
 
     @Override

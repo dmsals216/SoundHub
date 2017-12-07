@@ -2,19 +2,15 @@ package com.heepie.soundhub.viewmodel;
 
 import android.content.Context;
 import android.databinding.ObservableField;
-import android.net.Uri;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;
 
 import java.io.File;
-import java.io.IOException;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -32,6 +28,7 @@ public class MusicUploadModel {
 
     public interface MusicUpload {
         String setModel();
+        void finishActivityss();
     }
 
     Context context;
@@ -70,6 +67,10 @@ public class MusicUploadModel {
                 Toast.makeText(context, "업로드 실패하였습니다2.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void onClickedCancel(View view) {
+        listener.finishActivityss();
     }
 
 

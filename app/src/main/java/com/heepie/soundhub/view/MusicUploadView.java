@@ -52,4 +52,9 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
         return realPath;
     }
 
+    @Override
+    public void finishActivityss() {
+        finish();
+    }
+
 }

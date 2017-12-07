@@ -5,7 +5,7 @@
     <data>
         <variable
             name="model"
-            type="com.heepie.soundhub.domain.model.Comment_tracks"/>
+            type="com.heepie.soundhub.domain.model.Comment_track"/>
     </data>
 
     <LinearLayout
@@ -53,7 +53,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:text="@{model.instrument}"
                             android:gravity="center"
                             />
 
@@ -61,7 +60,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="0dp"
                             android:layout_weight="1"
-                            android:text="@{model.instrument}"
                             android:gravity="center"
                             />
 
@@ -73,7 +71,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="4"
-                        android:text="@{model.comment_track}" />
+                        android:text="@{model.author}"
+                        />
 
                     <CheckBox
                         android:id="@+id/selectedMusicItem"

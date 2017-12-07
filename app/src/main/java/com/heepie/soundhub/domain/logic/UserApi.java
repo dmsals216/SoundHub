@@ -3,6 +3,7 @@ package com.heepie.soundhub.domain.logic;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 
+import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.viewmodel.InputViewModel;
@@ -45,19 +46,25 @@ public class UserApi extends AbsApi {
         return instance;
     }
 
-    @Override
     public void getData(ICallback callback) {
+        getData("",callback);
+    }
+
+    public void getData(String category, ICallback callback) {
         // 데이터 초기화
         users.clear();
 
 //        서버 측 완료시 제거
-        createRetrofit();
+        createRetrofit(BuildConfig.SERVER_URL);
 
         // Retrofit으로 서비스 생성
         IUser server = retrofit.create(IUser.class);
 
         // 서비스를 생성
         Observable<Response<List<User>>> observable = server.getUser();
+
+        // 카테고리 데이터 서버로부터 전달 받을 시, 주석 제거
+//        Observable<Response<List<User>>> observable = server.getUser(category);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -80,8 +87,11 @@ public class UserApi extends AbsApi {
     }
 
     public interface IUser {
-        @GET("post/")
+        @GET("user/")
         Observable<Response<List<User>>> getUser();
+
+        @GET("user/{parm1}")
+        Observable<Response<List<User>>> getUser(@Path("parm1") String category);
 
         @Multipart
         @POST("user/signup/")
@@ -95,5 +105,8 @@ public class UserApi extends AbsApi {
         @Multipart
         @PATCH("user/{id}/")
         Call<User> getModify(@Path("id") String id, @Header("Authorization")String token, @Part("nickname")RequestBody nickname, @Part("instrument")RequestBody instrument);
+
+
+
     }
 }

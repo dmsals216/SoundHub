@@ -127,6 +127,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:text="@{model.num_liked}"
                         />
                     <!--android:text="@{model.like_count}"-->
 
@@ -135,6 +136,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:text="@{model.num_comments}"
                         />
                     <!--android:text="@{model.comment_count}"-->
                 </LinearLayout>

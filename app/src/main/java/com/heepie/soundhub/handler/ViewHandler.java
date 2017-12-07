@@ -6,13 +6,19 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.heepie.soundhub.R;
+import com.heepie.soundhub.domain.logic.DataAPI;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.logic.UserApi;
+import com.heepie.soundhub.domain.model.Data;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.view.DetailView;
+import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
 import com.heepie.soundhub.viewmodel.UserViewModel;
+
+import java.io.InputStream;
 
 /**
  * Created by Heepie on 2017. 11. 30..
@@ -20,9 +26,12 @@ import com.heepie.soundhub.viewmodel.UserViewModel;
 
 public class ViewHandler {
     public static ViewHandler intance;
+    private int populPostIndex;
+    private int newPostIndex;
 
     private ViewHandler() {
-
+        populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
+        newPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
     }
 
     public static ViewHandler getIntance() {
@@ -33,18 +42,21 @@ public class ViewHandler {
 
     // '더보기' 버튼 클릭시 실행되는 메소드
     public void onClickedMoreBtn(View view , PostsViewModel viewModel) {
+        Data data = DataAPI.getInstance().getModelData();
+        int startIndex;
+
         switch (view.getId()) {
             case R.id.populMoreBtn:
-                int startIndex = PostApi.populPostIndex;
+                startIndex = populPostIndex;
 
                 // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
                 if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
                     Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
                 } else {
                     for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
-                        if (PostApi.posts.size() > i) {
-                            viewModel.addPostViewModel(PostApi.posts.get(i));
-                            PostApi.populPostIndex++;
+                        if (data.getPop_posts().size() > i) {
+                            viewModel.addPostViewModel(new PostViewModel(data.getPop_posts().get(i)));
+                            populPostIndex++;
                         }
                     }
                 }
@@ -52,42 +64,38 @@ public class ViewHandler {
 
             case R.id.newMoreBtn:
                 // 서버 Api 추가 시 진행
-                /*int startIndex = PostApi.newPostIndex;
+                startIndex = newPostIndex;
 
-                for (int i=startIndex; i<startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
-                    if (PostApi.posts.get(i) != null) {
-                        viewModel.addPostViewModel(PostApi.posts.get(i));
-                        PostApi.newPostIndex++;
+                // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
+                if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
+                    Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
+                } else {
+                    for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
+                        if (data.getRecent_posts().size() > i) {
+                            viewModel.addPostViewModel(new PostViewModel(data.getRecent_posts().get(i)));
+                            newPostIndex++;
+                        }
                     }
-                }*/
+                }
                 break;
         }
     }
 
     public void onClickPostItem(View v, Post model) {
-        Intent intent=null;
-
-        intent = new Intent(v.getContext(), DetailView.class);
-        // 넘겨줄 데이터 설정
-        intent.putExtra("title", "Detail Post");
-        intent.putExtra("model", model);
-
-//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
-
-        if (intent != null)
-            v.getContext().startActivity(intent);
-    }
-
-    public void onClickUserItem(View v, Post model) {
         Intent intent = new Intent(v.getContext(), DetailView.class);
         // 넘겨줄 데이터 설정
-        intent.putExtra("title", "Detail Post");
         intent.putExtra("model", model);
-
-//        Toast.makeText(v.getContext(), model.toString(), Toast.LENGTH_SHORT).show();
 
         if (intent != null)
             v.getContext().startActivity(intent);
     }
 
+    public void onClickUserItem(View v, User model) {
+//        Intent intent = new Intent(v.getContext(), DetailView.class);
+        // 넘겨줄 데이터 설정
+//        intent.putExtra("model", model);
+/*
+        if (intent != null)
+            v.getContext().startActivity(intent);*/
+    }
 }

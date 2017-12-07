@@ -9,11 +9,12 @@ import android.util.Log;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.DetailViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
+import com.heepie.soundhub.domain.logic.DataAPI;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.viewmodel.DetailViewModel;
 
 public class DetailView extends AppCompatActivity {
-    final String TAG = getClass().getSimpleName() + " ";
+    final String TAG = getClass().getSimpleName();
     private DetailViewBinding binding;
     private DetailViewModel viewModel;
 
@@ -44,11 +45,11 @@ public class DetailView extends AppCompatActivity {
     }
 
     private void initData() {
-//        Log.i("heepie", getIntent().getStringExtra("title"));
         Post model = getIntent().getParcelableExtra("model");
-        Log.i("heepie", TAG + model.toString());
-        binding.setModel(model);
+//        Post model = DataAPI.getInstance().getModelData().getRecent_posts().get(0);
+        Log.d(TAG, "initData: " + model.getComment_tracks().keySet());
 
+        binding.setModel(model);
         // ViewModel에 설정
         viewModel.setPost(model);
     }

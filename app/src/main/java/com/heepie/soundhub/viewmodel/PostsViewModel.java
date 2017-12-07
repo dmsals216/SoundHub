@@ -29,7 +29,7 @@ public class PostsViewModel extends BaseObservable implements IModelGettable<Obs
     }
 
     public void addPost(User author, String author_track, String title, String master_track) {
-        this.posts.add(new PostViewModel(new Post(author_track, author, title, master_track)));
+//        this.posts.add(new PostViewModel(new Post(author_track, author, title, master_track)));
     }
 
     public void addPostViewModel(PostViewModel viewModel) {

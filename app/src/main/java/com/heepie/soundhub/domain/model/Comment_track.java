@@ -4,40 +4,21 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by Heepie on 2017. 11. 30..
+ * Created by Heepie on 2017. 12. 6..
  */
 
-public class Comment_tracks implements Parcelable
-{
+public class Comment_track implements Parcelable {
     private String id;
 
+    // 코멘트 등록자
     private String author;
 
+    // 해당 포스트 이름
     private String post;
 
     private String instrument;
 
     private String comment_track;
-
-    protected Comment_tracks(Parcel in) {
-        id = in.readString();
-        author = in.readString();
-        post = in.readString();
-        instrument = in.readString();
-        comment_track = in.readString();
-    }
-
-    public static final Creator<Comment_tracks> CREATOR = new Creator<Comment_tracks>() {
-        @Override
-        public Comment_tracks createFromParcel(Parcel in) {
-            return new Comment_tracks(in);
-        }
-
-        @Override
-        public Comment_tracks[] newArray(int size) {
-            return new Comment_tracks[size];
-        }
-    };
 
     public String getId ()
     {
@@ -90,22 +71,39 @@ public class Comment_tracks implements Parcelable
     }
 
     @Override
-    public String toString()
-    {
-        return "ClassPojo [id = "+id+", author = "+author+", post = "+post+", instrument = "+instrument+", comment_track = "+comment_track+"]";
-    }
-
-    @Override
     public int describeContents() {
         return 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
-        dest.writeString(author);
-        dest.writeString(post);
-        dest.writeString(instrument);
-        dest.writeString(comment_track);
+        dest.writeString(this.id);
+        dest.writeString(this.author);
+        dest.writeString(this.post);
+        dest.writeString(this.instrument);
+        dest.writeString(this.comment_track);
     }
+
+    public Comment_track() {
+    }
+
+    protected Comment_track(Parcel in) {
+        this.id = in.readString();
+        this.author = in.readString();
+        this.post = in.readString();
+        this.instrument = in.readString();
+        this.comment_track = in.readString();
+    }
+
+    public static final Creator<Comment_track> CREATOR = new Creator<Comment_track>() {
+        @Override
+        public Comment_track createFromParcel(Parcel source) {
+            return new Comment_track(source);
+        }
+
+        @Override
+        public Comment_track[] newArray(int size) {
+            return new Comment_track[size];
+        }
+    };
 }

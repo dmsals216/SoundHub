@@ -6,6 +6,7 @@ package com.heepie.soundhub.domain.logic;
 
 import android.databinding.ObservableArrayList;
 
+import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
@@ -25,6 +26,7 @@ import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 /**
  * Created by Heepie on 2017. 11. 29..
@@ -46,18 +48,25 @@ public class PostApi extends AbsApi {
         return instance;
     }
 
-    @Override
     public void getData(ICallback callback) {
-        // 데이터 초기화
+        getData("", callback);
+
+    }
+
+    public void getData(String category, ICallback callback) {
+// 데이터 초기화
         posts.clear();
 
-        createRetrofit();
+        createRetrofit(BuildConfig.SERVER_URL);
 
         // Retrofit으로 서비스 생성
         IPost server = retrofit.create(IPost.class);
 
         // 서비스를
         Observable<Response<List<Post>>> observable = server.getPost();
+
+        // 카테고리 데이터 서버로부터 전달 받을 시, 주석 제거
+//        Observable<Response<List<User>>> observable = server.getUser(category);
 
         observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -81,10 +90,6 @@ public class PostApi extends AbsApi {
                         });
     }
 
-    public void getData(String category, ICallback callback) {
-
-    }
-
     public interface IPost {
         @GET("post")
         Observable<Response<List<Post>>> getPost();
@@ -92,5 +97,7 @@ public class PostApi extends AbsApi {
         @Multipart
         @POST("post/")
         Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part MultipartBody.Part author_track);
+        @GET("post/{parm1}")
+        Observable<Response<List<Post>>> getPost(@Path("parm1") String category);
     }
 }
