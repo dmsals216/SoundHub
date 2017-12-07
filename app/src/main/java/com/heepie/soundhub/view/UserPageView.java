@@ -19,12 +19,13 @@ import com.heepie.soundhub.viewmodel.UserPageViewModel;
 
 public class UserPageView extends AppCompatActivity {
     User user;
+    UserPageViewModel viewModel;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         user = intent.getParcelableExtra("user");
-        UserPageViewModel viewModel = new UserPageViewModel(this);
+        viewModel = new UserPageViewModel(this);
         viewModel.setUserName(user.getNickname());
         viewModel.setUserInstrument(user.getInstrument());
         if(user.getId().equals(Const.user.getId())) {
@@ -33,5 +34,15 @@ public class UserPageView extends AppCompatActivity {
         }
         UserpageViewBinding binding = DataBindingUtil.setContentView(this, R.layout.userpage_view);
         binding.setViewModel(viewModel);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(viewModel.sucheck.get()) {
+            viewModel.sucheck.set(false);
+            return;
+        }
+
+        super.onBackPressed();
     }
 }
