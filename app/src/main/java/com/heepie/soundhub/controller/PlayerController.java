@@ -87,6 +87,7 @@ public class PlayerController {
     }
 
     public void startPlaying(String mFileName) {
+        Log.d(TAG, "startPlaying: " + mFileName);
         try {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();

@@ -10,6 +10,7 @@ import android.widget.Toast;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
+import com.heepie.soundhub.controller.RecordController;
 import com.heepie.soundhub.domain.logic.FileApi;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
@@ -24,6 +25,7 @@ import java.util.List;
 public class DetailViewModel {
     public final String TAG = getClass().getSimpleName();
     private PlayerController player;
+    private RecordController recorder;
     private Post post;
     private List<String> urls;
     private String url;
@@ -49,8 +51,13 @@ public class DetailViewModel {
     }
 
     public DetailViewModel(Context context) {
-        this.player = PlayerController.getInstance();
+        player = PlayerController.getInstance();
         player.initPlayer(context);
+
+        recorder = RecordController.getInstance();
+        recorder.initRecorder(context);
+
+
         this.context = context;
         urls = new ArrayList<>();
         masterPath = new ObservableField<>("");
@@ -95,9 +102,24 @@ public class DetailViewModel {
         }
     }
 
+    private boolean onRecording = false;
+
     public void onClickedUpLoad(View view) {
         Log.d(TAG, "onClickedUpLoad: Clicked");
-        Toast.makeText(view.getContext(), "onClickedUpLoad", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(view.getContext(), "onClickedUpLoad", Toast.LENGTH_SHORT).show();
+
+        // 녹음 기능
+        onRecording = (onRecording == true) ? false : true;
+
+        if (onRecording) {
+            Toast.makeText(view.getContext(), "onRecording", Toast.LENGTH_SHORT).show();
+            recorder.startRecording();
+            ((Button)view).setText("녹음 중지");
+        } else {
+            player.startPlaying(recorder.stopRecording());
+            Toast.makeText(view.getContext(), "offRecording", Toast.LENGTH_SHORT).show();
+            ((Button)view).setText("녹음 시작");
+        }
     }
 
 /*    // 체크박스로 선택된 track 추출

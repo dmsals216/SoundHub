@@ -1,6 +1,7 @@
 package com.heepie.soundhub.controller;
 
 import android.content.Context;
+import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
 import android.util.Log;
 
@@ -20,6 +21,13 @@ public class RecordController {
     private Context context;
 
     private RecordController() {
+        mRecorder = new MediaRecorder();
+        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        /*mRecorder.setProfile();
+        CamcorderProfile profile = new CamcorderProfile();*/
+
 
     }
 
@@ -43,20 +51,22 @@ public class RecordController {
 
     public String stopRecording() {
         mRecorder.stop();
-        mRecorder.release();
-        mRecorder = null;
-
+//        mRecorder.release();
+//        mRecorder = null;
+        prepareRecord();
         return mFileName;
     }
 
-
-    public void setContextAndInit(Context context) {
+    public void initRecorder(Context context) {
         this.context = context;
-        initRecorder(context);
+
+        mFileName = context.getExternalCacheDir().getAbsolutePath();
+        // 임시 파일 이름
+        mFileName += "/tmp.mp3";
+        mRecorder.setOutputFile(mFileName);
     }
 
-    private void initRecorder(Context context) {
-        mRecorder = new MediaRecorder();
+    public void prepareRecord() {
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
@@ -64,7 +74,6 @@ public class RecordController {
         mFileName = context.getExternalCacheDir().getAbsolutePath();
         // 임시 파일 이름
         mFileName += "/tmp.mp3";
-
         mRecorder.setOutputFile(mFileName);
     }
 }
