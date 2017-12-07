@@ -31,18 +31,20 @@ import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
 import com.heepie.soundhub.viewmodel.UserViewModel;
 
+import java.io.File;
+
 public class ListView extends AppCompatActivity {
+    public final String TAG = getClass().getSimpleName();
     private ListViewBinding listBinding;
     private ListViewModel listViewModel;
+    private String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        category="";
         // Binding 초기화
         listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
-
-
 
         // 더미 데이터 생성
         listViewModel = new ListViewModel(this);
@@ -67,13 +69,17 @@ public class ListView extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 //                Toast.makeText(ListView.this, tab.getText(), Toast.LENGTH_SHORT).show();
+                category = tab.getText().toString().toLowerCase();
                 // 해당 카테고리 보여주기
                 switch (tab.getText().toString()) {
+
                     case "Genre":
-                        listBinding.category.setVisibility(View.VISIBLE);
+                        listBinding.instrumentCategory.setVisibility(View.GONE);
+                        listBinding.genreCategory.setVisibility(View.VISIBLE);
                         break;
                     case "Instrument":
-                        listBinding.category.setVisibility(View.VISIBLE);
+                        listBinding.genreCategory.setVisibility(View.GONE);
+                        listBinding.instrumentCategory.setVisibility(View.VISIBLE);
                         break;
                 }
             }
@@ -95,6 +101,7 @@ public class ListView extends AppCompatActivity {
     private void initData(String category) {
         listViewModel.resetData();
         listViewModel.setDisplayData(category);
+        listViewModel.setDisplayCategory();
     }
 
 /*    private void initData(String category) {
@@ -127,8 +134,10 @@ public class ListView extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Toast.makeText(ListView.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 switch (item.getTitle().toString()) {
+
                     case "Home":
-                        listBinding.category.setVisibility(View.GONE);
+                        listBinding.genreCategory.setVisibility(View.GONE);
+                        listBinding.instrumentCategory.setVisibility(View.GONE);
                         initData(Const.CATEGORY_DEFAULT);
                         listBinding.drawerLayout.closeDrawers();
                         break;
@@ -193,13 +202,11 @@ public class ListView extends AppCompatActivity {
 
     // 카테고리 클릭 리스너
     public void onClickedCategory(View v) {
-        listBinding.category.setVisibility(View.GONE);
+        listBinding.genreCategory.setVisibility(View.GONE);
+        listBinding.instrumentCategory.setVisibility(View.GONE);
 
-        initData(((Button)v).getText().toString());
-        // 해당 카테고리 정보 입력 받기
-//        setPopulUserList(((Button)v).getText());
-//        setPopulPostList(((Button)v).getText());
-//        setNewPostList(((Button)v).getText());
+        Log.d(TAG, "onClickedCategory: " + category + File.separator + ((Button)v).getText().toString());
+        initData(category + File.separator +((Button)v).getText().toString());
     }
 
     public void onClickedUserImage(View v) {

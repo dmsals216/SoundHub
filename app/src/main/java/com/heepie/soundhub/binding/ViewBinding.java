@@ -83,4 +83,12 @@ public class ViewBinding {
             });
         }
     }
+
+    @BindingAdapter("setVisible")
+    public static void setVisible(View view, String data) {
+        if (data == null)
+            view.setVisibility(View.INVISIBLE);
+        else
+            view.setVisibility(View.VISIBLE);
+    }
 }
