@@ -99,7 +99,7 @@
                         android:layout_marginTop="8dp"
                         android:visibility="visible"
                         app:setWave="@{viewModel.masterPath}"
-                        app:setCurProgr="@{viewModel.player.curProgress}"
+                        app:setCurProgr="@{viewModel.player.curDuration}"
                         app:chunkHeight="24dp"
                         app:chunkRadius="1dp"
                         app:chunkSpacing="1dp"

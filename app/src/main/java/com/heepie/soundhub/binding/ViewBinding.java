@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
@@ -71,7 +72,7 @@ public class ViewBinding {
         // 필요한 변수 선언
         PlayerController player = PlayerController.getInstance();
         FileInputStream inputStream = null;
-        long time=0;
+        int time = 0;
         byte[] musicByte=null;
 
         // Music Duration 추출
@@ -79,38 +80,12 @@ public class ViewBinding {
             MediaMetadataRetriever retriever = new MediaMetadataRetriever();
             inputStream = new FileInputStream(path);
             retriever.setDataSource(inputStream.getFD());
-            time = Long.parseLong(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
+            time = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION));
 
             Log.d("ViewBinding", "setWave: " + time);
         } catch (Exception e) {
 
         }
-
-
-/*        audioWaveView.setOnProgressListener(new OnProgressListener() {
-            @Override
-            public void onStartTracking(float v) {
-//                Toast.makeText(audioWaveView.getContext(), v+"", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onStopTracking(float v) {
-//                Toast.makeText(audioWaveView.getContext(), v + " ", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onProgressChanged(float v, boolean b) {
-//                Toast.makeText(audioWaveView.getContext(), v + " " + b, Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
-
-        // 임시 데이터 값 설정
-        ObjectAnimator progressAnim;
-        progressAnim = ObjectAnimator.ofFloat(audioWaveView, "progress", 0F, 100F);
-        progressAnim.setInterpolator(new LinearInterpolator());
-        progressAnim.setDuration(time);
-
 
         try {
             musicByte = ByteStreamsKt.readBytes(new FileInputStream(new File(path)), 0);
@@ -118,21 +93,22 @@ public class ViewBinding {
             e.printStackTrace();
         }
 
-        if (musicByte != null) {
+        final int duration = time;
+
+        if (musicByte != null && path != null) {
             audioWaveView.setRawData(musicByte, () -> {
 //                progressAnim.start();
-                player.startPlaying(path);
+                player.startPlaying(path, duration);
             });
         }
     }
 
     @BindingAdapter("setCurProgr")
-    public static void setCurProgr(View view, ObservableField<Integer> curProgress) {
+    public static void setCurProgr(View view, float curProgress) {
         if (view instanceof AudioWaveView) {
-            if (curProgress.get() != null)
-                ((AudioWaveView)view).setProgress(Float.parseFloat(curProgress.get()+""));
+            ((AudioWaveView) view).setProgress(curProgress);
+            // progress bar 터치 이벤트 설정
         }
-
     }
 
     @BindingAdapter("setVisible")

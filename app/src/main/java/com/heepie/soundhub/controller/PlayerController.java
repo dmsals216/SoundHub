@@ -14,6 +14,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Heepie on 2017. 12. 1..
  * 음악을 제어하는 컨트롤
@@ -30,7 +36,8 @@ public class PlayerController {
     private Context context;
     private AtomicInteger countOfsession;
 
-    public ObservableField<Integer> curProgress;
+    private int maxDuration;
+    public ObservableField<Float> curDuration;
 
     private PlayerController() {
         mPlayer = new MediaPlayer();
@@ -38,7 +45,8 @@ public class PlayerController {
         playerList = new ArrayList<>();
         countOfsession = new AtomicInteger(0);
 
-        curProgress = new ObservableField<>();
+        curDuration = new ObservableField<>();
+
     }
 
     public static PlayerController getInstance() {
@@ -91,13 +99,14 @@ public class PlayerController {
         playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
 
-    public void startPlaying(String mFileName) {
+    public void startPlaying(String mFileName, int duration) {
         Log.d(TAG, "startPlaying: " + mFileName);
         try {
+            this.maxDuration = duration/1000;
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.start();
-            curProgress.set(mPlayer.getCurrentPosition());
+            startDurationTimer();
         } catch (IOException e) {
             Log.e(TAG, "prepare() failed");
         }
@@ -105,15 +114,41 @@ public class PlayerController {
 
     public void stopPlaying() {
         mPlayer.reset();
-//        mPlayer = null;
     }
-
-    public void changedProgress(int seekTo) {
-        mPlayer.seekTo(seekTo);
-    }
-
 
     public void initPlayer(Context context) {
         this.context = context;
+    }
+
+
+    private Observable<Float> makeDurationSubscr() {
+        Observable mDurationSubscr = Observable.create(new ObservableOnSubscribe<Float>() {
+            @Override
+            public void subscribe(ObservableEmitter<Float> e) throws Exception {
+                try {
+                    for (int i = 0; i < maxDuration; i = i + 1) {
+                        e.onNext((i*(100/Float.parseFloat(maxDuration+""))));
+                        Thread.sleep(1000);
+                    }
+                    e.onComplete();
+                } catch (Exception ex) {
+                    e.onError(ex.getCause());
+                }
+            }
+        });
+
+        return mDurationSubscr;
+    }
+
+    private void startDurationTimer() {
+        makeDurationSubscr()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        curProgress -> {
+                            Log.d(TAG, "startDurationTimer: " + curProgress);
+                            curDuration.set(curProgress);
+                        }
+                );
     }
 }

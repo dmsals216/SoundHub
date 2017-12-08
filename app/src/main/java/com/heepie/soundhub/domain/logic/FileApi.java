@@ -36,6 +36,14 @@ public class FileApi {
     }
 
     public void getMusic(Context context, String url, String post_id, ICallback callback) {
+        String path = context.getExternalCacheDir().getAbsolutePath() + File.separator + post_id + ".mp3";
+        File futureStudioIconFile = new File(path);
+
+        if (futureStudioIconFile.exists()) {
+            callback.initData(200, "OK", path);
+            return;
+        }
+
         Request request = new Request.Builder().url(url).build();
 
         client.newCall(request).enqueue(new okhttp3.Callback() {
@@ -50,17 +58,6 @@ public class FileApi {
                     ResponseBody body = response.body();
                     Log.e(TAG, "sucess");
                     try {
-
-                        String path = context.getExternalCacheDir().getAbsolutePath() + File.separator + post_id + ".mp3";
-                        File futureStudioIconFile = new File(path);
-
-                        if (futureStudioIconFile.exists()) {
-                            callback.initData(200, "OK", path);
-                            return ;
-                        }
-
-
-
                         InputStream inputStream = null;
                         OutputStream outputStream = null;
                         try {
@@ -103,7 +100,5 @@ public class FileApi {
                 }
             }
         });
-
     }
-
 }

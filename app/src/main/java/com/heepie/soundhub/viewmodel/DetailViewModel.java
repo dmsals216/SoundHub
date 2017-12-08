@@ -130,7 +130,7 @@ public class DetailViewModel {
         } else {
             mRecordFilePath = recorder.stopRecording();
             // 녹음을 멈추고 재생 시작
-            player.startPlaying(mRecordFilePath);
+            player.startPlaying(mRecordFilePath, 0);
 
             commentAPI.pushComment(post.getId(), "Guitar", mRecordFilePath,
                                   (code, msg, body) -> {
