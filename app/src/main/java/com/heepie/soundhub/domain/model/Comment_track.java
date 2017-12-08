@@ -3,6 +3,8 @@ package com.heepie.soundhub.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.Expose;
+
 /**
  * Created by Heepie on 2017. 12. 6..
  */
@@ -19,6 +21,17 @@ public class Comment_track implements Parcelable {
     private String instrument;
 
     private String comment_track;
+
+    @Expose
+    private boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
 
     public String getId ()
     {
@@ -85,6 +98,7 @@ public class Comment_track implements Parcelable {
     }
 
     public Comment_track() {
+        isCheck = false;
     }
 
     protected Comment_track(Parcel in) {

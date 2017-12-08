@@ -1,6 +1,7 @@
 package com.heepie.soundhub.controller;
 
 import android.content.Context;
+import android.databinding.ObservableField;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -27,14 +28,17 @@ public class PlayerController {
     private List<MediaPlayer> playerList;
 
     private Context context;
-
     private AtomicInteger countOfsession;
+
+    public ObservableField<Integer> curProgress;
 
     private PlayerController() {
         mPlayer = new MediaPlayer();
         playerStatus = Const.ACTION_MUSIC_NOT_INIT;
         playerList = new ArrayList<>();
         countOfsession = new AtomicInteger(0);
+
+        curProgress = new ObservableField<>();
     }
 
     public static PlayerController getInstance() {
@@ -48,6 +52,7 @@ public class PlayerController {
         File file = new File(context.getExternalFilesDir(null) + File.separator + "heepie2.mp3");
         if(file.exists()){
             MediaPlayer player = MediaPlayer.create(context, Uri.fromFile(file));
+
             player.start();
         } else {
             Log.e("heepie", "없음");
@@ -92,6 +97,7 @@ public class PlayerController {
             mPlayer.setDataSource(mFileName);
             mPlayer.prepare();
             mPlayer.start();
+            curProgress.set(mPlayer.getCurrentPosition());
         } catch (IOException e) {
             Log.e(TAG, "prepare() failed");
         }
@@ -100,6 +106,10 @@ public class PlayerController {
     public void stopPlaying() {
         mPlayer.reset();
 //        mPlayer = null;
+    }
+
+    public void changedProgress(int seekTo) {
+        mPlayer.seekTo(seekTo);
     }
 
 

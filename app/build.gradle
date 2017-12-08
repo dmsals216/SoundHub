@@ -61,4 +61,7 @@ dependencies {
 
 //    To use audioWave
     implementation 'com.github.alxrm:audiowave-progressbar:0.9'
+
+//    To use Retrofit log
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 }

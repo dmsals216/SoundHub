@@ -10,7 +10,6 @@
         <variable
             name="viewModel"
             type="com.heepie.soundhub.viewmodel.DetailViewModel"/>
-
     </data>
 
     <android.support.v4.widget.DrawerLayout
@@ -100,6 +99,7 @@
                         android:layout_marginTop="8dp"
                         android:visibility="visible"
                         app:setWave="@{viewModel.masterPath}"
+                        app:setCurProgr="@{viewModel.player.curProgress}"
                         app:chunkHeight="24dp"
                         app:chunkRadius="1dp"
                         app:chunkSpacing="1dp"

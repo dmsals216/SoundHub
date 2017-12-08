@@ -3,11 +3,19 @@ package com.heepie.soundhub.domain.logic;
 import android.util.Log;
 
 import com.heepie.soundhub.BuildConfig;
+import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.model.Comment_track;
+import com.heepie.soundhub.utils.Const;
+
+import java.io.File;
 
 import io.reactivex.Observable;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -15,7 +23,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 /**
@@ -38,7 +49,17 @@ public class CommentAPI {
         return instance;
     }
 
-    public void createRetrofit(String defaultURL) {
+    private void createRetrofit(String defaultURL) {
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+// set your desired log level
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+// add your other interceptors …
+
+// add logging as last interceptor
+        httpClient.addInterceptor(logging);
+
         Retrofit.Builder rBuilder = new Retrofit.Builder();
 
         // 기본 URL 설정
@@ -53,30 +74,67 @@ public class CommentAPI {
         retrofit = rBuilder.build();
     }
 
-    public void pushComment(String user_id, Comment_track track) {
+    public void pushComment(String post_id, String instrument, String mFilePath, ICallback callback) {
+        Log.d(TAG, "pushComment: " + post_id + " " + instrument + " " + mFilePath + " " + "Token " + Const.TOKEN);
+
         IComment service = retrofit.create(IComment.class);
-        Call<Response<ResponseBody>> result = service.pushComment(user_id, track);
-        result.enqueue(new Callback<Response<ResponseBody>>() {
+
+        // 녹음 파일 등록
+        File track = new File(mFilePath);
+        RequestBody requestFile =
+                RequestBody.create(
+                        MediaType.parse("multipart/form-data"),
+                        track
+                );
+        MultipartBody.Part body =
+                MultipartBody.Part.createFormData("comment_track", track.getName(), requestFile);
+
+
+        // 악기 정보 등록
+        RequestBody mInstrument = RequestBody.create(MediaType.parse("text/plain"), instrument);
+
+
+        Log.d(TAG, "pushComment: " + "In PushComment");
+
+        Call<Comment_track> result = service.pushComment(post_id,
+                                                        "Token a3d95f545426ac432f466d3164a735b6fa92fc31",
+                                                        mInstrument,
+                                                        body);
+
+        result.enqueue(new Callback<Comment_track>() {
             @Override
-            public void onResponse(Call<Response<ResponseBody>> call, Response<Response<ResponseBody>> response) {
+            public void onResponse(Call<Comment_track> call, Response<Comment_track> response) {
                 // 서버에서 응답을 했을 때 분기 (실패, 성공 모두)
                 if (response.isSuccessful()) {
                     Log.d(TAG, "onResponse: " + "response OK!");
+
+                    // Callback으로 돌아온 결과값 callback, 이후 callback 데이터 comment에 등록
+                    callback.initData(response.code(), response.message(), response.body());
+
                 } else {
                     // 응답이 실패일 경우
+                    Log.d(TAG, "onResponse: " + "response Fail! " + response.code());
                 }
+
+//                결과를 callback으로 돌려준다.
+//                callback.initData();
             }
 
             @Override
-            public void onFailure(Call<Response<ResponseBody>> call, Throwable t) {
+            public void onFailure(Call<Comment_track> call, Throwable t) {
                 // 네트워크 실패나 서버에서 응답이 없을 때 분기
+                Log.d(TAG, "onFailure: " + "Connection Fail");
             }
         });
     }
 
 
     public interface IComment {
-        @POST("post/{user_id}/comment")
-        Call<Response<ResponseBody>> pushComment(@Path("user_id") String user_id, @Body Comment_track track);
+        @Multipart
+        @POST("post/{post_id}/comments/")
+        Call<Comment_track> pushComment(@Path("post_id") String post_id,
+                                        @Header("Authorization")String token,
+                                        @Part("instrument") RequestBody instrument,
+                                        @Part MultipartBody.Part track);
     }
 }

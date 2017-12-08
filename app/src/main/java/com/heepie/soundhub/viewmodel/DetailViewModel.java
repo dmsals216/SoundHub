@@ -11,7 +11,9 @@ import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.controller.RecordController;
+import com.heepie.soundhub.domain.logic.CommentAPI;
 import com.heepie.soundhub.domain.logic.FileApi;
+import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
 
@@ -24,12 +26,15 @@ import java.util.List;
 
 public class DetailViewModel {
     public final String TAG = getClass().getSimpleName();
-    private PlayerController player;
+    public PlayerController player;
     private RecordController recorder;
+    private CommentAPI commentAPI;
+
     private Post post;
     private List<String> urls;
     private String url;
     private Context context;
+    private String mRecordFilePath;
 
     public ObservableField<String> masterPath;
 
@@ -61,10 +66,13 @@ public class DetailViewModel {
         this.context = context;
         urls = new ArrayList<>();
         masterPath = new ObservableField<>("");
+
+        commentAPI = CommentAPI.getInstance();
+
     }
 
     private void setMasterTrackWave() {
-        FileApi.getInstance().getMusic(context, url, new ICallback() {
+        FileApi.getInstance().getMusic(context, url, post.getId(), new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
                 Log.i("heepie", code+" " + msg + " " + data);
@@ -120,9 +128,18 @@ public class DetailViewModel {
 
             ((Button)view).setText("녹음 중지");
         } else {
-
+            mRecordFilePath = recorder.stopRecording();
             // 녹음을 멈추고 재생 시작
-            player.startPlaying(recorder.stopRecording());
+            player.startPlaying(mRecordFilePath);
+
+            commentAPI.pushComment(post.getId(), "Guitar", mRecordFilePath,
+                                  (code, msg, body) -> {
+                Comment_track commentTrack = ((Comment_track)body);
+                Log.d(TAG, "onClickedUpLoad: " + body.toString());
+                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+            });
+
+
             Toast.makeText(view.getContext(), "offRecording", Toast.LENGTH_SHORT).show();
             ((Button)view).setText("녹음 시작");
         }
