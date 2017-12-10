@@ -6,6 +6,9 @@
         <variable
             name="model"
             type="com.heepie.soundhub.domain.model.Comment_track"/>
+        <variable
+            name="viewhandler"
+            type="com.heepie.soundhub.handler.ViewHandler"/>
     </data>
 
     <LinearLayout
@@ -79,6 +82,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:checked="@={model.isCheck}"
                         />
 
                 </LinearLayout>

@@ -36,6 +36,8 @@ public class DetailViewModel {
     private Context context;
     private String mRecordFilePath;
 
+    private StringBuilder urlBuilder;
+
     public ObservableField<String> masterPath;
 
 
@@ -43,11 +45,10 @@ public class DetailViewModel {
         this.post = post;
 
         // 무조건 실행되는 Author 트랙 초기 설정
-        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder = new StringBuilder();
         urlBuilder.append(BuildConfig.FILE_SERVER_URL)
                 .append("media/")
                 .append(post.getAuthor_track());
-
 
         url = urlBuilder.toString();
 
@@ -85,7 +86,6 @@ public class DetailViewModel {
     public void onClickedMerge(View view) {
         Log.d(TAG, "onClickedMerge: Clicked");
         Toast.makeText(view.getContext(), "onClickedMerge", Toast.LENGTH_SHORT).show();
-
 
     }
 
@@ -145,16 +145,24 @@ public class DetailViewModel {
         }
     }
 
-
-
-/*    // 체크박스로 선택된 track 추출
+    // 체크박스로 선택된 track 추출
     public void checkSelectedTrack() {
-        // 임시 데이터
-        for (Comment_tracks track : post.getComment_tracks()) {
-            Log.d(TAG, "checkSelectedTrack: Url " + track.getComment_track());
-            urls.add(track.getComment_track());
+        for(String instrument : post.getComment_tracks().keySet()) {
+            for(Comment_track track : post.getComment_tracks().get(instrument)) {
+                if (track.getIsCheck()) {
+                    urlBuilder = new StringBuilder();
+                    urlBuilder.append(BuildConfig.FILE_SERVER_URL)
+                            .append("media/")
+                            .append(track.getComment_track());
+
+                    urls.add(urlBuilder.toString());
+                }
+            }
         }
-    }*/
+
+        for (String url : urls)
+            Log.d(TAG, "onClickedMerge: " + url);
+    }
 
     public void onPause() {
         player.stopPlaying();

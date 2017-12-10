@@ -13,6 +13,7 @@ import com.heepie.soundhub.databinding.DetailListChildBinding;
 import com.heepie.soundhub.databinding.DetailListGroupBinding;
 import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.handler.ViewHandler;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 
 import java.util.HashMap;
@@ -90,6 +91,7 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             DetailListChildBinding childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent, false);
             childBinding.setVariable(BR.model, getChild(groupPosition, childPosition));
+            childBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
 
             return childBinding.getRoot();
         }

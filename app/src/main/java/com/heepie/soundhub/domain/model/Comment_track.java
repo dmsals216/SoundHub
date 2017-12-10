@@ -1,15 +1,21 @@
 package com.heepie.soundhub.domain.model;
 
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import com.google.gson.annotations.Expose;
+import com.heepie.soundhub.BR;
 
 /**
  * Created by Heepie on 2017. 12. 6..
  */
 
-public class Comment_track implements Parcelable {
+public class Comment_track extends BaseObservable implements Parcelable {
+    private final String TAG = getClass().getSimpleName();
+
     private String id;
 
     // 코멘트 등록자
@@ -25,12 +31,15 @@ public class Comment_track implements Parcelable {
     @Expose
     private boolean isCheck;
 
-    public boolean isCheck() {
+    @Bindable
+    public boolean getIsCheck() {
         return isCheck;
     }
 
-    public void setCheck(boolean check) {
+    public void setIsCheck(boolean check) {
         isCheck = check;
+        Log.d(TAG, "setIsCheck: " + check);
+        notifyPropertyChanged(BR.isCheck);
     }
 
     public String getId ()
