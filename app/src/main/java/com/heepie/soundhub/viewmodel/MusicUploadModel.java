@@ -9,7 +9,6 @@ import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;
-import com.heepie.soundhub.utils.SignUtil;
 
 import java.io.File;
 
@@ -54,7 +53,6 @@ public class MusicUploadModel {
         Retrofit retrofit = RetrofitUtil.getInstance();
         PostApi.IPost upload = retrofit.create(PostApi.IPost.class);
         File file = new File(mediaPath);
-        file_name.set(file.getName());
         RequestBody title1 = RequestBody.create(MediaType.parse("text/plain"), title.get());
         RequestBody instrument1 = RequestBody.create(MediaType.parse("text/plain"), instrument.get());
         RequestBody genre1 = RequestBody.create(MediaType.parse("text/plain"), genre.get());
@@ -67,6 +65,7 @@ public class MusicUploadModel {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.code() == 201) {
                     Toast.makeText(context, "업로드 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+                    listener.finishActivityss();
                 }else {
                     Toast.makeText(context, "업로드 실패하였습니다1.", Toast.LENGTH_SHORT).show();
                 }
@@ -78,10 +77,7 @@ public class MusicUploadModel {
             }
         });
     }
-
     public void onClickedCancel(View view) {
         listener.finishActivityss();
     }
-
-
 }

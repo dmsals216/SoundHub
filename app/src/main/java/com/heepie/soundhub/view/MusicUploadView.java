@@ -5,8 +5,6 @@ import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.widget.Button;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.MusicuploadViewBinding;
@@ -23,12 +21,13 @@ import java.io.File;
 public class MusicUploadView extends AppCompatActivity implements MusicUploadModel.MusicUpload{
 
     MusicUploadModel model = new MusicUploadModel(this, this);
+    MusicuploadViewBinding binding;
     String realPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        MusicuploadViewBinding binding = DataBindingUtil.setContentView(this, R.layout.musicupload_view);
+        binding = DataBindingUtil.setContentView(this, R.layout.musicupload_view);
         binding.setViewModel(model);
         binding.button4.setOnClickListener(v -> {
             Intent intent = new Intent();
@@ -44,6 +43,8 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
         if (requestCode == 22) {
             Uri uri = data.getData();
             realPath = PathUtil.getPath(this, uri);
+            File file = new File(realPath);
+            model.file_name.set(file.getName());
         }
     }
 

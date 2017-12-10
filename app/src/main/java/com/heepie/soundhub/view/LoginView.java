@@ -8,9 +8,16 @@ import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -27,6 +34,9 @@ import com.heepie.soundhub.viewmodel.InputViewModel;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 
+import org.json.JSONObject;
+
+
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -41,6 +51,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     GoogleSignInClient mGoogleSignInClient;
     LoginViewBinding loginViewBinding;
     OAuthLogin mOAuthLoginModule;
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +71,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         );
         if(null != mOAuthLoginModule.getAccessToken(this)) {
             mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
+            Log.e("haha", "네이버로그인");
         }
     }
 
@@ -90,6 +102,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                         InputViewModel.LoginResult result = response.body();
                         Const.TOKEN = result.token;
                         Const.user = result.user;
+                        Log.e("haha", sp.getString("userEmail", ""));
                         Intent intent = new Intent(LoginView.this, ListView.class);
                         startActivity(intent);
                         finish();
@@ -105,10 +118,20 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         }
     }
 
+    private void loginWithFacebookStart() {
+        callbackManager = CallbackManager.Factory.create();
+        if(AccessToken.getCurrentAccessToken() != null) {
+            Intent intent = new Intent(this, ListView.class);
+            startActivity(intent);
+            finish();
+        }
+    }
+
     private void loginWithStart() {
         loginWithServerStart();
         loginWithGoogleStart();
         loginWithNaverStart();
+        loginWithFacebookStart();
     }
 
     private void setListener() {
@@ -124,6 +147,25 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
 
         loginViewBinding.buttonOAuthLoginImg.setOAuthLoginHandler(mOAuthLoginHandler);
         loginViewBinding.buttonOAuthLoginImg2.setOAuthLoginHandler(mOAuthLoginHandler);
+
+        loginViewBinding.loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Intent intent = new Intent(LoginView.this, ListView.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
     }
 
     @Override
@@ -134,7 +176,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == GOOGLELOGINREQ) {
             // The Task returned from this call is always completed, no need to attach

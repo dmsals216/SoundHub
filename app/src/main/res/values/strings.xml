@@ -17,4 +17,7 @@
         <item>classic</item>
         <item>others</item>
     </array>
+
+    <string name="facebook_app_id">1977439629178361</string>
+    <string name="fb_login_protocol_scheme">fb1977439629178361</string>
 </resources>

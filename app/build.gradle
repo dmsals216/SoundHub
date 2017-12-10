@@ -64,7 +64,7 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
 
 //    To use Google-Sign-in
-    compile 'com.google.android.gms:play-services-auth:11.6.0'
+    implementation 'com.google.android.gms:play-services-auth:11.6.0'
 
 //    To use Naver_Id_Login
     implementation files('libs/naveridlogin_android_sdk_4.2.0.aar')
@@ -73,6 +73,9 @@ dependencies {
     implementation 'com.android.support:support-v4:26.1.0'
 //    To use audioWave
     implementation 'com.github.alxrm:audiowave-progressbar:0.9'
+
+//    To use Facebook Login
+    implementation 'com.facebook.android:facebook-login:[4,5)'
 }
 
 // Google Sign-in

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -50,6 +52,14 @@ public class SignUtil {
         );
         if(null != mOAuthLoginModule.getAccessToken(context)) {
             mOAuthLoginModule.logout(context);
+            setClear();
+            Intent intent = new Intent(context, LoginView.class);
+            context.startActivity(intent);
+            activity.finishAffinity();
+        }
+
+        if(AccessToken.getCurrentAccessToken() != null) {
+            LoginManager.getInstance().logOut();
             setClear();
             Intent intent = new Intent(context, LoginView.class);
             context.startActivity(intent);
