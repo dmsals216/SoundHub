@@ -2,6 +2,7 @@ package com.heepie.soundhub.controller;
 
 import android.content.Context;
 import android.databinding.ObservableField;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
@@ -65,29 +66,27 @@ public class PlayerController {
     }
 
     public void setMusic(List<String> urls) {
-        // audio 파형을 그리기 위한 데이터
-        File file = new File(context.getExternalFilesDir(null) + File.separator + "heepie2.mp3");
-        if(file.exists()){
-            MediaPlayer player = MediaPlayer.create(context, Uri.fromFile(file));
-
-            player.start();
-        } else {
-            Log.e("heepie", "없음");
-        }
-
-        /*public void setMusic(String url) {
+        for (String url : urls) {
             Log.d(TAG, "setMusic: " + url);
+
             new Thread(() -> {
-                player.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                MediaPlayer track = new MediaPlayer();
+                track.setAudioStreamType(AudioManager.STREAM_MUSIC);
                 try {
-                    player.setDataSource(url);
-                    player.prepare();
-                    play(playerList);
+                    track.setDataSource(url);
+                    track.prepare();
+                    playerList.add(track);
+                    countOfsession.set(countOfsession.get()+1);
+
+                    // 모든 session이 준비가 완료되었다면 play 실행
+                    if (countOfsession.get() == urls.size())
+                        play(playerList);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-        }).start();*/
 
+            }).start();
+        }
     }
 
     private void play(List<MediaPlayer> playerList) {

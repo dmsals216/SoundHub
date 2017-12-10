@@ -93,7 +93,7 @@ public class DetailViewModel {
         Log.d(TAG, "onClickedPlay: Clicked");
         switch (PlayerController.playerStatus) {
             case Const.ACTION_MUSIC_NOT_INIT:
-//                checkSelectedTrack();
+                checkSelectedTrack();
 
                 player.setMusic(urls);
                 ((Button)view).setText("일시정지");
