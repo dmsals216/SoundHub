@@ -145,6 +145,8 @@ public class DetailViewModel {
         }
     }
 
+
+
 /*    // 체크박스로 선택된 track 추출
     public void checkSelectedTrack() {
         // 임시 데이터
@@ -153,4 +155,8 @@ public class DetailViewModel {
             urls.add(track.getComment_track());
         }
     }*/
+
+    public void onPause() {
+        player.stopPlaying();
+    }
 }

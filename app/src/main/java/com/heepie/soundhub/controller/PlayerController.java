@@ -18,6 +18,8 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -39,6 +41,12 @@ public class PlayerController {
     private int maxDuration;
     public ObservableField<Float> curDuration;
 
+    // Dispose 가능한 객체 선언
+    private Disposable durationTimer;
+
+    // Dispose 가능한 객체를 담아 놓을 수 있는 Container 선언
+    private CompositeDisposable observableDisposal;
+
     private PlayerController() {
         mPlayer = new MediaPlayer();
         playerStatus = Const.ACTION_MUSIC_NOT_INIT;
@@ -46,6 +54,7 @@ public class PlayerController {
         countOfsession = new AtomicInteger(0);
 
         curDuration = new ObservableField<>();
+        observableDisposal = new CompositeDisposable();
 
     }
 
@@ -113,6 +122,8 @@ public class PlayerController {
     }
 
     public void stopPlaying() {
+        // Dispose 객체 Clear
+        observableDisposal.clear();
         mPlayer.reset();
     }
 
@@ -120,19 +131,19 @@ public class PlayerController {
         this.context = context;
     }
 
-
+    // 1초마다 값을 변경하는 Observable
     private Observable<Float> makeDurationSubscr() {
         Observable mDurationSubscr = Observable.create(new ObservableOnSubscribe<Float>() {
             @Override
             public void subscribe(ObservableEmitter<Float> e) throws Exception {
                 try {
-                    for (int i = 0; i < maxDuration; i = i + 1) {
+                    for (int i = 1; i < maxDuration+1; i = i + 1) {
                         e.onNext((i*(100/Float.parseFloat(maxDuration+""))));
                         Thread.sleep(1000);
                     }
                     e.onComplete();
                 } catch (Exception ex) {
-                    e.onError(ex.getCause());
+
                 }
             }
         });
@@ -140,15 +151,21 @@ public class PlayerController {
         return mDurationSubscr;
     }
 
+    // 해당 Observable을 실행하는 메소드
     private void startDurationTimer() {
-        makeDurationSubscr()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        curProgress -> {
-                            Log.d(TAG, "startDurationTimer: " + curProgress);
-                            curDuration.set(curProgress);
-                        }
-                );
+        durationTimer =
+                makeDurationSubscr()
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(
+                            curProgress -> {
+                                Log.d(TAG, "startDurationTimer: " + curProgress);
+                                curDuration.set(curProgress);
+                            }
+                    );
+        // Container에 등록
+        observableDisposal.add(durationTimer);
     }
+
+
 }

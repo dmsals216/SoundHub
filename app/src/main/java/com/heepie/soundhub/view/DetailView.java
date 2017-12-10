@@ -55,4 +55,10 @@ public class DetailView extends AppCompatActivity {
         // ViewModel에 설정
         viewModel.setPost(model);
     }
+
+    @Override
+    protected void onPause() {
+        viewModel.onPause();
+        super.onPause();
+    }
 }
