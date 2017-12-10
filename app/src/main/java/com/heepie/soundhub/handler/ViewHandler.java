@@ -14,6 +14,7 @@ import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.view.DetailView;
+import com.heepie.soundhub.view.ListView;
 import com.heepie.soundhub.view.UserPageView;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
@@ -98,7 +99,11 @@ public class ViewHandler {
 
         if (intent != null)
             v.getContext().startActivity(intent);*/
+    }
 
-
+    public void onClickedSetting(View v) {
+        Intent intent = new Intent(v.getContext(), UserPageView.class);
+        intent.putExtra("user", Const.user);
+        v.getContext().startActivity(intent);
     }
 }

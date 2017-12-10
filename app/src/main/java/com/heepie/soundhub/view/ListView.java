@@ -25,6 +25,7 @@ import com.heepie.soundhub.databinding.PopulPostViewBinding;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.logic.UserApi;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.handler.ViewHandler;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.ListViewModel;
 import com.heepie.soundhub.viewmodel.PostViewModel;
@@ -119,6 +120,10 @@ public class ListView extends AppCompatActivity {
         // 네비게이션 뷰(액션바 햄버거) 설정
         NavigationHeaderBinding navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_header,listBinding.navigation,false);
         listBinding.navigation.addHeaderView(navigationViewHeaderBinding.getRoot());
+        navigationViewHeaderBinding.setModel(Const.user);
+        navigationViewHeaderBinding.setViewhandler(ViewHandler.getIntance());
+
+
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, listBinding.drawerLayout, listBinding.toolbar, 0, 0);
@@ -134,17 +139,11 @@ public class ListView extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 Toast.makeText(ListView.this, item.getTitle(), Toast.LENGTH_SHORT).show();
                 switch (item.getTitle().toString()) {
-
                     case "Home":
                         listBinding.genreCategory.setVisibility(View.GONE);
                         listBinding.instrumentCategory.setVisibility(View.GONE);
                         initData(Const.CATEGORY_DEFAULT);
                         listBinding.drawerLayout.closeDrawers();
-                        break;
-                    case "User Home":
-                        Intent intent = new Intent(ListView.this, UserPageView.class);
-                        intent.putExtra("user", Const.user);
-                        startActivity(intent);
                         break;
                 }
 
