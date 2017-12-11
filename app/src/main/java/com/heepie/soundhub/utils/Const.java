@@ -19,6 +19,8 @@ public class Const {
     public static final String ACTION_MUSIC_PLAY = "PLAY";
     public static final String ACTION_MUSIC_PAUSE = "PAUSE";
 
+    public static final int SELECT_AUDIO_TRACK = 50;
+
     public static final int CATEGORY_GENRE = 1;
     public static final int CATEGORY_INSTRUMENT = 2;
 

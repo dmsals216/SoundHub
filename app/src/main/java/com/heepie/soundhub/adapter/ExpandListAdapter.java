@@ -2,6 +2,7 @@ package com.heepie.soundhub.adapter;
 
 import android.databinding.DataBindingUtil;
 import android.databinding.ObservableArrayList;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -85,17 +86,19 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
 
+    DetailListChildBinding childBinding = null;
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        if (convertView == null) {
+//        if (convertView == null) {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            DetailListChildBinding childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent, false);
+            childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent, false);
             childBinding.setVariable(BR.model, getChild(groupPosition, childPosition));
             childBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
 
             return childBinding.getRoot();
-        }
-        return convertView;
+//        }
+
+//        return convertView;
     }
 
     @Override

@@ -14,18 +14,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.ListView">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".view.LoginView" />
         <activity android:name=".view.DetailView" />
         <activity android:name=".view.MusicUploadView" />
         <activity android:name=".view.UserPageView" />
         <activity android:name=".BaseActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".view.RecordView"
             android:theme="@style/DialogTheme"></activity>

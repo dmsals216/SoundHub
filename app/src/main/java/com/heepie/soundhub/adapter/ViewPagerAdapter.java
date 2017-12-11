@@ -1,5 +1,6 @@
 package com.heepie.soundhub.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.BaseObservable;
 import android.databinding.DataBindingUtil;
@@ -12,6 +13,8 @@ import android.view.ViewGroup;
 import com.heepie.soundhub.BR;
 import com.heepie.soundhub.handler.ViewHandler;
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.view.DetailView;
+import com.heepie.soundhub.view.RecordView;
 import com.heepie.soundhub.viewmodel.DetailViewModel;
 
 /**
@@ -21,10 +24,12 @@ import com.heepie.soundhub.viewmodel.DetailViewModel;
 public class ViewPagerAdapter extends PagerAdapter {
     private Context context;
     private int[] layoutResIds;
+    private Activity activity;
 
-    public ViewPagerAdapter(Context context, int[] layoutResIds) {
+    public ViewPagerAdapter(Context context, int[] layoutResIds, Activity activity) {
         this.context = context;
         this.layoutResIds = layoutResIds;
+        this.activity = activity;
     }
 
     @Override
@@ -33,6 +38,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         ViewDataBinding binding = DataBindingUtil.inflate(inflater, layoutResIds[position], container, false);
         binding.setVariable(BR.viewHandler, ViewHandler.getIntance());
         binding.setVariable(BR.viewModel, DetailViewModel.getInstance());
+        binding.setVariable(BR.view, activity);
 
         container.addView(binding.getRoot());
 

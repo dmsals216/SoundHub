@@ -1,10 +1,15 @@
 package com.heepie.soundhub.view;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableField;
+import android.net.Uri;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.controller.PlayerController;
@@ -12,12 +17,17 @@ import com.heepie.soundhub.databinding.DetailViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
 import com.heepie.soundhub.domain.logic.DataAPI;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.PathUtil;
 import com.heepie.soundhub.viewmodel.DetailViewModel;
+
+import java.io.File;
 
 public class DetailView extends AppCompatActivity {
     final String TAG = getClass().getSimpleName();
     private DetailViewBinding binding;
     private DetailViewModel viewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -1,5 +1,6 @@
 package com.heepie.soundhub.viewmodel;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.ObservableField;
@@ -24,6 +25,12 @@ import com.heepie.soundhub.view.RecordView;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Heepie on 2017. 12. 1..
  */
@@ -43,8 +50,9 @@ public class DetailViewModel {
     private String mRecordFilePath;
 
     private StringBuilder urlBuilder;
-
     public ObservableField<String> masterPath;
+
+    private Activity activity;
 
     public static DetailViewModel getInstance() {
         if (instance == null)
@@ -58,8 +66,9 @@ public class DetailViewModel {
         commentAPI = CommentAPI.getInstance();
     }
 
-    public void initContext(Context context) {
-        this.context = context;
+    public void initContext(Activity activity) {
+        this.activity = activity;
+        this.context = activity;
         player = PlayerController.getInstance();
         player.initPlayer(context);
 
@@ -127,40 +136,7 @@ public class DetailViewModel {
         checkSelectedTrack();
 
         Intent intent = new Intent(view.getContext(), RecordView.class);
-        intent.putStringArrayListExtra("SelectedURLs", urls);
         view.getContext().startActivity(intent);
-//        Toast.makeText(view.getContext(), "onClickedUpLoad", Toast.LENGTH_SHORT).show();
-
-
-
-/*
-        // 녹음 기능
-        onRecording = (onRecording == true) ? false : true;
-
-        if (onRecording) {
-            Toast.makeText(view.getContext(), "onRecording", Toast.LENGTH_SHORT).show();
-
-            // 재생을 멈추고 녹음 시작
-            player.stopPlaying();
-            recorder.startRecording();
-
-            ((Button)view).setText("녹음 중지");
-        } else {
-            mRecordFilePath = recorder.stopRecording();
-            // 녹음을 멈추고 재생 시작
-            player.startPlaying(mRecordFilePath, 0);
-
-            commentAPI.pushComment(post.getId(), "Guitar", mRecordFilePath,
-                                  (code, msg, body) -> {
-                Comment_track commentTrack = ((Comment_track)body);
-                Log.d(TAG, "onClickedUpLoad: " + body.toString());
-                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
-            });
-
-
-            Toast.makeText(view.getContext(), "offRecording", Toast.LENGTH_SHORT).show();
-            ((Button)view).setText("녹음 시작");
-        }*/
     }
 
     // 체크박스로 선택된 track 추출
@@ -172,6 +148,8 @@ public class DetailViewModel {
                     urlBuilder.append(BuildConfig.FILE_SERVER_URL)
                             .append("media/")
                             .append(track.getComment_track());
+
+                    Log.d(TAG, "checkSelectedTrack: " + urlBuilder.toString());
 
                     urls.add(urlBuilder.toString());
                 }
@@ -189,8 +167,35 @@ public class DetailViewModel {
 
     public void onClickedRecord(View v, View targetView) {
         Toast.makeText(v.getContext(), "onClickedRecord", Toast.LENGTH_SHORT).show();
-
         checkSelectedTrack();
+
+        /*targetView.setVisibility(View.VISIBLE);
+
+        Observable<String> createCounter = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
+                try {
+                    String text="";
+                    for (int i=3; i>=0; i=i-1) {
+                        text = (i == 0) ? "START!" : i+"";
+                        e.onNext(text);
+                        Thread.sleep(1000);
+                    }
+                    e.onComplete();
+                } catch (Exception ex) {
+
+                }
+            }
+        });
+
+        createCounter.observeOn(Schedulers.io())
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        string -> {
+                            Log.d(TAG, "onClickedRecord: " + string);
+                        }
+                );
+*/
 
         // 녹음 기능
         onRecording = (onRecording == true) ? false : true;
@@ -207,16 +212,33 @@ public class DetailViewModel {
             player.startPlaying(mRecordFilePath, 0);
             player.pause();
             ((ImageButton)v).setImageResource(android.R.drawable.btn_minus);
-            /*commentAPI.pushComment(post.getId(), "Guitar", mRecordFilePath,
-                    (code, msg, body) -> {
-                        Comment_track commentTrack = ((Comment_track)body);
-                        Log.d(TAG, "onClickedUpLoad: " + body.toString());
-                        post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
-                    });*/
+
         }
     }
 
-    public void onClickedFileUpload(View v) {
-        Toast.makeText(v.getContext(), "onClickedFileUpload", Toast.LENGTH_SHORT).show();
+    public void onUploadFrAudio (View v, Activity callFrom) {
+        if (mRecordFilePath == null)
+            Toast.makeText(v.getContext(), "먼저 녹음을 해주세요.", Toast.LENGTH_SHORT).show();
+        else {
+            commentAPI.pushComment(post.getId(), "Keyboard", mRecordFilePath,
+            (code, msg, body) -> {
+                Comment_track commentTrack = ((Comment_track)body);
+                Log.d(TAG, "onClickedUpLoad: " + body.toString());
+                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+            });
+            callFrom.finish();
+        }
+
+
+    }
+
+    public void onUploadFrFile (View v, Activity callFrom) {
+        Toast.makeText(v.getContext(), "onClicked Upload From File Btn", Toast.LENGTH_SHORT).show();
+        callFrom.finish();
+    }
+
+    public void onClickedRepeat(View v) {
+        player.stopPlaying();
+        player.startPlaying(mRecordFilePath, 0);
     }
 }

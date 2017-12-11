@@ -1,5 +1,6 @@
 package com.heepie.soundhub.binding;
 
+import android.app.Activity;
 import android.databinding.BindingAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -13,11 +14,11 @@ import com.heepie.soundhub.adapter.ViewPagerAdapter;
  */
 
 public class ViewPagerBinding {
-    @BindingAdapter("setViewPagerLayout")
-    public static void setViewPagerLayout(View view, int[] layoutResIds) {
+    @BindingAdapter({"setViewPagerLayout", "setActivity"})
+    public static void setViewPagerLayout(View view, int[] layoutResIds, Activity activity) {
         if (view instanceof ViewPager) {
             Log.d("ViewPagerBinding", "setViewPagerLayout: " + "a");
-            ViewPagerAdapter adapter = new ViewPagerAdapter(view.getContext(), layoutResIds);
+            ViewPagerAdapter adapter = new ViewPagerAdapter(view.getContext(), layoutResIds, activity);
             ((ViewPager)view).setAdapter(adapter);
         }
     }
