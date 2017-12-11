@@ -29,7 +29,7 @@ public class ListViewModel extends BaseObservable {
     private DataAPI dataAPI;
     private Data data;
 
-
+    public String[][] category;
 
     @Bindable
     public UsersViewModel populUsers;
@@ -46,12 +46,38 @@ public class ListViewModel extends BaseObservable {
         populPosts = new PostsViewModel();
         newPosts = new PostsViewModel();
         this.context = context;
+        category = new String[2][9];
     }
 
     public void resetData() {
         populUsers.users.clear();
         populPosts.posts.clear();
         newPosts.posts.clear();
+    }
+
+    @Bindable
+    public String[][] getCategory() {
+        return category;
+    }
+
+    public void setDisplayCategory() {
+        // 더미 데이터
+        category[0][0] = "Pop";
+        category[0][1] = "Rock";
+        category[0][2] = "Jazz";
+        category[0][3] = "Hiphop";
+        category[0][4] = "Electronic";
+        category[0][5] = "Classic";
+        category[0][6] = "Others";
+
+        Log.d(TAG, "setDisplayCategory: " + category[0][7]);
+
+        category[1][0] = "Vocal";
+        category[1][1] = "Guitar";
+        category[1][2] = "Bass";
+        category[1][3] = "Drums";
+        category[1][4] = "Keyboard";
+        category[1][5] = "Others";
     }
 
     public void setDisplayData(String category) {
@@ -65,6 +91,7 @@ public class ListViewModel extends BaseObservable {
                             // 네트워크로 입력 받은 데이터 DataModel에 셋팅
                             dataAPI.setModelData(jsonData.body());
                             data = jsonData.body();
+//                            Log.d(TAG, "setDisplayData: " + data.getPop_posts().get(0).getComment_tracks().get("Bass").get(1).getId());
                             setData(data);
                         });
     }
@@ -77,14 +104,18 @@ public class ListViewModel extends BaseObservable {
 
         // 최초 5개 설정
         for (int i=0; i<Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
-            Post post = data.getPop_posts().get(i);
-            populPosts.addPostViewModel(new PostViewModel(post));
+            if (data.getPop_posts().size() > i) {
+                Post post = data.getPop_posts().get(i);
+                populPosts.addPostViewModel(new PostViewModel(post));
+            }
         }
 
         // 최초 5개 설정
         for (int i=0; i<Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
-            Post post = data.getRecent_posts().get(i);
-            newPosts.addPostViewModel(new PostViewModel(post));
+            if (data.getRecent_posts().size() > i) {
+                Post post = data.getRecent_posts().get(i);
+                newPosts.addPostViewModel(new PostViewModel(post));
+            }
         }
     }
 

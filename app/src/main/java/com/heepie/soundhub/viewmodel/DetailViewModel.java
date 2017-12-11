@@ -11,7 +11,9 @@ import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.controller.RecordController;
+import com.heepie.soundhub.domain.logic.CommentAPI;
 import com.heepie.soundhub.domain.logic.FileApi;
+import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
 
@@ -24,12 +26,17 @@ import java.util.List;
 
 public class DetailViewModel {
     public final String TAG = getClass().getSimpleName();
-    private PlayerController player;
+    public PlayerController player;
     private RecordController recorder;
+    private CommentAPI commentAPI;
+
     private Post post;
     private List<String> urls;
     private String url;
     private Context context;
+    private String mRecordFilePath;
+
+    private StringBuilder urlBuilder;
 
     public ObservableField<String> masterPath;
 
@@ -38,11 +45,10 @@ public class DetailViewModel {
         this.post = post;
 
         // 무조건 실행되는 Author 트랙 초기 설정
-        StringBuilder urlBuilder = new StringBuilder();
+        urlBuilder = new StringBuilder();
         urlBuilder.append(BuildConfig.FILE_SERVER_URL)
                 .append("media/")
                 .append(post.getAuthor_track());
-
 
         url = urlBuilder.toString();
 
@@ -61,10 +67,13 @@ public class DetailViewModel {
         this.context = context;
         urls = new ArrayList<>();
         masterPath = new ObservableField<>("");
+
+        commentAPI = CommentAPI.getInstance();
+
     }
 
     private void setMasterTrackWave() {
-        FileApi.getInstance().getMusic(context, url, new ICallback() {
+        FileApi.getInstance().getMusic(context, url, post.getId(), new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
                 Log.i("heepie", code+" " + msg + " " + data);
@@ -77,7 +86,6 @@ public class DetailViewModel {
     public void onClickedMerge(View view) {
         Log.d(TAG, "onClickedMerge: Clicked");
         Toast.makeText(view.getContext(), "onClickedMerge", Toast.LENGTH_SHORT).show();
-
 
     }
 
@@ -113,21 +121,50 @@ public class DetailViewModel {
 
         if (onRecording) {
             Toast.makeText(view.getContext(), "onRecording", Toast.LENGTH_SHORT).show();
+
+            // 재생을 멈추고 녹음 시작
+            player.stopPlaying();
             recorder.startRecording();
+
             ((Button)view).setText("녹음 중지");
         } else {
-            player.startPlaying(recorder.stopRecording());
+            mRecordFilePath = recorder.stopRecording();
+            // 녹음을 멈추고 재생 시작
+            player.startPlaying(mRecordFilePath, 0);
+
+            commentAPI.pushComment(post.getId(), "Guitar", mRecordFilePath,
+                                  (code, msg, body) -> {
+                Comment_track commentTrack = ((Comment_track)body);
+                Log.d(TAG, "onClickedUpLoad: " + body.toString());
+                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+            });
+
+
             Toast.makeText(view.getContext(), "offRecording", Toast.LENGTH_SHORT).show();
             ((Button)view).setText("녹음 시작");
         }
     }
 
-/*    // 체크박스로 선택된 track 추출
+    // 체크박스로 선택된 track 추출
     public void checkSelectedTrack() {
-        // 임시 데이터
-        for (Comment_tracks track : post.getComment_tracks()) {
-            Log.d(TAG, "checkSelectedTrack: Url " + track.getComment_track());
-            urls.add(track.getComment_track());
+        for(String instrument : post.getComment_tracks().keySet()) {
+            for(Comment_track track : post.getComment_tracks().get(instrument)) {
+                if (track.getIsCheck()) {
+                    urlBuilder = new StringBuilder();
+                    urlBuilder.append(BuildConfig.FILE_SERVER_URL)
+                            .append("media/")
+                            .append(track.getComment_track());
+
+                    urls.add(urlBuilder.toString());
+                }
+            }
         }
-    }*/
+
+        for (String url : urls)
+            Log.d(TAG, "onClickedMerge: " + url);
+    }
+
+    public void onPause() {
+        player.stopPlaying();
+    }
 }

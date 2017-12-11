@@ -9,11 +9,14 @@ import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.logic.DataAPI;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.logic.UserApi;
+import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Data;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.view.DetailView;
+import com.heepie.soundhub.view.ListView;
+import com.heepie.soundhub.view.UserPageView;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
 import com.heepie.soundhub.viewmodel.UserViewModel;
@@ -91,11 +94,21 @@ public class ViewHandler {
     }
 
     public void onClickUserItem(View v, User model) {
-//        Intent intent = new Intent(v.getContext(), DetailView.class);
+        Intent intent = new Intent(v.getContext(), UserPageView.class);
         // 넘겨줄 데이터 설정
-//        intent.putExtra("model", model);
-/*
+        intent.putExtra("user", model);
+
         if (intent != null)
-            v.getContext().startActivity(intent);*/
+            v.getContext().startActivity(intent);
+    }
+
+    public void onClickedSetting(View v) {
+        Intent intent = new Intent(v.getContext(), UserPageView.class);
+        intent.putExtra("user", Const.user);
+        v.getContext().startActivity(intent);
+    }
+
+    public void onClickedCheckBox(View v, Comment_track track) {
+        Toast.makeText(v.getContext(), track.getComment_track(), Toast.LENGTH_SHORT).show();
     }
 }

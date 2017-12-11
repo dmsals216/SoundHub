@@ -7,13 +7,14 @@
 
     <data>
         <variable
+            name="View"
+            type="android.view.View"/>
+        <variable
             name="view"
             type="com.heepie.soundhub.view.ListView"/>
         <variable
             name="viewModel"
             type="com.heepie.soundhub.viewmodel.ListViewModel"/>
-
-
     </data>
 
     <!--<android.support.v4.widget.DrawerLayout
@@ -99,7 +100,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
-                    android:id="@+id/category"
+                    android:id="@+id/genre_category"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/darker_gray"
@@ -117,7 +118,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][0]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][0]}"
                             />
 
                         <Button
@@ -125,7 +129,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][1]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][1]}"
                             />
 
                         <Button
@@ -133,7 +140,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][2]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][2]}"
                             />
 
                     </LinearLayout>
@@ -148,7 +158,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][3]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][3]}"
                             />
 
                         <Button
@@ -156,7 +169,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][4]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][4]}"
                             />
 
                         <Button
@@ -164,7 +180,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][5]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][5]}"
                             />
 
                     </LinearLayout>
@@ -179,7 +198,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][6]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][6]}"
                             />
 
                         <Button
@@ -187,7 +209,10 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][7]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][7]}"
                             />
 
                         <Button
@@ -195,14 +220,137 @@
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[0][8]}"
                             android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[0][8]}"
                             />
 
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:id="@+id/instrument_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/darker_gray"
+                    android:elevation="7dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][0]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][0]}"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][1]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][1]}"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][2]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][2]}"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][3]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][3]}"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][4]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][4]}"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][5]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][5]}"
+                            />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1">
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][6]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][6]}"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][7]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][7]}"
+                            />
+
+                        <Button
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:textAllCaps="false"
+                            android:text="@{viewModel.category[1][8]}"
+                            android:onClick="@{view::onClickedCategory}"
+                            app:setVisible="@{viewModel.category[1][8]}"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
 
 
                 <android.support.v7.widget.RecyclerView

@@ -19,9 +19,7 @@ import com.heepie.soundhub.handler.ViewHandler;
  */
 
 public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends RecyclerView.Adapter<InnerRecyclerAdapter.Holder> {
-    private int index;
     ObservableArrayList<T> mItems;
-    ObservableArrayList<T> realItems;
     int layoutResId;
 
     public InnerRecyclerAdapter() {

@@ -10,6 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 
 /**
  * Created by Heepie on 2017. 12. 6..
@@ -51,14 +52,10 @@ public class DataAPI {
         IData service = retrofit.create(IData.class);
 
         // 카테고리 별 분기
-        switch (category) {
-            case Const.CATEGORY_DEFAULT:
-                return service.getAllData();
-            // case Const.CATEGORY_GUITAR
+        if (category == Const.CATEGORY_DEFAULT)
+            return service.getData("");
 
-            default:
-                return service.getAllData();
-        }
+        return service.getData(category);
     }
 
     public Data getModelData() {
@@ -70,7 +67,7 @@ public class DataAPI {
     }
 
     public interface IData {
-        @GET("home")
-        Observable<Response<Data>> getAllData();
+        @GET("home/{category}")
+        Observable<Response<Data>> getData(@Path("category") String category);
     }
 }

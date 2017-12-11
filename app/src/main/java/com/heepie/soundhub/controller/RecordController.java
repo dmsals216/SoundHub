@@ -22,13 +22,11 @@ public class RecordController {
 
     private RecordController() {
         mRecorder = new MediaRecorder();
-        mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        /*mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
-        /*mRecorder.setProfile();
+        *//*mRecorder.setProfile();
         CamcorderProfile profile = new CamcorderProfile();*/
-
-
     }
 
     public static RecordController getInstance() {
@@ -41,6 +39,7 @@ public class RecordController {
 
     public void startRecording() {
         try {
+            prepareRecord();
             mRecorder.prepare();
         } catch (IOException e) {
             Log.e(TAG, "prepare() failed");
@@ -53,17 +52,17 @@ public class RecordController {
         mRecorder.stop();
 //        mRecorder.release();
 //        mRecorder = null;
-        prepareRecord();
+
         return mFileName;
     }
 
     public void initRecorder(Context context) {
         this.context = context;
 
-        mFileName = context.getExternalCacheDir().getAbsolutePath();
+        /*mFileName = context.getExternalCacheDir().getAbsolutePath();
         // 임시 파일 이름
-        mFileName += "/tmp.mp3";
-        mRecorder.setOutputFile(mFileName);
+        mFileName += "/record.mp3";
+        mRecorder.setOutputFile(mFileName);*/
     }
 
     public void prepareRecord() {
@@ -73,7 +72,7 @@ public class RecordController {
 
         mFileName = context.getExternalCacheDir().getAbsolutePath();
         // 임시 파일 이름
-        mFileName += "/tmp.mp3";
+        mFileName += "/record.mp3";
         mRecorder.setOutputFile(mFileName);
     }
 }

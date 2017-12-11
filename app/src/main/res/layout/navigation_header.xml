@@ -5,8 +5,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="view"
-            type="com.heepie.soundhub.view.ListView"/>
+            name="viewhandler"
+            type="com.heepie.soundhub.handler.ViewHandler"/>
+        <variable
+            name="model"
+            type="com.heepie.soundhub.domain.model.User"/>
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -30,7 +33,6 @@
             android:layout_marginTop="8dp"
             android:src="@drawable/test"
             android:scaleType="fitXY"
-            android:onClick="@{view::onClickedUserImage}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,19 +44,20 @@
             android:layout_marginBottom="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:text="해당 Nick_Name"
+            android:text="@{model.nickname}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/user_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/imageButton"
+            android:id="@+id/settingBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginEnd="8dp"
             android:layout_marginTop="2dp"
             android:background="@android:color/transparent"
             android:scaleType="fitXY"
+            android:onClick="@{viewhandler::onClickedSetting}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/setting" />
