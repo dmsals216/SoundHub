@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.heepie.soundhub">
-
     // 녹음 권한 추가
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -21,13 +20,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.LoginView"></activity>
-        <activity android:name=".view.DetailView"></activity>
-        <activity android:name=".view.MusicUploadView"></activity>
-        <activity android:name=".view.UserPageView"></activity>
+        <activity android:name=".view.LoginView" />
+        <activity android:name=".view.DetailView" />
+        <activity android:name=".view.MusicUploadView" />
+        <activity android:name=".view.UserPageView" />
         <activity android:name=".BaseActivity">
 
         </activity>
+        <activity android:name=".view.RecordView"
+            android:theme="@style/DialogTheme"></activity>
     </application>
 
 </manifest>

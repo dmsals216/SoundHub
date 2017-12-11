@@ -3,6 +3,7 @@ package com.heepie.soundhub.handler;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.heepie.soundhub.R;
@@ -23,11 +24,19 @@ import com.heepie.soundhub.viewmodel.UserViewModel;
 
 import java.io.InputStream;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Heepie on 2017. 11. 30..
  */
 
 public class ViewHandler {
+    public final String TAG = getClass().getSimpleName();
+
     public static ViewHandler intance;
     private int populPostIndex;
     private int newPostIndex;
@@ -108,7 +117,42 @@ public class ViewHandler {
         v.getContext().startActivity(intent);
     }
 
-    public void onClickedCheckBox(View v, Comment_track track) {
-        Toast.makeText(v.getContext(), track.getComment_track(), Toast.LENGTH_SHORT).show();
+    public void onClickedRecord(View v, View targetView) {
+        Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+
+        targetView.setVisibility(View.VISIBLE);
+
+        Observable<String> createCounter = Observable.create(new ObservableOnSubscribe<String>() {
+            @Override
+            public void subscribe(ObservableEmitter<String> e) throws Exception {
+                try {
+                    String text="";
+                    for (int i=3; i>=0; i=i-1) {
+                        text = (i == 0) ? "START!" : i+"";
+                        e.onNext(text);
+                        Thread.sleep(1000);
+                    }
+                    e.onComplete();
+                } catch (Exception ex) {
+
+                }
+            }
+        });
+
+        createCounter.observeOn(Schedulers.io())
+                     .subscribeOn(AndroidSchedulers.mainThread())
+                     .subscribe(
+                             string -> {
+                                 Log.d(TAG, "onClickedRecord: " + string);
+                             }
+                     );
+
+
+
+//        targetView.setVisibility(View.GONE);
+
+
+
     }
+
 }

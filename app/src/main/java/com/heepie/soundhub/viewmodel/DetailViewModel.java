@@ -1,13 +1,16 @@
 package com.heepie.soundhub.viewmodel;
 
 import android.content.Context;
+import android.content.Intent;
 import android.databinding.ObservableField;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.heepie.soundhub.BuildConfig;
+import com.heepie.soundhub.R;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.controller.RecordController;
@@ -16,6 +19,7 @@ import com.heepie.soundhub.domain.logic.FileApi;
 import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.view.RecordView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +30,14 @@ import java.util.List;
 
 public class DetailViewModel {
     public final String TAG = getClass().getSimpleName();
+    public static DetailViewModel instance;
+
     public PlayerController player;
     private RecordController recorder;
     private CommentAPI commentAPI;
 
     private Post post;
-    private List<String> urls;
+    public ArrayList<String> urls;
     private String url;
     private Context context;
     private String mRecordFilePath;
@@ -40,6 +46,26 @@ public class DetailViewModel {
 
     public ObservableField<String> masterPath;
 
+    public static DetailViewModel getInstance() {
+        if (instance == null)
+            instance = new DetailViewModel();
+        return instance;
+    }
+
+    private DetailViewModel() {
+        urls = new ArrayList<>();
+        masterPath = new ObservableField<>("");
+        commentAPI = CommentAPI.getInstance();
+    }
+
+    public void initContext(Context context) {
+        this.context = context;
+        player = PlayerController.getInstance();
+        player.initPlayer(context);
+
+        recorder = RecordController.getInstance();
+        recorder.initRecorder(context);
+    }
 
     public void setPost(Post post) {
         this.post = post;
@@ -54,22 +80,6 @@ public class DetailViewModel {
 
         urls.add(urlBuilder.toString());
         setMasterTrackWave();
-    }
-
-    public DetailViewModel(Context context) {
-        player = PlayerController.getInstance();
-        player.initPlayer(context);
-
-        recorder = RecordController.getInstance();
-        recorder.initRecorder(context);
-
-
-        this.context = context;
-        urls = new ArrayList<>();
-        masterPath = new ObservableField<>("");
-
-        commentAPI = CommentAPI.getInstance();
-
     }
 
     private void setMasterTrackWave() {
@@ -114,8 +124,16 @@ public class DetailViewModel {
 
     public void onClickedUpLoad(View view) {
         Log.d(TAG, "onClickedUpLoad: Clicked");
+        checkSelectedTrack();
+
+        Intent intent = new Intent(view.getContext(), RecordView.class);
+        intent.putStringArrayListExtra("SelectedURLs", urls);
+        view.getContext().startActivity(intent);
 //        Toast.makeText(view.getContext(), "onClickedUpLoad", Toast.LENGTH_SHORT).show();
 
+
+
+/*
         // 녹음 기능
         onRecording = (onRecording == true) ? false : true;
 
@@ -142,11 +160,11 @@ public class DetailViewModel {
 
             Toast.makeText(view.getContext(), "offRecording", Toast.LENGTH_SHORT).show();
             ((Button)view).setText("녹음 시작");
-        }
+        }*/
     }
 
     // 체크박스로 선택된 track 추출
-    public void checkSelectedTrack() {
+    private void checkSelectedTrack() {
         for(String instrument : post.getComment_tracks().keySet()) {
             for(Comment_track track : post.getComment_tracks().get(instrument)) {
                 if (track.getIsCheck()) {
@@ -166,5 +184,39 @@ public class DetailViewModel {
 
     public void onPause() {
         player.stopPlaying();
+    }
+
+
+    public void onClickedRecord(View v, View targetView) {
+        Toast.makeText(v.getContext(), "onClickedRecord", Toast.LENGTH_SHORT).show();
+
+        checkSelectedTrack();
+
+        // 녹음 기능
+        onRecording = (onRecording == true) ? false : true;
+
+        player.setMusic(urls);
+        if (onRecording) {
+            // 재생을 멈추고 녹음 시작
+            player.stopPlaying();
+            recorder.startRecording();
+            ((ImageButton)v).setImageResource(android.R.drawable.btn_minus);
+        } else {
+            mRecordFilePath = recorder.stopRecording();
+            // 녹음을 멈추고 재생 시작
+            player.startPlaying(mRecordFilePath, 0);
+            player.pause();
+            ((ImageButton)v).setImageResource(android.R.drawable.btn_minus);
+            /*commentAPI.pushComment(post.getId(), "Guitar", mRecordFilePath,
+                    (code, msg, body) -> {
+                        Comment_track commentTrack = ((Comment_track)body);
+                        Log.d(TAG, "onClickedUpLoad: " + body.toString());
+                        post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+                    });*/
+        }
+    }
+
+    public void onClickedFileUpload(View v) {
+        Toast.makeText(v.getContext(), "onClickedFileUpload", Toast.LENGTH_SHORT).show();
     }
 }

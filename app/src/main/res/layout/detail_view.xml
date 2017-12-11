@@ -248,6 +248,60 @@
             app:menu="@menu/drawer"
             />
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="70dp"
+            android:backgroundTint="@color/colorUser"
+            android:visibility="gone"
+            >
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorUser"
+                >
+
+                <Button
+                    android:id="@+id/button4"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="1dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toStartOf="@+id/button9"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button9"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="2dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/button4"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/button10"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginStart="2dp"
+                    android:text="Button"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </android.support.constraint.ConstraintLayout>
+
+
+
+        </FrameLayout>
 
 
     </android.support.v4.widget.DrawerLayout>

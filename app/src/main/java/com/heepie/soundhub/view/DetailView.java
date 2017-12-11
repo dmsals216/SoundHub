@@ -24,7 +24,8 @@ public class DetailView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         binding = DataBindingUtil.setContentView(this, R.layout.detail_view);
-        viewModel = new DetailViewModel(this);
+        viewModel = DetailViewModel.getInstance();
+        viewModel.initContext(this);
 
         initToolbar();
         initData();
