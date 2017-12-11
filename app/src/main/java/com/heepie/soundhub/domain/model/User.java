@@ -25,8 +25,15 @@ public class User implements Parcelable
 
     private String last_login;
 
-    public User() {
+    public User(){
 
+    }
+
+    public User(String id, String nickname, String email, String instrument) {
+        this.id = id;
+        this.nickname = nickname;
+        this.email = email;
+        this.instrument = instrument;
     }
 
     public String getTotal_liked() {

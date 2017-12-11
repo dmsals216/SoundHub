@@ -17,8 +17,15 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
+import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 
 /**
@@ -87,6 +94,9 @@ public class PostApi extends AbsApi {
         @GET("post")
         Observable<Response<List<Post>>> getPost();
 
+        @Multipart
+        @POST("post/")
+        Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part("instrument") RequestBody instrument, @Part("genre") RequestBody genre, @Part MultipartBody.Part author_track);
         @GET("post/{parm1}")
         Observable<Response<List<Post>>> getPost(@Path("parm1") String category);
     }
