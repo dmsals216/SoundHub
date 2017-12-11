@@ -29,11 +29,11 @@ public class UserPageView extends AppCompatActivity {
         viewModel.setUserName(user.getNickname());
         viewModel.setUserInstrument(user.getInstrument());
         if(user.getId().equals(Const.user.getId())) {
-
             viewModel.setCheck(true);
         }
         UserpageViewBinding binding = DataBindingUtil.setContentView(this, R.layout.userpage_view);
         binding.setViewModel(viewModel);
+
     }
 
     @Override
