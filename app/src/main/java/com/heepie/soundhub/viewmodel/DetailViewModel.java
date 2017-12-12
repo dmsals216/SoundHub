@@ -8,10 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.heepie.soundhub.BuildConfig;
-import com.heepie.soundhub.R;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.controller.RecordController;
@@ -23,12 +23,10 @@ import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.view.RecordView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -51,6 +49,8 @@ public class DetailViewModel {
 
     private StringBuilder urlBuilder;
     public ObservableField<String> masterPath;
+    public ObservableField<String> selectedInstrument;
+    public ObservableField<String> countDown;
 
     private Activity activity;
 
@@ -62,7 +62,9 @@ public class DetailViewModel {
 
     private DetailViewModel() {
         urls = new ArrayList<>();
-        masterPath = new ObservableField<>("");
+        masterPath = new ObservableField<>(" ");
+        selectedInstrument = new ObservableField<>(" ");
+        countDown = new ObservableField<>(" ");
         commentAPI = CommentAPI.getInstance();
     }
 
@@ -105,7 +107,6 @@ public class DetailViewModel {
     public void onClickedMerge(View view) {
         Log.d(TAG, "onClickedMerge: Clicked");
         Toast.makeText(view.getContext(), "onClickedMerge", Toast.LENGTH_SHORT).show();
-
     }
 
     public void onClickedPlayPause(View view) {
@@ -167,59 +168,63 @@ public class DetailViewModel {
 
     public void onClickedRecord(View v, View targetView) {
         Toast.makeText(v.getContext(), "onClickedRecord", Toast.LENGTH_SHORT).show();
-        checkSelectedTrack();
-
-        /*targetView.setVisibility(View.VISIBLE);
-
-        Observable<String> createCounter = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> e) throws Exception {
-                try {
-                    String text="";
-                    for (int i=3; i>=0; i=i-1) {
-                        text = (i == 0) ? "START!" : i+"";
-                        e.onNext(text);
-                        Thread.sleep(1000);
-                    }
-                    e.onComplete();
-                } catch (Exception ex) {
-
-                }
-            }
-        });
-
-        createCounter.observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        string -> {
-                            Log.d(TAG, "onClickedRecord: " + string);
-                        }
-                );
-*/
-
         // 녹음 기능
         onRecording = (onRecording == true) ? false : true;
 
-        player.setMusic(urls);
         if (onRecording) {
-            // 재생을 멈추고 녹음 시작
-            player.stopPlaying();
-            recorder.startRecording();
-            ((ImageButton)v).setImageResource(android.R.drawable.btn_minus);
+            // 녹음 진행 시작
+            checkSelectedTrack();
+            targetView.setVisibility(View.VISIBLE);
+
+            Observable<String> createCounter = Observable.create(new ObservableOnSubscribe<String>() {
+                @Override
+                public void subscribe(ObservableEmitter<String> e) throws Exception {
+                    try {
+                        String text="";
+                        for (int i=3; i>=-1; i=i-1) {
+                            text = (i == 0) ? "START!" : i+"";
+                            e.onNext(text);
+                            Thread.sleep(1000);
+                        }
+                        e.onComplete();
+                    } catch (Exception ex) {
+
+                    }
+                }
+            });
+
+            createCounter.observeOn(Schedulers.io())
+                    .subscribeOn(Schedulers.newThread())
+                    .subscribe(
+                            string -> {
+                                countDown.set(string);
+                            },
+                            throwable -> {},
+                            // 완료 처리
+                            () ->{
+                                //
+                                player.setMusic(urls);
+                                recorder.startRecording();
+                            }
+                    );
+            ((ImageButton)v).setImageResource(android.R.drawable.ic_media_pause);
         } else {
+            // 녹음이 진행 중지
             mRecordFilePath = recorder.stopRecording();
             // 녹음을 멈추고 재생 시작
             player.startPlaying(mRecordFilePath, 0);
             player.pause();
-            ((ImageButton)v).setImageResource(android.R.drawable.btn_minus);
-
+            ((ImageButton)v).setImageResource(android.R.drawable.ic_media_play);
         }
     }
 
     public void onUploadFrAudio (View v, Activity callFrom) {
-        if (mRecordFilePath == null)
+        Log.d(TAG, "onUploadFrAudio: " + selectedInstrument.get());
+        if (mRecordFilePath == null) {
             Toast.makeText(v.getContext(), "먼저 녹음을 해주세요.", Toast.LENGTH_SHORT).show();
-        else {
+        } else if(" ".equals(selectedInstrument.get()) || "Select your instrument".equals(selectedInstrument.get())) {
+            Toast.makeText(v.getContext(), "Select your instrument", Toast.LENGTH_SHORT).show();
+        } else {
             commentAPI.pushComment(post.getId(), "Keyboard", mRecordFilePath,
             (code, msg, body) -> {
                 Comment_track commentTrack = ((Comment_track)body);
@@ -228,13 +233,21 @@ public class DetailViewModel {
             });
             callFrom.finish();
         }
-
-
     }
 
-    public void onUploadFrFile (View v, Activity callFrom) {
-        Toast.makeText(v.getContext(), "onClicked Upload From File Btn", Toast.LENGTH_SHORT).show();
-        callFrom.finish();
+    public void onUploadFrFile (View v, View filePath, Activity callFrom) {
+        Toast.makeText(v.getContext(), "onClicked Upload From File Btn " + ((TextView)filePath).getText() + " Instrument: " + selectedInstrument.get(), Toast.LENGTH_SHORT).show();
+        /*if (filePath == null)
+            Toast.makeText(v.getContext(), "먼저 파일을 선택해 해주세요.", Toast.LENGTH_SHORT).show();
+        else {
+            commentAPI.pushComment(post.getId(), "Keyboard", ((TextView)filePath).getText().toString(),
+                    (code, msg, body) -> {
+                        Comment_track commentTrack = ((Comment_track)body);
+                        Log.d(TAG, "onClickedUpLoad: " + body.toString());
+//                        post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+                    });
+            callFrom.finish();
+        }*/
     }
 
     public void onClickedRepeat(View v) {

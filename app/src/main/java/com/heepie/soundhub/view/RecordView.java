@@ -80,7 +80,7 @@ public class RecordView extends AppCompatActivity {
             realPath = PathUtil.getPath(this, uri);
             File file = new File(realPath);
             Log.d(TAG, "onActivityResult: " + realPath);
-            mFileName.set(file.getName());
+            mFileName.set(realPath);
         }
     }
 }

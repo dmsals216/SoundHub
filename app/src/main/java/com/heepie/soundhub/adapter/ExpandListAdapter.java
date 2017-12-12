@@ -26,6 +26,7 @@ import java.util.Map;
  */
 
 public class ExpandListAdapter extends BaseExpandableListAdapter {
+    public final String TAG = getClass().getSimpleName();
     private List<String> groups;
     private Map<String, List<Comment_track>> comments;
 
@@ -74,31 +75,31 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         return false;
     }
 
+    DetailListGroupBinding groupBinding = null;
+    LayoutInflater inflater = null;
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+        Log.d(TAG, "getGroupView: " + groupPosition + "  " + getGroup(groupPosition));
         if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            DetailListGroupBinding groupBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_group, parent, false);
-            groupBinding.setName((String)getGroup(groupPosition));
-
-            return groupBinding.getRoot();
+            inflater = LayoutInflater.from(parent.getContext());
         }
+
+        groupBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_group, parent, false);
+        convertView = groupBinding.getRoot();
+        groupBinding.setName((String)getGroup(groupPosition));
+
         return convertView;
     }
 
     DetailListChildBinding childBinding = null;
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-//        if (convertView == null) {
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent, false);
-            childBinding.setVariable(BR.model, getChild(groupPosition, childPosition));
-            childBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        childBinding = DataBindingUtil.inflate(inflater, R.layout.detail_list_child, parent, false);
+        childBinding.setVariable(BR.model, getChild(groupPosition, childPosition));
+        childBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
 
-            return childBinding.getRoot();
-//        }
-
-//        return convertView;
+        return childBinding.getRoot();
     }
 
     @Override

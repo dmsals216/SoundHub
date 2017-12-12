@@ -38,13 +38,13 @@
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:text="Upload From File"
-            android:onClick="@{(v) -> viewModel.onUploadFrFile(v, view)}"
+            android:onClick="@{(v) -> viewModel.onUploadFrFile(v, fileName, view)}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView12"
+            android:id="@+id/fileName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
@@ -54,6 +54,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageButton" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:entries="@array/instruments"
+            android:selectedValue="@={viewModel.selectedInstrument}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
