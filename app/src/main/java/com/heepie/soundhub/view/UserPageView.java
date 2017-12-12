@@ -47,7 +47,6 @@ public class UserPageView extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(viewPager)
         );
-        // ViewPager의 변경사항을 탭레이아웃에 전달
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout)
         );
