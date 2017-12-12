@@ -57,7 +57,7 @@
                     android:id="@+id/profile_image2"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginStart="24dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:onClick="@{viewModel::sucheckChanged}"
                     android:src="@drawable/setting"
@@ -101,10 +101,7 @@
                     android:id="@+id/toolbar2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/cardview_shadow_end_color"
-                    android:backgroundTint="@color/cardview_dark_background"
-                    android:minHeight="?attr/actionBarSize"
-                    android:theme="?attr/actionBarTheme"
+                    android:theme="@style/AppTheme"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -117,7 +114,8 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout"
+                app:tabTextAppearance="@style/TextAppearance.AppCompat.Medium">
 
             </android.support.design.widget.TabLayout>
 
@@ -141,7 +139,7 @@
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:visibility="gone"
+            android:visibility="@{viewModel.sucheck ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

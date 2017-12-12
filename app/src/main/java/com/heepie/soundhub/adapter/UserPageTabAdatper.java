@@ -1,6 +1,5 @@
 package com.heepie.soundhub.adapter;
 
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,7 +35,7 @@ public class UserPageTabAdatper extends PagerAdapter{
             data.add(i+" 번째 데이터");
         }
         if(position == 0 || position == 1) {
-            UserPageMusicListAdapter adapter = new UserPageMusicListAdapter(data);
+            UserPagePostListAdapter adapter = new UserPagePostListAdapter(data);
             recyclerView.setAdapter(adapter);
         }else {
             UserPageUserListAdapter adapter = new UserPageUserListAdapter(data);

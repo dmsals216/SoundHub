@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.heepie.soundhub.R;
-import com.heepie.soundhub.domain.model.Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,16 +15,16 @@ import java.util.List;
  * Created by eunmin on 2017-12-11.
  */
 
-public class UserPageMusicListAdapter extends RecyclerView.Adapter<UserPageMusicListAdapter.Holder>{
+public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostListAdapter.Holder>{
     List<String> data = new ArrayList<>();
 
-    public UserPageMusicListAdapter(List<String> data) {
+    public UserPagePostListAdapter(List<String> data) {
         this.data = data;
     }
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_post, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.userpage_post_list_item, parent, false);
         return new Holder(view);
     }
 
@@ -46,7 +45,7 @@ public class UserPageMusicListAdapter extends RecyclerView.Adapter<UserPageMusic
 
         public Holder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.list_post_title);
+            textView = itemView.findViewById(R.id.userpageposttitle);
         }
     }
 }

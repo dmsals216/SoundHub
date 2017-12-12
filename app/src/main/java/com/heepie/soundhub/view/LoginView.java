@@ -14,8 +14,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -34,8 +32,7 @@ import com.heepie.soundhub.viewmodel.InputViewModel;
 import com.nhn.android.naverlogin.OAuthLogin;
 import com.nhn.android.naverlogin.OAuthLoginHandler;
 
-import org.json.JSONObject;
-
+import java.util.Arrays;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -47,7 +44,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     public final String TAG = getClass().getSimpleName();
     private int GOOGLELOGINREQ = 100;
 
-    InputViewModel inputViewModel = new InputViewModel(this, this);
+    InputViewModel inputViewModel = new InputViewModel(this);
     GoogleSignInClient mGoogleSignInClient;
     LoginViewBinding loginViewBinding;
     OAuthLogin mOAuthLoginModule;
@@ -70,8 +67,12 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                 ,BuildConfig.NAVER_CLIENT_NAME
         );
         if(null != mOAuthLoginModule.getAccessToken(this)) {
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
-            Log.e("haha", "네이버로그인");
         }
     }
 
@@ -80,7 +81,11 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(null != account) {
-            Log.e("haha", account.getIdToken());
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();
@@ -100,12 +105,18 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                 public void onResponse(Call<InputViewModel.LoginResult> call, Response<InputViewModel.LoginResult> response) {
                     if (response.isSuccessful()) {
                         InputViewModel.LoginResult result = response.body();
-                        Const.TOKEN = result.token;
-                        Const.user = result.user;
-                        Log.e("haha", sp.getString("userEmail", ""));
-                        Intent intent = new Intent(LoginView.this, ListView.class);
-                        startActivity(intent);
-                        finish();
+                        if(result != null) {
+                            Const.TOKEN = result.token;
+                            Const.user = result.user;
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            Intent intent = new Intent(LoginView.this, ListView.class);
+                            startActivity(intent);
+                            finish();
+                        }
                     }else {
                         Toast.makeText(LoginView.this, "로그인을 다시 시도해 주십시오", Toast.LENGTH_SHORT).show();
                     }
@@ -135,36 +146,37 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
     }
 
     private void setListener() {
-        loginViewBinding.signInButton.setOnClickListener(view -> {
+        loginViewBinding.button6.setOnClickListener(view -> {
             Intent signInIntent = mGoogleSignInClient.getSignInIntent();
             startActivityForResult(signInIntent, GOOGLELOGINREQ);
         });
 
-        loginViewBinding.signInButton2.setOnClickListener(view -> {
-            Intent signInIntent = mGoogleSignInClient.getSignInIntent();
-            startActivityForResult(signInIntent, GOOGLELOGINREQ);
+        loginViewBinding.button7.setOnClickListener(view -> {
+            mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
         });
 
-        loginViewBinding.buttonOAuthLoginImg.setOAuthLoginHandler(mOAuthLoginHandler);
-        loginViewBinding.buttonOAuthLoginImg2.setOAuthLoginHandler(mOAuthLoginHandler);
+        loginViewBinding.button8.setOnClickListener(view -> {
+            LoginManager.getInstance().logInWithReadPermissions(this,
+                    Arrays.asList("public_profile"));
+            LoginManager.getInstance().registerCallback(callbackManager,
+                    new FacebookCallback<LoginResult>() {
+                        @Override
+                        public void onSuccess(LoginResult loginResult) {
+                            Intent intent = new Intent(LoginView.this, ListView.class);
+                            startActivity(intent);
+                            finish();
+                        }
 
-        loginViewBinding.loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Intent intent = new Intent(LoginView.this, ListView.class);
-                startActivity(intent);
-                finish();
-            }
+                        @Override
+                        public void onCancel() {
+                            Log.e("onCancel", "onCancel");
+                        }
 
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
+                        @Override
+                        public void onError(FacebookException exception) {
+                            Log.e("onError", "onError " + exception.getLocalizedMessage());
+                        }
+                    });
         });
     }
 
@@ -179,8 +191,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         callbackManager.onActivityResult(requestCode, resultCode, data);
         // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
         if (requestCode == GOOGLELOGINREQ) {
-            // The Task returned from this call is always completed, no need to attach
-            // a listener.
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }
@@ -214,11 +224,10 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
 
     @Override
     public void onBackPressed() {
-        if(inputViewModel.activityCheck()) {
-            inputViewModel.onClickedFrame();
+        if(inputViewModel.isSignUpFiled.get() != 1) {
+            inputViewModel.onCancelClicked();
             return;
         }
-
         super.onBackPressed();
     }
 

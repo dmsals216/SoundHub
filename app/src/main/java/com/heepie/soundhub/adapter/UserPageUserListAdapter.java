@@ -25,7 +25,7 @@ public class UserPageUserListAdapter extends RecyclerView.Adapter<UserPageUserLi
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_user, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.userpage_user_list_item, parent, false);
         return new Holder(view);
     }
 
@@ -44,7 +44,7 @@ public class UserPageUserListAdapter extends RecyclerView.Adapter<UserPageUserLi
         TextView textView;
         public Holder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.textView);
+            textView = itemView.findViewById(R.id.textView14);
         }
     }
 }
