@@ -52,8 +52,6 @@ public class DetailViewModel {
     public ObservableField<String> selectedInstrument;
     public ObservableField<String> countDown;
 
-    private Activity activity;
-
     public static DetailViewModel getInstance() {
         if (instance == null)
             instance = new DetailViewModel();
@@ -69,7 +67,6 @@ public class DetailViewModel {
     }
 
     public void initContext(Activity activity) {
-        this.activity = activity;
         this.context = activity;
         player = PlayerController.getInstance();
         player.initPlayer(context);
@@ -165,7 +162,6 @@ public class DetailViewModel {
         player.stopPlaying();
     }
 
-
     public void onClickedRecord(View v, View targetView) {
         Toast.makeText(v.getContext(), "onClickedRecord", Toast.LENGTH_SHORT).show();
         // 녹음 기능
@@ -182,9 +178,13 @@ public class DetailViewModel {
                     try {
                         String text="";
                         for (int i=3; i>=-1; i=i-1) {
-                            text = (i == 0) ? "START!" : i+"";
-                            e.onNext(text);
-                            Thread.sleep(1000);
+                            if (i >= 0) {
+                                text = (i == 0) ? "START!" : i + "";
+                                e.onNext(text);
+                                Thread.sleep(1000);
+                            } else {
+                                e.onNext(i+"");
+                            }
                         }
                         e.onComplete();
                     } catch (Exception ex) {
@@ -198,13 +198,18 @@ public class DetailViewModel {
                     .subscribe(
                             string -> {
                                 countDown.set(string);
+                                if ("START!".equals(string)) {
+                                    player.setMusic(urls);
+                                    recorder.startRecording();
+                                }
                             },
+                            // Error 처리
                             throwable -> {},
-                            // 완료 처리
+                            // Complete 처리
                             () ->{
                                 //
-                                player.setMusic(urls);
-                                recorder.startRecording();
+                                /*player.setMusic(urls);
+                                recorder.startRecording();*/
                             }
                     );
             ((ImageButton)v).setImageResource(android.R.drawable.ic_media_pause);
@@ -225,7 +230,7 @@ public class DetailViewModel {
         } else if(" ".equals(selectedInstrument.get()) || "Select your instrument".equals(selectedInstrument.get())) {
             Toast.makeText(v.getContext(), "Select your instrument", Toast.LENGTH_SHORT).show();
         } else {
-            commentAPI.pushComment(post.getId(), "Keyboard", mRecordFilePath,
+            commentAPI.pushComment(post.getId(), selectedInstrument.get(), mRecordFilePath,
             (code, msg, body) -> {
                 Comment_track commentTrack = ((Comment_track)body);
                 Log.d(TAG, "onClickedUpLoad: " + body.toString());
@@ -240,7 +245,7 @@ public class DetailViewModel {
         /*if (filePath == null)
             Toast.makeText(v.getContext(), "먼저 파일을 선택해 해주세요.", Toast.LENGTH_SHORT).show();
         else {
-            commentAPI.pushComment(post.getId(), "Keyboard", ((TextView)filePath).getText().toString(),
+            commentAPI.pushComment(post.getId(), selectedInstrument.get(), ((TextView)filePath).getText().toString(),
                     (code, msg, body) -> {
                         Comment_track commentTrack = ((Comment_track)body);
                         Log.d(TAG, "onClickedUpLoad: " + body.toString());

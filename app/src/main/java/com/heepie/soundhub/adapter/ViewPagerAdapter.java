@@ -55,10 +55,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         return view == object;
     }
 
-    // 현재 사용하지 않는 데이터를 삭제하는 메소드
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View)object);
-//        super.destroyItem(container, position, object);
     }
 }

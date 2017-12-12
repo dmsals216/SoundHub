@@ -18,7 +18,6 @@ import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.PathUtil;
 
 import java.io.File;
-import java.util.List;
 
 public class RecordView extends AppCompatActivity {
     public final String TAG = getClass().getSimpleName();
@@ -51,7 +50,6 @@ public class RecordView extends AppCompatActivity {
         layoutResIds[1] = R.layout.chlid_file_upload_view;
     }
 
-    // TabLayout과 Viewpager 연결
     private void connectViewpagerAndTabLayout() {
         binding.tabLayout.addOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(binding.viewPager)
@@ -63,7 +61,6 @@ public class RecordView extends AppCompatActivity {
     }
 
     public void onClickedFileUpload(View v) {
-        Toast.makeText(this, "onClickedFileUpload", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent();
         intent.setType("audio/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);

@@ -43,7 +43,7 @@ public class ViewHandler {
 
     private ViewHandler() {
         populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
-        newPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
+        newPostIndex   = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
     }
 
     public static ViewHandler getIntance() {
@@ -58,44 +58,43 @@ public class ViewHandler {
         int startIndex;
 
         switch (view.getId()) {
-            case R.id.populMoreBtn:
-                startIndex = populPostIndex;
+        case R.id.populMoreBtn:
+            startIndex = populPostIndex;
 
-                // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
-                if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
-                    Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
-                } else {
-                    for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
-                        if (data.getPop_posts().size() > i) {
-                            viewModel.addPostViewModel(new PostViewModel(data.getPop_posts().get(i)));
-                            populPostIndex++;
-                        }
+            // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
+            if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
+                Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
+                    if (data.getPop_posts().size() > i) {
+                        viewModel.addPostViewModel(new PostViewModel(data.getPop_posts().get(i)));
+                        populPostIndex++;
                     }
                 }
-                break;
+            }
+            break;
 
-            case R.id.newMoreBtn:
-                // 서버 Api 추가 시 진행
-                startIndex = newPostIndex;
+        case R.id.newMoreBtn:
+            // 서버 Api 추가 시 진행
+            startIndex = newPostIndex;
 
-                // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
-                if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
-                    Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
-                } else {
-                    for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
-                        if (data.getRecent_posts().size() > i) {
-                            viewModel.addPostViewModel(new PostViewModel(data.getRecent_posts().get(i)));
-                            newPostIndex++;
-                        }
+            // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
+            if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
+                Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
+            } else {
+                for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
+                    if (data.getRecent_posts().size() > i) {
+                        viewModel.addPostViewModel(new PostViewModel(data.getRecent_posts().get(i)));
+                        newPostIndex++;
                     }
                 }
-                break;
+            }
+            break;
         }
     }
 
     public void onClickPostItem(View v, Post model) {
         Intent intent = new Intent(v.getContext(), DetailView.class);
-        // 넘겨줄 데이터 설정
         intent.putExtra("model", model);
 
         if (intent != null)
@@ -104,7 +103,6 @@ public class ViewHandler {
 
     public void onClickUserItem(View v, User model) {
         Intent intent = new Intent(v.getContext(), UserPageView.class);
-        // 넘겨줄 데이터 설정
         intent.putExtra("user", model);
 
         if (intent != null)
@@ -116,43 +114,4 @@ public class ViewHandler {
         intent.putExtra("user", Const.user);
         v.getContext().startActivity(intent);
     }
-
-    public void onClickedRecord(View v, View targetView) {
-        Toast.makeText(v.getContext(), "Clicked", Toast.LENGTH_SHORT).show();
-
-        targetView.setVisibility(View.VISIBLE);
-
-        Observable<String> createCounter = Observable.create(new ObservableOnSubscribe<String>() {
-            @Override
-            public void subscribe(ObservableEmitter<String> e) throws Exception {
-                try {
-                    String text="";
-                    for (int i=3; i>=0; i=i-1) {
-                        text = (i == 0) ? "START!" : i+"";
-                        e.onNext(text);
-                        Thread.sleep(1000);
-                    }
-                    e.onComplete();
-                } catch (Exception ex) {
-
-                }
-            }
-        });
-
-        createCounter.observeOn(Schedulers.io())
-                     .subscribeOn(AndroidSchedulers.mainThread())
-                     .subscribe(
-                             string -> {
-                                 Log.d(TAG, "onClickedRecord: " + string);
-                             }
-                     );
-
-
-
-//        targetView.setVisibility(View.GONE);
-
-
-
-    }
-
 }
