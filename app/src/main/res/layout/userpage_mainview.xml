@@ -201,8 +201,7 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="3"
-                        android:entries="@array/genre"
-                        android:selectedValue="@={viewModel.genre}">
+                        android:entries="@array/genre">
 
                     </android.support.v7.widget.AppCompatSpinner>
 
