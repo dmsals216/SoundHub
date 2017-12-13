@@ -1,10 +1,8 @@
 package com.heepie.soundhub.viewmodel;
 
 import android.content.Context;
-import android.content.Intent;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -12,7 +10,6 @@ import com.heepie.soundhub.domain.logic.UserApi;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;
-import com.heepie.soundhub.view.ListView;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
