@@ -1,10 +1,12 @@
 package com.heepie.soundhub.domain.model;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.heepie.soundhub.BR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +18,7 @@ import java.util.Map;
  * Created by Heepie on 2017. 11. 30..
  */
 
-public class Post implements Parcelable {
+public class Post extends BaseObservable implements Parcelable {
     private String author_track;
 
     private String created_date;
@@ -86,12 +88,14 @@ public class Post implements Parcelable {
         this.num_comments = num_comments;
     }
 
+    @Bindable
     public String getNum_liked() {
         return num_liked;
     }
 
     public void setNum_liked(String num_liked) {
         this.num_liked = num_liked;
+        notifyPropertyChanged(BR.num_liked);
     }
 
     public User getAuthor() {

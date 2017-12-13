@@ -5,6 +5,7 @@ package com.heepie.soundhub.domain.logic;
  */
 
 import android.databinding.ObservableArrayList;
+import android.util.Log;
 
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.Interfaces.ICallback;
@@ -20,6 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -33,13 +35,15 @@ import retrofit2.http.Path;
  */
 
 public class PostApi extends AbsApi {
+    public final String TAG = getClass().getSimpleName();
+
     public static int populPostIndex = 0;
     public static int newPostIndex = 0;
     private static PostApi instance;
     public static ObservableArrayList<PostViewModel> posts = new ObservableArrayList<>();
 
     private PostApi() {
-
+        createRetrofit(BuildConfig.SERVER_URL);
     }
 
     public static PostApi getInstance() {
@@ -90,6 +94,28 @@ public class PostApi extends AbsApi {
                         });
     }
 
+    public void pushLike(String post_id, ICallback callback) {
+        IPost service = retrofit.create(IPost.class);
+
+        Call<Post> result = service.pushLike(post_id,
+                                             "Token " + Const.TOKEN);
+
+        result.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "onResponse: " + response.code() + " " + response.body());
+                    callback.initData(response.code(), response.message(), response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+
+            }
+        });
+    }
+
     public interface IPost {
         @GET("post")
         Observable<Response<List<Post>>> getPost();
@@ -99,5 +125,10 @@ public class PostApi extends AbsApi {
         Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part("instrument") RequestBody instrument, @Part("genre") RequestBody genre, @Part MultipartBody.Part author_track);
         @GET("post/{parm1}")
         Observable<Response<List<Post>>> getPost(@Path("parm1") String category);
+
+
+        @POST("post/{post_id}/like/")
+        Call<Post> pushLike(@Path("post_id") String post_id,
+                            @Header("Authorization")String token);
     }
 }

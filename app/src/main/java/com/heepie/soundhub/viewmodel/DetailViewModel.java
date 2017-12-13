@@ -234,9 +234,11 @@ public class DetailViewModel {
             (code, msg, body) -> {
                 Comment_track commentTrack = ((Comment_track)body);
                 Log.d(TAG, "onClickedUpLoad: " + body.toString());
-                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+//                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+
+                callFrom.finish();
             });
-            callFrom.finish();
+
         }
     }
 

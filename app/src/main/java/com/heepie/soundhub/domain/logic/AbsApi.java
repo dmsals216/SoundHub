@@ -21,13 +21,7 @@ abstract class AbsApi {
         // 기본 URL 설정
         rBuilder.baseUrl(defaultURL);
 
-        rBuilder.addConverterFactory(GsonConverterFactory.create(/*new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()*/));
-        /*switch (defaultURL) {
-            case BuildConfig.SERVER_URL:
-                // Gson 팩토리로 JSON 데이터 처리 설정
-                rBuilder.addConverterFactory(GsonConverterFactory.create(*//*new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create()*//*));
-                break;
-        }*/
+        rBuilder.addConverterFactory(GsonConverterFactory.create());
 
         // RxJava2 어뎁터 사용 설정
         rBuilder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
