@@ -64,7 +64,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left"
-                            android:text="@{model.author.nickname}" />
+                            android:text="@{model.author}" />
 
                         <TextView
                             android:id="@+id/list_music_length"
@@ -92,9 +92,7 @@
                 <ImageView
                     android:id="@+id/list_post_image"
                     android:layout_width="0dp"
-                    android:layout_height="200sp"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
+                    android:layout_height="203dp"
                     android:layout_marginTop="8dp"
                     android:scaleType="fitXY"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -122,6 +120,7 @@
                         />
                     <!--android:text="@{model.tag}"-->
 
+<<<<<<< HEAD
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -134,6 +133,13 @@
                         android:layout_height="30dp"
                         android:layout_weight="0.3"
                         app:srcCompat="@drawable/unliked" />
+=======
+                    <Button
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:onClick="@{(view) -> viewhandler.onClickedLike(view, model)}"
+                        />
+>>>>>>> a350bb4d3ac18cc7de018d32d797ef2a1190af18
 
                     <TextView
                         android:id="@+id/list_like_count"

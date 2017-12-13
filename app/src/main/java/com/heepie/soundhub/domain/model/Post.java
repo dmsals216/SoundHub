@@ -1,10 +1,12 @@
 package com.heepie.soundhub.domain.model;
 
 import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.Expose;
+import com.heepie.soundhub.BR;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,7 +18,7 @@ import java.util.Map;
  * Created by Heepie on 2017. 11. 30..
  */
 
-public class Post implements Parcelable {
+public class Post extends BaseObservable implements Parcelable {
     private String author_track;
 
     private String created_date;
@@ -29,7 +31,7 @@ public class Post implements Parcelable {
 
     private String num_liked;
 
-    private User author;
+    private String author;
 
     private String title;
 
@@ -86,19 +88,21 @@ public class Post implements Parcelable {
         this.num_comments = num_comments;
     }
 
+    @Bindable
     public String getNum_liked() {
         return num_liked;
     }
 
     public void setNum_liked(String num_liked) {
         this.num_liked = num_liked;
+        notifyPropertyChanged(BR.num_liked);
     }
 
-    public User getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -173,7 +177,7 @@ public class Post implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.num_comments);
         dest.writeString(this.num_liked);
-        dest.writeParcelable(this.author, flags);
+        dest.writeString(this.author);
         dest.writeString(this.title);
         dest.writeString(this.master_track);
         dest.writeStringArray(this.liked);
@@ -192,7 +196,7 @@ public class Post implements Parcelable {
         this.id = in.readString();
         this.num_comments = in.readString();
         this.num_liked = in.readString();
-        this.author = in.readParcelable(User.class.getClassLoader());
+        this.author = in.readString();
         this.title = in.readString();
         this.master_track = in.readString();
         this.liked = in.createStringArray();

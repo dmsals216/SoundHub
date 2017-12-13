@@ -114,4 +114,14 @@ public class ViewHandler {
         intent.putExtra("user", Const.user);
         v.getContext().startActivity(intent);
     }
+
+    public void onClickedLike(View view, Post model) {
+        PostApi.getInstance().pushLike(model.getId(), (code, msg, data) -> {
+            model.setNum_liked(((Post)data).getNum_liked());
+//            Log.d(TAG, "onClickedLike: " + code + " " + msg + " " + data);
+            Log.d(TAG, "onClickedLike: " + model.getNum_liked());
+        });
+
+
+    }
 }
