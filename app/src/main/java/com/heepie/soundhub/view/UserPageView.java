@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.UserPageTabAdatper;
@@ -28,12 +29,13 @@ public class UserPageView extends AppCompatActivity {
     User user;
     UserPageViewModel viewModel;
     TabLayout tabLayout;
+    UserpageViewBinding binding;
     ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getUser();
-        UserpageViewBinding binding = DataBindingUtil.setContentView(this, R.layout.userpage_view);
+        binding = DataBindingUtil.setContentView(this, R.layout.userpage_view);
         binding.setViewModel(viewModel);
         setToolbar();
         setTabLayout();
@@ -45,10 +47,20 @@ public class UserPageView extends AppCompatActivity {
         tabLayout.addOnTabSelectedListener(
                 new TabLayout.ViewPagerOnTabSelectedListener(viewPager)
         );
-        // ViewPager의 변경사항을 탭레이아웃에 전달
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout)
         );
+
+        binding.navigation.setNavigationItemSelectedListener(item -> {
+            switch (item.getTitle().toString()) {
+                case "Home":
+                    Intent intent = new Intent(this, ListView.class);
+                    startActivity(intent);
+                    finish();
+                    break;
+            }
+            return true;
+        });
     }
 
     public void setViewPager() {
@@ -80,7 +92,7 @@ public class UserPageView extends AppCompatActivity {
     private void setToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar2);
         setSupportActionBar(toolbar);
-        toolbar.setTitle("");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         DrawerLayout drawer = findViewById(R.id.drawerLayout2);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, 0, -1);
