@@ -120,7 +120,6 @@
                         />
                     <!--android:text="@{model.tag}"-->
 
-<<<<<<< HEAD
                     <ImageView
                         android:layout_width="30dp"
                         android:layout_height="30dp"
@@ -133,13 +132,12 @@
                         android:layout_height="30dp"
                         android:layout_weight="0.3"
                         app:srcCompat="@drawable/unliked" />
-=======
+
                     <Button
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:onClick="@{(view) -> viewhandler.onClickedLike(view, model)}"
                         />
->>>>>>> a350bb4d3ac18cc7de018d32d797ef2a1190af18
 
                     <TextView
                         android:id="@+id/list_like_count"
