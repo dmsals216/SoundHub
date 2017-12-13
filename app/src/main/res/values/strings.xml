@@ -4,7 +4,7 @@
         <item name="Empty">Select your instrument</item>
         <item name="V">Vocal</item>
         <item name="G">Guitar</item>
-        <item name="B">Base</item>
+        <item name="B">Bass</item>
         <item name="D">Drum</item>
         <item name="K">Keyboard</item>
         <item name="O">Others</item>

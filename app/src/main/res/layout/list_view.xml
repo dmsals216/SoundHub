@@ -17,50 +17,19 @@
             type="com.heepie.soundhub.viewmodel.ListViewModel"/>
     </data>
 
-    <!--<android.support.v4.widget.DrawerLayout
-        android:id="@+id/drawerLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:background="?attr/colorPrimary"
-                android:minHeight="?attr/actionBarSize"
-                android:theme="?attr/actionBarTheme"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-        </android.support.constraint.ConstraintLayout>
-
-        <android.support.design.widget.NavigationView
-            android:id="@+id/navigation"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/navigation_header"
-            app:menu="@menu/drawer" />
-
-    </android.support.v4.widget.DrawerLayout>-->
-
-
-
-
-
-
     <!-- DrawerLayout에는 NavigationView를 제외한 오직 1개의 layout만 설정 가능 -->
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/navi_view"
+            layout="@layout/navigation_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start|left"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,22 +46,68 @@
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:background="?attr/colorPrimary"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="?attr/actionBarTheme"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    >
 
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tabLayout"
+                    <android.support.constraint.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <ImageButton
+                            style="@style/ToolBarButton"
+                            android:src="@drawable/hamburger" />
+
+                        <ImageButton
+                            style="@style/ToolBarButton"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/home"
+                            app:layout_constraintEnd_toStartOf="@+id/imageButton5"
+                            tools:layout_editor_absoluteY="0dp"
+                            />
+
+                        <ImageButton
+                            android:id="@+id/imageButton5"
+                            style="@style/ToolBarButton"
+                            android:layout_marginEnd="16dp"
+                            android:src="@drawable/search"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            tools:layout_editor_absoluteY="0dp" />
+
+
+                    </android.support.constraint.ConstraintLayout>
+
+
+                </android.support.v7.widget.Toolbar>
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
+                    <Button
+                        android:id="@+id/category_genre"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="Genre"
+                        android:onClick="@{view::onClickedTopCategory}"
+                        />
 
+                    <Button
+                        android:id="@+id/category_instrument"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="Instrument"
+                        android:onClick="@{view::onClickedTopCategory}"
+                        />
 
-                </android.support.design.widget.TabLayout>
+                </LinearLayout>
+
             </android.support.design.widget.AppBarLayout>
 
             <android.support.constraint.ConstraintLayout
@@ -371,7 +386,7 @@
                     android:src="@android:drawable/ic_menu_upload"
                     android:onClick="@{viewModel::onClickedUpLoad}"
                     app:backgroundTint="@android:color/holo_green_dark"
-                    app:elevation="6dp"
+                    app:elevation="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:pressedTranslationZ="12dp" />
@@ -382,14 +397,16 @@
 
         </LinearLayout>
 
+
+
         <!-- app:menu는 메뉴 설정 -->
-        <android.support.design.widget.NavigationView
+        <!--<android.support.design.widget.NavigationView
             android:id="@+id/navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start|left"
             app:menu="@menu/drawer"
-            />
+            />-->
 
     </android.support.v4.widget.DrawerLayout>
 

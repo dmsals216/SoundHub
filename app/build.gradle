@@ -27,6 +27,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     dataBinding {
         enabled = true
     }
@@ -55,13 +56,13 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.5'
 
+    //    To use CircleImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+
 //    To use Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
-
-//    To use CircleImageView
-    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
 //    To use Google-Sign-in
     implementation 'com.google.android.gms:play-services-auth:11.6.0'

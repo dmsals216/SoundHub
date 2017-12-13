@@ -129,4 +129,17 @@ public class Comment_track extends BaseObservable implements Parcelable {
             return new Comment_track[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "Comment_track{" +
+                "TAG='" + TAG + '\'' +
+                ", id='" + id + '\'' +
+                ", author='" + author + '\'' +
+                ", post='" + post + '\'' +
+                ", instrument='" + instrument + '\'' +
+                ", comment_track='" + comment_track + '\'' +
+                ", isCheck=" + isCheck +
+                '}';
+    }
 }

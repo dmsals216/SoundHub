@@ -81,11 +81,12 @@
                     android:id="@+id/list_user_image"
                     android:layout_width="59dp"
                     android:layout_height="55dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@mipmap/ic_launcher_round" />
+                    app:srcCompat="@drawable/test"
+
+                    />
 
                 <!--app:loadCircleImage="@{model.testUser.user_image_path}"-->
 
@@ -98,7 +99,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/list_user_image"
-                    app:srcCompat="@mipmap/ic_launcher" />
+                    app:srcCompat="@drawable/test3" />
                 <!--app:loadImage="@{model.post_image_path}"-->
 
                 <LinearLayout

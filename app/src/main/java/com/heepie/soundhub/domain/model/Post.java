@@ -39,6 +39,7 @@ public class Post extends BaseObservable implements Parcelable {
 
     private String[] liked;
 
+    @Bindable
     private Map<String, List<Comment_track>> comment_tracks;
 
     private String instrument;
@@ -80,12 +81,14 @@ public class Post extends BaseObservable implements Parcelable {
         this.id = id;
     }
 
+    @Bindable
     public String getNum_comments() {
         return num_comments;
     }
 
     public void setNum_comments(String num_comments) {
         this.num_comments = num_comments;
+        notifyPropertyChanged(BR.num_comments);
     }
 
     @Bindable
@@ -130,12 +133,14 @@ public class Post extends BaseObservable implements Parcelable {
         this.liked = liked;
     }
 
+    @Bindable
     public Map<String, List<Comment_track>> getComment_tracks() {
         return comment_tracks;
     }
 
     public void setComment_tracks(Map<String, List<Comment_track>> comment_tracks) {
         this.comment_tracks = comment_tracks;
+        notifyPropertyChanged(BR.comment_tracks);
     }
 
     public String getInstrument() {
