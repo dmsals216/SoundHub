@@ -31,7 +31,7 @@ public class Post extends BaseObservable implements Parcelable {
 
     private String num_liked;
 
-    private User author;
+    private String author;
 
     private String title;
 
@@ -98,11 +98,11 @@ public class Post extends BaseObservable implements Parcelable {
         notifyPropertyChanged(BR.num_liked);
     }
 
-    public User getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
-    public void setAuthor(User author) {
+    public void setAuthor(String author) {
         this.author = author;
     }
 
@@ -177,7 +177,7 @@ public class Post extends BaseObservable implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.num_comments);
         dest.writeString(this.num_liked);
-        dest.writeParcelable(this.author, flags);
+        dest.writeString(this.author);
         dest.writeString(this.title);
         dest.writeString(this.master_track);
         dest.writeStringArray(this.liked);
@@ -196,7 +196,7 @@ public class Post extends BaseObservable implements Parcelable {
         this.id = in.readString();
         this.num_comments = in.readString();
         this.num_liked = in.readString();
-        this.author = in.readParcelable(User.class.getClassLoader());
+        this.author = in.readString();
         this.title = in.readString();
         this.master_track = in.readString();
         this.liked = in.createStringArray();

@@ -154,7 +154,7 @@
                             android:layout_alignParentStart="true"
                             android:layout_marginLeft="12dp"
                             android:layout_marginStart="12dp"
-                            android:text="@{model.author.nickname}"
+                            android:text="@{model.author}"
                             android:id="@+id/textView5" />
 
                         <TextView
