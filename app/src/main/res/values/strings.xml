@@ -1,12 +1,13 @@
 <resources>
     <string name="app_name">soundhub</string>
     <array name="instruments">
-        <item name="V">vocal</item>
-        <item name="G">guigar</item>
-        <item name="B">base</item>
-        <item name="D">drum</item>
-        <item name="K">keyboard</item>
-        <item name="O">others</item>
+        <item name="Empty">Select your instrument</item>
+        <item name="V">Vocal</item>
+        <item name="G">Guitar</item>
+        <item name="B">Base</item>
+        <item name="D">Drum</item>
+        <item name="K">Keyboard</item>
+        <item name="O">Others</item>
     </array>
     <array name="genre">
         <item>pop</item>

@@ -17,7 +17,8 @@ import com.heepie.soundhub.domain.model.User;
  * 소비자는 생산자가 누구인지 알아야하지만, 생산자는 소비자가 누구인지 몰라도 된다.
  */
 
-public class PostsViewModel extends BaseObservable implements IModelGettable<ObservableArrayList<PostViewModel>>
+public class PostsViewModel extends BaseObservable
+                            implements IModelGettable<ObservableArrayList<PostViewModel>>
 {
     @Bindable
     public ObservableArrayList<PostViewModel> posts;
@@ -26,10 +27,6 @@ public class PostsViewModel extends BaseObservable implements IModelGettable<Obs
     {
         posts = new ObservableArrayList<>();
         // 초기 데이터 설정 필요
-    }
-
-    public void addPost(User author, String author_track, String title, String master_track) {
-//        this.posts.add(new PostViewModel(new Post(author_track, author, title, master_track)));
     }
 
     public void addPostViewModel(PostViewModel viewModel) {

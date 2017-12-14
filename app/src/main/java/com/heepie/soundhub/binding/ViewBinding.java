@@ -118,4 +118,12 @@ public class ViewBinding {
         else
             view.setVisibility(View.VISIBLE);
     }
+
+    @BindingAdapter("setCountVisible")
+    public static void setCountVisible(View view, String data) {
+        if ("-1".equals(data))
+            view.setVisibility(View.INVISIBLE);
+        else
+            view.setVisibility(View.VISIBLE);
+    }
 }

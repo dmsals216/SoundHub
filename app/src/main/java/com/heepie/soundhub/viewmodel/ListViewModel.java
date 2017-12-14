@@ -91,7 +91,6 @@ public class ListViewModel extends BaseObservable {
                             // 네트워크로 입력 받은 데이터 DataModel에 셋팅
                             dataAPI.setModelData(jsonData.body());
                             data = jsonData.body();
-//                            Log.d(TAG, "setDisplayData: " + data.getPop_posts().get(0).getComment_tracks().get("Bass").get(1).getId());
                             setData(data);
                         });
     }
@@ -119,11 +118,11 @@ public class ListViewModel extends BaseObservable {
         }
     }
 
-
-
     public void onClickedUpLoad(View view) {
         Toast.makeText(view.getContext(), "Clicked UpLoad", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, MusicUploadView.class);
         context.startActivity(intent);
     }
+
+
 }

@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.TimeUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class PlayerController {
 
     private int maxDuration;
     public ObservableField<Float> curDuration;
+    public ObservableField<String> curTime;
 
     // Dispose 가능한 객체 선언
     private Disposable durationTimer;
@@ -56,6 +58,7 @@ public class PlayerController {
 
         curDuration = new ObservableField<>();
         observableDisposal = new CompositeDisposable();
+        curTime = new ObservableField<>(" ");
 
     }
 
@@ -108,6 +111,7 @@ public class PlayerController {
     }
 
     public void startPlaying(String mFileName, int duration) {
+        stopPlaying();
         Log.d(TAG, "startPlaying: " + mFileName);
         try {
             this.maxDuration = duration/1000;
@@ -131,13 +135,13 @@ public class PlayerController {
     }
 
     // 1초마다 값을 변경하는 Observable
-    private Observable<Float> makeDurationSubscr() {
-        Observable mDurationSubscr = Observable.create(new ObservableOnSubscribe<Float>() {
+    private Observable<Integer> makeDurationSubscr() {
+        Observable mDurationSubscr = Observable.create(new ObservableOnSubscribe<Integer>() {
             @Override
-            public void subscribe(ObservableEmitter<Float> e) throws Exception {
+            public void subscribe(ObservableEmitter<Integer> e) throws Exception {
                 try {
                     for (int i = 1; i < maxDuration+1; i = i + 1) {
-                        e.onNext((i*(100/Float.parseFloat(maxDuration+""))));
+                        e.onNext(i);
                         Thread.sleep(1000);
                     }
                     e.onComplete();
@@ -159,7 +163,8 @@ public class PlayerController {
                     .subscribe(
                             curProgress -> {
                                 Log.d(TAG, "startDurationTimer: " + curProgress);
-                                curDuration.set(curProgress);
+                                curDuration.set((curProgress*(100/Float.parseFloat(maxDuration+""))));
+                                curTime.set(TimeUtil.secondToMMSS(curProgress) + " / " + TimeUtil.secondToMMSS(maxDuration));
                             }
                     );
         // Container에 등록

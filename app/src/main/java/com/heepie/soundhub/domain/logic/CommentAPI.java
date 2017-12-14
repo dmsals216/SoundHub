@@ -74,13 +74,19 @@ public class CommentAPI {
         retrofit = rBuilder.build();
     }
 
-    public void pushComment(String post_id, String instrument, String mFilePath, ICallback callback) {
-        Log.d(TAG, "pushComment: " + post_id + " " + instrument + " " + mFilePath + " " + "Token " + Const.TOKEN);
+    public <U> void pushComment(String post_id, String instrument, U fileInfo, ICallback callback) {
+        Log.d(TAG, "pushComment: " + post_id + " " + instrument + " " + fileInfo + " " + "Token " + Const.TOKEN);
 
         IComment service = retrofit.create(IComment.class);
+        File track = null;
 
-        // 녹음 파일 등록
-        File track = new File(mFilePath);
+        // 업로드 파일 등록
+        if (fileInfo instanceof File) {
+            track = (File)fileInfo;
+        } else if (fileInfo instanceof String) {
+            track = new File((String)fileInfo);
+        }
+
         RequestBody requestFile =
                 RequestBody.create(
                         MediaType.parse("multipart/form-data"),
@@ -97,7 +103,7 @@ public class CommentAPI {
         Log.d(TAG, "pushComment: " + "In PushComment");
 
         Call<Comment_track> result = service.pushComment(post_id,
-                                                        "Token a3d95f545426ac432f466d3164a735b6fa92fc31",
+                                                        "Token " + Const.TOKEN,
                                                         mInstrument,
                                                         body);
 
