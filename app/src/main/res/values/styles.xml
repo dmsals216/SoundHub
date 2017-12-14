@@ -21,8 +21,8 @@
     </style>
 
     <style name="ToolBarButton">
-        <item name="android:layout_width">35dp</item>
-        <item name="android:layout_height">35dp</item>
+        <item name="android:layout_width">25dp</item>
+        <item name="android:layout_height">25dp</item>
         <item name="android:scaleType">fitXY</item>
         <item name="android:background">@android:color/transparent</item>
     </style>

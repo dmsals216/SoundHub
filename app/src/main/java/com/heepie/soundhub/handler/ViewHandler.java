@@ -151,4 +151,8 @@ public class ViewHandler {
             }
         }
     }
+
+    public void onClickedToast(View v) {
+        Toast.makeText(v.getContext(), "T", Toast.LENGTH_SHORT).show();
+    }
 }

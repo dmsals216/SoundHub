@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.heepie.soundhub.BR;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.ListViewBinding;
+import com.heepie.soundhub.databinding.NavigationHeaderBinding;
+import com.heepie.soundhub.databinding.NavigationViewBinding;
 import com.heepie.soundhub.handler.ViewHandler;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.ListViewModel;
@@ -28,17 +30,25 @@ public class ListView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         category = "";
         // Binding 초기화
-        listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
 
+
+        /*NavigationHeaderBinding navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_header,listBinding.navigation,false);
+        listBinding.navigation.addHeaderView(navigationViewHeaderBinding.getRoot());
+        navigationViewHeaderBinding.setModel(Const.user);
+        navigationViewHeaderBinding.setViewhandler(ViewHandler.getIntance());*/
+
+        listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
         listViewModel = new ListViewModel(this);
+
+        NavigationHeaderBinding navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_header,listBinding.navigation,false);
+        listBinding.navigation.addHeaderView(navigationViewHeaderBinding.getRoot());
+        navigationViewHeaderBinding.setModel(Const.user);
+        navigationViewHeaderBinding.setViewhandler(ViewHandler.getIntance());
 
         initData(Const.CATEGORY_DEFAULT);
 
         listBinding.setVariable(BR.viewModel, listViewModel);
         listBinding.setVariable(BR.view, this);
-        listBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
-        listBinding.setVariable(BR.user, Const.user);
-
     }
 
     private void initData(String category) {
@@ -94,5 +104,9 @@ public class ListView extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    public void onClickedMenu(View v) {
+        listBinding.drawerLayout.openDrawer(listBinding.navigation);
     }
 }

@@ -15,12 +15,6 @@
         <variable
             name="viewModel"
             type="com.heepie.soundhub.viewmodel.ListViewModel"/>
-        <variable
-            name="viewHandler"
-            type="com.heepie.soundhub.handler.ViewHandler"/>
-        <variable
-            name="user"
-            type="com.heepie.soundhub.domain.model.User"/>
     </data>
 
     <!-- DrawerLayout에는 NavigationView를 제외한 오직 1개의 layout만 설정 가능 -->
@@ -29,15 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <include
-            android:id="@+id/navi_view"
-            layout="@layout/navigation_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start|left"
-            app:viewHandler="@{viewHandler}"
-            app:model="@{user}"
-            />
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +52,9 @@
 
                         <ImageButton
                             style="@style/ToolBarButton"
-                            android:src="@drawable/icon_close_white" />
+                            android:src="@drawable/icon_close_white"
+                            android:onClick="@{view::onClickedMenu}"
+                            />
 
                         <ImageButton
                             style="@style/ToolBarButton"
@@ -408,16 +396,22 @@
 
         </LinearLayout>
 
-
+        <!--<include
+            layout="@layout/navigation_view"
+            android:id="@+id/navi_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left"
+            />-->
 
         <!-- app:menu는 메뉴 설정 -->
-        <!--<android.support.design.widget.NavigationView
+        <android.support.design.widget.NavigationView
             android:id="@+id/navigation"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start|left"
             app:menu="@menu/drawer"
-            />-->
+            />
 
     </android.support.v4.widget.DrawerLayout>
 

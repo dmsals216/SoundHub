@@ -5,20 +5,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
-            name="viewHandler"
+            name="viewhandler"
             type="com.heepie.soundhub.handler.ViewHandler"/>
-        <variable
-            name="model"
-            type="com.heepie.soundhub.domain.model.User"/>
     </data>
 
     <LinearLayout
+        android:clickable="true"
         android:id="@+id/navi_view"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="@{viewhandler::onClickedToast}"
+            />
+
         <android.support.constraint.ConstraintLayout
+            android:clickable="true"
             android:layout_width="250dp"
             android:layout_height="0dp"
             android:layout_weight="2"
@@ -26,11 +31,12 @@
             >
 
             <ImageButton
+                android:clickable="true"
                 style="@style/icon"
                 android:layout_marginEnd="2dp"
                 android:layout_marginTop="4dp"
                 android:src="@drawable/setting"
-                android:onClick="@{viewHandler::onClickedSetting}"
+                android:onClick="@{viewhandler::onClickedToast}"
                 app:layout_constraintEnd_toStartOf="@+id/imageButton3"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -67,7 +73,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:onClick="@{viewHandler::onClickedSetting}">
+                android:onClick="@{viewhandler::onClickedSetting}">
 
                 <ImageView
                     android:layout_width="0dp"
@@ -86,11 +92,6 @@
                     />
 
             </LinearLayout>
-
         </LinearLayout>
-
-
-
     </LinearLayout>
-
 </layout>
