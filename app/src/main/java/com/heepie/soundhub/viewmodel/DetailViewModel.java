@@ -23,6 +23,7 @@ import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.view.RecordView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -224,7 +225,6 @@ public class DetailViewModel {
     }
 
     public void onUploadFrAudio (View v, Activity callFrom) {
-        Log.d(TAG, "onUploadFrAudio: " + selectedInstrument.get());
         if (mRecordFilePath == null) {
             Toast.makeText(v.getContext(), "먼저 녹음을 해주세요.", Toast.LENGTH_SHORT).show();
         } else if(" ".equals(selectedInstrument.get()) || "Select your instrument".equals(selectedInstrument.get())) {
@@ -233,12 +233,19 @@ public class DetailViewModel {
             commentAPI.pushComment(post.getId(), selectedInstrument.get(), mRecordFilePath,
             (code, msg, body) -> {
                 Comment_track commentTrack = ((Comment_track)body);
-                Log.d(TAG, "onClickedUpLoad: " + body.toString());
-//                post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
-
+                Log.d(TAG, "onUploadFrAudio: 입력" + commentTrack.toString());
+                if (post.getComment_tracks().containsKey(commentTrack.getInstrument())) {
+                    post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
+                    Log.d(TAG, "onUploadFrAudio: 로컬 추가" + post.getComment_tracks().toString());
+                }
+                else {
+                    List<Comment_track> newList = new ArrayList<>();
+                    newList.add(commentTrack);
+                    post.getComment_tracks().put(commentTrack.getInstrument(), newList);
+                    Log.d(TAG, "onUploadFrAudio: 로컬 추가" + post.getComment_tracks().toString());
+                }
                 callFrom.finish();
             });
-
         }
     }
 

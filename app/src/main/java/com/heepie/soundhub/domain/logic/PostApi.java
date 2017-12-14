@@ -37,8 +37,6 @@ import retrofit2.http.Path;
 public class PostApi extends AbsApi {
     public final String TAG = getClass().getSimpleName();
 
-    public static int populPostIndex = 0;
-    public static int newPostIndex = 0;
     private static PostApi instance;
     public static ObservableArrayList<PostViewModel> posts = new ObservableArrayList<>();
 
@@ -52,46 +50,9 @@ public class PostApi extends AbsApi {
         return instance;
     }
 
-    public void getData(ICallback callback) {
-        getData("", callback);
-
-    }
-
-    public void getData(String category, ICallback callback) {
-// 데이터 초기화
-        posts.clear();
-
-        createRetrofit(BuildConfig.SERVER_URL);
-
-        // Retrofit으로 서비스 생성
+    public Observable<Response<Post>> getPost(String post_id) {
         IPost server = retrofit.create(IPost.class);
-
-        // 서비스를
-        Observable<Response<List<Post>>> observable = server.getPost();
-
-        // 카테고리 데이터 서버로부터 전달 받을 시, 주석 제거
-//        Observable<Response<List<User>>> observable = server.getUser(category);
-
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        post -> {
-                            /* 서버와 통신 테스트
-                            Log.e("heepie", post.code() + "\n" +
-                                    post.message() + "\n" +
-                                    post.body());*/
-
-                            // 데이터 입력
-                            for (Post item : post.body()) {
-                                posts.add(new PostViewModel(item));
-                            }
-
-                            /* 입력 받은 데이터 확인
-                            for (PostViewModel i : posts) {
-                                Log.e("heepie", i.getModel().toString());
-                            }*/
-                            callback.initData(post.code(), post.message(), post.body());
-                        });
+        return server.getPost(post_id);
     }
 
     public void pushLike(String post_id, ICallback callback) {
@@ -117,14 +78,12 @@ public class PostApi extends AbsApi {
     }
 
     public interface IPost {
-        @GET("post")
-        Observable<Response<List<Post>>> getPost();
+        @GET("post/{post_id}/")
+        Observable<Response<Post>> getPost(@Path("post_id") String post_id);
 
         @Multipart
         @POST("post/")
         Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part("instrument") RequestBody instrument, @Part("genre") RequestBody genre, @Part MultipartBody.Part author_track);
-        @GET("post/{parm1}")
-        Observable<Response<List<Post>>> getPost(@Path("parm1") String category);
 
 
         @POST("post/{post_id}/like/")
