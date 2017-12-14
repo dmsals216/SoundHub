@@ -1,10 +1,10 @@
 package com.heepie.soundhub.handler;
 
 import android.content.Intent;
-import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.logic.DataAPI;
@@ -129,12 +129,26 @@ public class ViewHandler {
         v.getContext().startActivity(intent);
     }
 
-    public void onClickedLike(View view, Post model) {
-        PostApi.getInstance().pushLike(model.getId(), (code, msg, data) -> {
-            model.setNum_liked(((Post)data).getNum_liked());
-            Log.d(TAG, "onClickedLike: " + model.getNum_liked());
-        });
+    public void onClickedLike(View view, View root, Post model) {
+        if (view instanceof ToggleButton) {
+            ToggleButton toggleBtn = (ToggleButton)view;
+
+            PostApi.getInstance().pushLike(model.getId(), (code, msg, data) -> {
+                model.setNum_liked(((Post) data).getNum_liked());
+                Log.d(TAG, "onClickedLike: " + model.getNum_liked());
+            });
+
+            if (toggleBtn.isChecked()) {
+                toggleBtn.setBackgroundDrawable(
+                        root.getResources().
+                                getDrawable(R.drawable.icon_like)
+                );
+            } else {
+                toggleBtn.setBackgroundDrawable(
+                        root.getResources().
+                                getDrawable(R.drawable.icon_unlike)
+                );
+            }
+        }
     }
-
-
 }

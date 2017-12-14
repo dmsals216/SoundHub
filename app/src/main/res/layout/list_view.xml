@@ -15,6 +15,12 @@
         <variable
             name="viewModel"
             type="com.heepie.soundhub.viewmodel.ListViewModel"/>
+        <variable
+            name="viewHandler"
+            type="com.heepie.soundhub.handler.ViewHandler"/>
+        <variable
+            name="user"
+            type="com.heepie.soundhub.domain.model.User"/>
     </data>
 
     <!-- DrawerLayout에는 NavigationView를 제외한 오직 1개의 layout만 설정 가능 -->
@@ -29,6 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start|left"
+            app:viewHandler="@{viewHandler}"
+            app:model="@{user}"
             />
 
         <LinearLayout
@@ -58,12 +66,12 @@
 
                         <ImageButton
                             style="@style/ToolBarButton"
-                            android:src="@drawable/hamburger" />
+                            android:src="@drawable/icon_close_white" />
 
                         <ImageButton
                             style="@style/ToolBarButton"
                             android:layout_marginEnd="16dp"
-                            android:src="@drawable/home"
+                            android:src="@drawable/icon_home"
                             app:layout_constraintEnd_toStartOf="@+id/imageButton5"
                             tools:layout_editor_absoluteY="0dp"
                             />
@@ -72,7 +80,7 @@
                             android:id="@+id/imageButton5"
                             style="@style/ToolBarButton"
                             android:layout_marginEnd="16dp"
-                            android:src="@drawable/search"
+                            android:src="@drawable/icon_search"
                             app:layout_constraintEnd_toEndOf="parent"
                             tools:layout_editor_absoluteY="0dp" />
 
@@ -89,6 +97,7 @@
                     >
 
                     <Button
+                        style="@style/blackConcept"
                         android:id="@+id/category_genre"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -98,6 +107,7 @@
                         />
 
                     <Button
+                        style="@style/blackConcept"
                         android:id="@+id/category_instrument"
                         android:layout_width="0dp"
                         android:layout_weight="1"
@@ -371,6 +381,7 @@
                 <android.support.v7.widget.RecyclerView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@color/black"
                     app:context="@{view}"
                     app:setOuterViewModel="@{viewModel}"
                     >
@@ -385,7 +396,7 @@
                     android:layout_marginEnd="24dp"
                     android:src="@android:drawable/ic_menu_upload"
                     android:onClick="@{viewModel::onClickedUpLoad}"
-                    app:backgroundTint="@android:color/holo_green_dark"
+                    app:backgroundTint="@android:color/black"
                     app:elevation="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

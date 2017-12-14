@@ -67,6 +67,7 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
         }
 
         public void bind(@NonNull Object obj) {
+            mBinding.setVariable(BR.view, mBinding.getRoot());
             mBinding.setVariable(BR.model, obj);
             mBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
             mBinding.executePendingBindings();

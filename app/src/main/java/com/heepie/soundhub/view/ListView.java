@@ -36,6 +36,8 @@ public class ListView extends AppCompatActivity {
 
         listBinding.setVariable(BR.viewModel, listViewModel);
         listBinding.setVariable(BR.view, this);
+        listBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
+        listBinding.setVariable(BR.user, Const.user);
 
     }
 
