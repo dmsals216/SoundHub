@@ -7,11 +7,13 @@ import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.adapters.TextViewBindingAdapter;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.heepie.soundhub.domain.logic.UserApi;
+import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;

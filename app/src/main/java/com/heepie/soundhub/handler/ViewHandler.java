@@ -3,32 +3,26 @@ package com.heepie.soundhub.handler;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.logic.DataAPI;
 import com.heepie.soundhub.domain.logic.PostApi;
-import com.heepie.soundhub.domain.logic.UserApi;
-import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Data;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.view.DetailView;
-import com.heepie.soundhub.view.ListView;
 import com.heepie.soundhub.view.UserPageView;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
-import com.heepie.soundhub.viewmodel.UserViewModel;
 
-import java.io.InputStream;
 
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by Heepie on 2017. 11. 30..
@@ -40,6 +34,8 @@ public class ViewHandler {
     public static ViewHandler intance;
     private int populPostIndex;
     private int newPostIndex;
+
+    private PostApi postAPI;
 
     private ViewHandler() {
         populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
@@ -95,11 +91,29 @@ public class ViewHandler {
 
     public void onClickPostItem(View v, Post model) {
         Intent intent = new Intent(v.getContext(), DetailView.class);
-        intent.putExtra("model", model);
+        final Post[] post = new Post[1];
 
-        if (intent != null)
-            v.getContext().startActivity(intent);
+        postAPI = PostApi.getInstance();
+        Observable<Response<Post>> postObs = postAPI.getPost(model.getId());
+
+        postObs.subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(
+                   jsonData -> {
+                       if (jsonData.isSuccessful())
+                           post[0] = jsonData.body();
+                   },
+                   throwable -> {},
+                   // Complete 처리
+                   () -> {
+                       if (post[0] != null) {
+                           intent.putExtra("model", post[0]);
+                           v.getContext().startActivity(intent);
+                       }
+                   }
+               );
     }
+
 
     public void onClickUserItem(View v, User model) {
         Intent intent = new Intent(v.getContext(), UserPageView.class);
@@ -115,13 +129,30 @@ public class ViewHandler {
         v.getContext().startActivity(intent);
     }
 
-    public void onClickedLike(View view, Post model) {
-        PostApi.getInstance().pushLike(model.getId(), (code, msg, data) -> {
-            model.setNum_liked(((Post)data).getNum_liked());
-//            Log.d(TAG, "onClickedLike: " + code + " " + msg + " " + data);
-            Log.d(TAG, "onClickedLike: " + model.getNum_liked());
-        });
+    public void onClickedLike(View view, View root, Post model) {
+        if (view instanceof ToggleButton) {
+            ToggleButton toggleBtn = (ToggleButton)view;
 
+            PostApi.getInstance().pushLike(model.getId(), (code, msg, data) -> {
+                model.setNum_liked(((Post) data).getNum_liked());
+                Log.d(TAG, "onClickedLike: " + model.getNum_liked());
+            });
 
+            if (toggleBtn.isChecked()) {
+                toggleBtn.setBackgroundDrawable(
+                        root.getResources().
+                                getDrawable(R.drawable.icon_like)
+                );
+            } else {
+                toggleBtn.setBackgroundDrawable(
+                        root.getResources().
+                                getDrawable(R.drawable.icon_unlike)
+                );
+            }
+        }
+    }
+
+    public void onClickedToast(View v) {
+        Toast.makeText(v.getContext(), "T", Toast.LENGTH_SHORT).show();
     }
 }

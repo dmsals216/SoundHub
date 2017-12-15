@@ -103,7 +103,7 @@ public class CommentAPI {
         Log.d(TAG, "pushComment: " + "In PushComment");
 
         Call<Comment_track> result = service.pushComment(post_id,
-                                                        "Token " + Const.TOKEN,
+                                                        "Token a3d95f545426ac432f466d3164a735b6fa92fc31",
                                                         mInstrument,
                                                         body);
 
