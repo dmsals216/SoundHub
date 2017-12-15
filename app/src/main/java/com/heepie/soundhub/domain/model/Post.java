@@ -208,14 +208,12 @@ public class Post extends BaseObservable implements Parcelable {
         this.master_track = in.readString();
         this.liked = in.createStringArray();
         int comment_tracksSize = in.readInt();
-        if (this.comment_tracks != null) {
-            this.comment_tracks = new HashMap<String, List<Comment_track>>(comment_tracksSize);
-            for (int i = 0; i < comment_tracksSize; i++) {
-                String key = in.readString();
-                List<Comment_track> value = new ArrayList<Comment_track>();
-                in.readList(value, Comment_track.class.getClassLoader());
-                this.comment_tracks.put(key, value);
-            }
+        this.comment_tracks = new HashMap<String, List<Comment_track>>(comment_tracksSize);
+        for (int i = 0; i < comment_tracksSize; i++) {
+            String key = in.readString();
+            List<Comment_track> value = new ArrayList<Comment_track>();
+            in.readList(value, Comment_track.class.getClassLoader());
+            this.comment_tracks.put(key, value);
         }
         this.instrument = in.readString();
     }
