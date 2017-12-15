@@ -60,7 +60,7 @@
             android:onClick="@{viewhandler::onClickedSetting}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/setting" />
+            app:srcCompat="@drawable/icon_setting" />
 
 
     </android.support.constraint.ConstraintLayout>

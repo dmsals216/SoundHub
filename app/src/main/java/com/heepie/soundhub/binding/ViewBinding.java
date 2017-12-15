@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.heepie.soundhub.controller.PlayerController;
+import com.heepie.soundhub.viewmodel.DetailViewModel;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -97,7 +98,6 @@ public class ViewBinding {
 
         if (musicByte != null && path != null) {
             audioWaveView.setRawData(musicByte, () -> {
-//                progressAnim.start();
                 player.startPlaying(path, duration);
             });
         }

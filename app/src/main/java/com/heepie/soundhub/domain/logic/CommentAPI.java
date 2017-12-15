@@ -50,35 +50,16 @@ public class CommentAPI {
     }
 
     private void createRetrofit(String defaultURL) {
-        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-// set your desired log level
-        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
-
-        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-// add your other interceptors …
-
-// add logging as last interceptor
-        httpClient.addInterceptor(logging);
-
         Retrofit.Builder rBuilder = new Retrofit.Builder();
-
-        // 기본 URL 설정
         rBuilder.baseUrl(defaultURL);
-
-        // Gson 팩토리로 JSON 데이터 처리 설정
         rBuilder.addConverterFactory(GsonConverterFactory.create());
-
-        // RxJava2 어뎁터 사용 설정
         rBuilder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
-        // 해당 Retrofit 생성
         retrofit = rBuilder.build();
     }
 
     public <U> void pushComment(String post_id, String instrument, U fileInfo, ICallback callback) {
-        Log.d(TAG, "pushComment: " + post_id + " " + instrument + " " + fileInfo + " " + "Token " + Const.TOKEN);
-
-        IComment service = retrofit.create(IComment.class);
         File track = null;
+        IComment service = retrofit.create(IComment.class);
 
         // 업로드 파일 등록
         if (fileInfo instanceof File) {
@@ -92,15 +73,11 @@ public class CommentAPI {
                         MediaType.parse("multipart/form-data"),
                         track
                 );
+
         MultipartBody.Part body =
                 MultipartBody.Part.createFormData("comment_track", track.getName(), requestFile);
 
-
-        // 악기 정보 등록
         RequestBody mInstrument = RequestBody.create(MediaType.parse("text/plain"), instrument);
-
-
-        Log.d(TAG, "pushComment: " + "In PushComment");
 
         Call<Comment_track> result = service.pushComment(post_id,
                                                         "Token a3d95f545426ac432f466d3164a735b6fa92fc31",
@@ -115,15 +92,12 @@ public class CommentAPI {
                     Log.d(TAG, "onResponse: " + "response OK!");
 
                     // Callback으로 돌아온 결과값 callback, 이후 callback 데이터 comment에 등록
-                    callback.initData(response.code(), response.message(), response.body());
+                    callback.initData(Const.RESULT_SUCCESS, response.message(), response.body());
 
                 } else {
                     // 응답이 실패일 경우
                     Log.d(TAG, "onResponse: " + "response Fail! " + response.code());
                 }
-
-//                결과를 callback으로 돌려준다.
-//                callback.initData();
             }
 
             @Override
@@ -133,7 +107,6 @@ public class CommentAPI {
             }
         });
     }
-
 
     public interface IComment {
         @Multipart

@@ -8,15 +8,18 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.heepie.soundhub.BR;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.controller.RecordController;
 import com.heepie.soundhub.domain.logic.CommentAPI;
 import com.heepie.soundhub.domain.logic.FileApi;
+import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Comment_track;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
@@ -28,7 +31,9 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by Heepie on 2017. 12. 1..
@@ -41,6 +46,7 @@ public class DetailViewModel {
     public PlayerController player;
     private RecordController recorder;
     private CommentAPI commentAPI;
+    private PostApi postApi;
 
     private Post post;
     public ArrayList<String> urls;
@@ -52,6 +58,8 @@ public class DetailViewModel {
     public ObservableField<String> masterPath;
     public ObservableField<String> selectedInstrument;
     public ObservableField<String> countDown;
+
+    public List<String> selectedTrack;
 
     public static DetailViewModel getInstance() {
         if (instance == null)
@@ -65,6 +73,9 @@ public class DetailViewModel {
         selectedInstrument = new ObservableField<>(" ");
         countDown = new ObservableField<>(" ");
         commentAPI = CommentAPI.getInstance();
+        selectedTrack = new ArrayList<>();
+
+        postApi = PostApi.getInstance();
     }
 
     public void initContext(Activity activity) {
@@ -82,8 +93,8 @@ public class DetailViewModel {
         // 무조건 실행되는 Author 트랙 초기 설정
         urlBuilder = new StringBuilder();
         urlBuilder.append(BuildConfig.FILE_SERVER_URL)
-                .append("media/")
-                .append(post.getAuthor_track());
+                  .append("media/")
+                  .append(post.getAuthor_track());
 
         url = urlBuilder.toString();
 
@@ -99,12 +110,24 @@ public class DetailViewModel {
                 masterPath.set((String)data);
             }
         });
+    }
 
+    private void refreshPost(Post newPost) {
+        this.post = newPost;
     }
 
     public void onClickedMerge(View view) {
         Log.d(TAG, "onClickedMerge: Clicked");
-        Toast.makeText(view.getContext(), "onClickedMerge", Toast.LENGTH_SHORT).show();
+        checkSelectedTrack();
+
+        for (String track_id : selectedTrack)
+            Log.d(TAG, "onClickedMerge: " + track_id);
+        postApi.requestMerge(post.getId(), selectedTrack, new ICallback() {
+            @Override
+            public void initData(int code, String msg, Object data) {
+
+            }
+        });
     }
 
     public void onClickedPlayPause(View view) {
@@ -140,9 +163,12 @@ public class DetailViewModel {
 
     // 체크박스로 선택된 track 추출
     private void checkSelectedTrack() {
+        selectedTrack.clear();
         for(String instrument : post.getComment_tracks().keySet()) {
             for(Comment_track track : post.getComment_tracks().get(instrument)) {
                 if (track.getIsCheck()) {
+                    selectedTrack.add(track.getId());
+                    Log.d(TAG, "checkSelectedTrack: " + track.getId());
                     urlBuilder = new StringBuilder();
                     urlBuilder.append(BuildConfig.FILE_SERVER_URL)
                             .append("media/")
@@ -155,8 +181,8 @@ public class DetailViewModel {
             }
         }
 
-        for (String url : urls)
-            Log.d(TAG, "onClickedMerge: " + url);
+        /*for (String url : urls)
+            Log.d(TAG, "onClickedMerge: " + url);*/
     }
 
     public void onPause() {
@@ -224,15 +250,16 @@ public class DetailViewModel {
         }
     }
 
-    public void onUploadFrAudio (View v, Activity callFrom) {
+    public void onUploadFrAudio (View v, ProgressBar progress_bar, Activity callFrom) {
         if (mRecordFilePath == null) {
             Toast.makeText(v.getContext(), "먼저 녹음을 해주세요.", Toast.LENGTH_SHORT).show();
         } else if(" ".equals(selectedInstrument.get()) || "Select your instrument".equals(selectedInstrument.get())) {
             Toast.makeText(v.getContext(), "Select your instrument", Toast.LENGTH_SHORT).show();
         } else {
+
             commentAPI.pushComment(post.getId(), selectedInstrument.get(), mRecordFilePath,
             (code, msg, body) -> {
-                Comment_track commentTrack = ((Comment_track)body);
+                /*Comment_track commentTrack = ((Comment_track)body);
                 Log.d(TAG, "onUploadFrAudio: 입력" + commentTrack.toString());
                 if (post.getComment_tracks().containsKey(commentTrack.getInstrument())) {
                     post.getComment_tracks().get(commentTrack.getInstrument()).add(commentTrack);
@@ -244,7 +271,36 @@ public class DetailViewModel {
                     post.getComment_tracks().put(commentTrack.getInstrument(), newList);
                     Log.d(TAG, "onUploadFrAudio: 로컬 추가" + post.getComment_tracks().toString());
                 }
-                callFrom.finish();
+                callFrom.finish();*/
+
+                progress_bar.setVisibility(View.VISIBLE);
+
+
+                switch (code) {
+                    case Const.RESULT_SUCCESS:
+                        Log.d(TAG, "onUploadFrAudio: " + code);
+                        Observable<Response<Post>> postObs = postApi.getPost(post.getId());
+
+                        postObs.subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(
+                                        jsonData -> {
+                                            if (jsonData.isSuccessful()) {
+                                                post = jsonData.body();
+                                            }
+                                        },
+                                        throwable -> {},
+                                        // Complete 처리
+                                        () -> {
+                                            if (post != null) {
+                                                Log.d(TAG, "onUploadFrAudio: " + post.toString());
+                                                progress_bar.setVisibility(View.GONE);
+                                                callFrom.finish();
+                                            }
+                                        }
+                                );
+                        break;
+                }
             });
         }
     }

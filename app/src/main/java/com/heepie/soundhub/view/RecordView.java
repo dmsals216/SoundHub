@@ -21,9 +21,11 @@ import java.io.File;
 
 public class RecordView extends AppCompatActivity {
     public final String TAG = getClass().getSimpleName();
-    private RecordViewBinding binding;
     public int[] layoutResIds;
     public ObservableField<String> mFileName;
+    private RecordViewBinding binding;
+
+
 
 
     @Override
@@ -69,13 +71,10 @@ public class RecordView extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: " + requestCode + " " + resultCode + " ");
-
         String realPath="";
         if (requestCode == Const.SELECT_AUDIO_TRACK) {
             Uri uri = data.getData();
             realPath = PathUtil.getPath(this, uri);
-            File file = new File(realPath);
             Log.d(TAG, "onActivityResult: " + realPath);
             mFileName.set(realPath);
         }

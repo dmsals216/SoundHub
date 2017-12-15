@@ -30,12 +30,10 @@ import retrofit2.Response;
 
 public class ViewHandler {
     public final String TAG = getClass().getSimpleName();
-
-    public static ViewHandler intance;
-    private int populPostIndex;
-    private int newPostIndex;
-
     private PostApi postAPI;
+    private int newPostIndex;
+    private int populPostIndex;
+    public static ViewHandler intance;
 
     private ViewHandler() {
         populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
@@ -50,8 +48,8 @@ public class ViewHandler {
 
     // '더보기' 버튼 클릭시 실행되는 메소드
     public void onClickedMoreBtn(View view , PostsViewModel viewModel) {
-        Data data = DataAPI.getInstance().getModelData();
         int startIndex;
+        Data data = DataAPI.getInstance().getModelData();
 
         switch (view.getId()) {
         case R.id.populMoreBtn:
@@ -61,7 +59,7 @@ public class ViewHandler {
             if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
                 Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
             } else {
-                for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
+                for (int i=startIndex; i<startIndex+Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
                     if (data.getPop_posts().size() > i) {
                         viewModel.addPostViewModel(new PostViewModel(data.getPop_posts().get(i)));
                         populPostIndex++;
@@ -78,7 +76,7 @@ public class ViewHandler {
             if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
                 Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
             } else {
-                for (int i = startIndex; i < startIndex + Const.DEFAULT_COUNT_OF_SHOW_ITEM; i = i + 1) {
+                for (int i=startIndex; i<startIndex+Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
                     if (data.getRecent_posts().size() > i) {
                         viewModel.addPostViewModel(new PostViewModel(data.getRecent_posts().get(i)));
                         newPostIndex++;
@@ -90,12 +88,11 @@ public class ViewHandler {
     }
 
     public void onClickPostItem(View v, Post model) {
-        Intent intent = new Intent(v.getContext(), DetailView.class);
         final Post[] post = new Post[1];
-
         postAPI = PostApi.getInstance();
-        Observable<Response<Post>> postObs = postAPI.getPost(model.getId());
+        Intent intent = new Intent(v.getContext(), DetailView.class);
 
+        Observable<Response<Post>> postObs = postAPI.getPost(model.getId());
         postObs.subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(
@@ -103,6 +100,7 @@ public class ViewHandler {
                        if (jsonData.isSuccessful())
                            post[0] = jsonData.body();
                    },
+                   // Error 처리
                    throwable -> {},
                    // Complete 처리
                    () -> {
@@ -153,6 +151,6 @@ public class ViewHandler {
     }
 
     public void onClickedToast(View v) {
-        Toast.makeText(v.getContext(), "T", Toast.LENGTH_SHORT).show();
+        Toast.makeText(v.getContext(), "Test", Toast.LENGTH_SHORT).show();
     }
 }

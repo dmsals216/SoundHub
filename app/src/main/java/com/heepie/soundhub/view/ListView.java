@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.heepie.soundhub.BR;
+import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.ListViewBinding;
 import com.heepie.soundhub.databinding.NavigationHeaderBinding;
@@ -21,48 +22,42 @@ import java.io.File;
 
 public class ListView extends AppCompatActivity {
     public final String TAG = getClass().getSimpleName();
+    private String          category;
+    private ListViewModel   listViewModel;
     private ListViewBinding listBinding;
-    private ListViewModel listViewModel;
-    private String category;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        category = "";
         // Binding 초기화
-
-
-        /*NavigationHeaderBinding navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_header,listBinding.navigation,false);
-        listBinding.navigation.addHeaderView(navigationViewHeaderBinding.getRoot());
-        navigationViewHeaderBinding.setModel(Const.user);
-        navigationViewHeaderBinding.setViewhandler(ViewHandler.getIntance());*/
-
         listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
         listViewModel = new ListViewModel(this);
 
-        NavigationHeaderBinding navigationViewHeaderBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_header,listBinding.navigation,false);
-        listBinding.navigation.addHeaderView(navigationViewHeaderBinding.getRoot());
-        navigationViewHeaderBinding.setModel(Const.user);
-        navigationViewHeaderBinding.setViewhandler(ViewHandler.getIntance());
 
-        initData(Const.CATEGORY_DEFAULT);
+        initNavigationView();
+        initData(Const.CATEGORY_DEFAULT, (code, msg, data) -> {
+            if  (code == Const.RESULT_SUCCESS)
+                listBinding.progressBar.setVisibility(View.GONE);
+        });
 
         listBinding.setVariable(BR.viewModel, listViewModel);
         listBinding.setVariable(BR.view, this);
     }
 
-    private void initData(String category) {
+    private void initData(String category, ICallback callback) {
+        listBinding.progressBar.setVisibility(View.VISIBLE);
         listViewModel.resetData();
-        listViewModel.setDisplayData(category);
+        listViewModel.setDisplayData(category, callback);
         listViewModel.setDisplayCategory();
     }
 
-    // 서버로 부터 카테고리 정보를 입력 받는 메소드
-    private void setCategoryData() {
-        // 1. 서버와 통신 후 카테고리 정보 가져오기
-
-        // 2. 해당 카테고리 설정
-        // 2-1. 해당 이름에 따라 Button 카테고리 설정 및 빈 카테고리 버튼은 View.GONE 처리
+    private void initNavigationView() {
+        NavigationViewBinding naviViewBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_view,listBinding.navigation,false);
+        listBinding.navigation.addView(naviViewBinding.getRoot());
+        naviViewBinding.setVariable(BR.model, Const.user);
+        naviViewBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
     }
 
     public void onClickedTopCategory(View v) {
@@ -70,13 +65,12 @@ public class ListView extends AppCompatActivity {
         switch (v.getId()) {
             case R.id.category_genre:
                 if (listBinding.genreCategory.getVisibility() == View.VISIBLE) {
-                    listBinding.instrumentCategory.setVisibility(View.GONE);
                     listBinding.genreCategory.setVisibility(View.GONE);
-                } else {
                     listBinding.instrumentCategory.setVisibility(View.GONE);
+                } else {
                     listBinding.genreCategory.setVisibility(View.VISIBLE);
+                    listBinding.instrumentCategory.setVisibility(View.GONE);
                 }
-
                 break;
             case R.id.category_instrument:
                 if (listBinding.instrumentCategory.getVisibility() == View.VISIBLE) {
@@ -93,7 +87,11 @@ public class ListView extends AppCompatActivity {
     public void onClickedCategory(View v) {
         listBinding.genreCategory.setVisibility(View.GONE);
         listBinding.instrumentCategory.setVisibility(View.GONE);
-        initData(category + File.separator + ((Button) v).getText().toString());
+        initData(category + File.separator + ((Button) v).getText().toString(),
+                (code, msg, data) -> {
+                    if (code == Const.RESULT_SUCCESS)
+                        listBinding.progressBar.setVisibility(View.GONE);
+        });
     }
 
     @Override
@@ -108,5 +106,21 @@ public class ListView extends AppCompatActivity {
 
     public void onClickedMenu(View v) {
         listBinding.drawerLayout.openDrawer(listBinding.navigation);
+    }
+
+    public void onClickedRefresh(View v) {
+        initData(Const.CATEGORY_DEFAULT,
+                (code, msg, data) -> {
+                    if (code == Const.RESULT_SUCCESS)
+                        listBinding.progressBar.setVisibility(View.GONE);
+        });
+    }
+
+    // 서버로 부터 카테고리 정보를 입력 받는 메소드
+    private void setCategoryData() {
+        // 1. 서버와 통신 후 카테고리 정보 가져오기
+
+        // 2. 해당 카테고리 설정
+        // 2-1. 해당 이름에 따라 Button 카테고리 설정 및 빈 카테고리 버튼은 View.GONE 처리
     }
 }

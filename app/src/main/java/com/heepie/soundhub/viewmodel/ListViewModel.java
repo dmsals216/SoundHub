@@ -6,8 +6,10 @@ import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.domain.logic.DataAPI;
 import com.heepie.soundhub.domain.model.Data;
 import com.heepie.soundhub.domain.model.Post;
@@ -80,7 +82,7 @@ public class ListViewModel extends BaseObservable {
         category[1][5] = "Others";
     }
 
-    public void setDisplayData(String category) {
+    public void setDisplayData(String category, ICallback callback) {
         dataAPI = DataAPI.getInstance();
         Observable<Response<Data>> dataObs = dataAPI.getData(category);
 
@@ -92,6 +94,7 @@ public class ListViewModel extends BaseObservable {
                             dataAPI.setModelData(jsonData.body());
                             data = jsonData.body();
                             setData(data);
+                            callback.initData(Const.RESULT_SUCCESS, "Success", null);
                         });
     }
 
@@ -123,6 +126,4 @@ public class ListViewModel extends BaseObservable {
         Intent intent = new Intent(context, MusicUploadView.class);
         context.startActivity(intent);
     }
-
-
 }
