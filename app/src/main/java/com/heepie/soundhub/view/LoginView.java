@@ -162,6 +162,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                     new FacebookCallback<LoginResult>() {
                         @Override
                         public void onSuccess(LoginResult loginResult) {
+                            Log.e("haha", loginResult.getAccessToken() + "");
                             Intent intent = new Intent(LoginView.this, ListView.class);
                             startActivity(intent);
                             finish();

@@ -3,20 +3,13 @@ package com.heepie.soundhub.view;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.UserPageTabAdatper;
-import com.heepie.soundhub.databinding.UserpageViewBinding;
+import com.heepie.soundhub.databinding.UserpageMainviewBinding;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.viewmodel.UserPageViewModel;
@@ -29,15 +22,14 @@ public class UserPageView extends AppCompatActivity {
     User user;
     UserPageViewModel viewModel;
     TabLayout tabLayout;
-    UserpageViewBinding binding;
+    UserpageMainviewBinding binding;
     ViewPager viewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getUser();
-        binding = DataBindingUtil.setContentView(this, R.layout.userpage_view);
+        binding = DataBindingUtil.setContentView(this, R.layout.userpage_mainview);
         binding.setViewModel(viewModel);
-        setToolbar();
         setTabLayout();
         setViewPager();
         setListener();
@@ -50,22 +42,11 @@ public class UserPageView extends AppCompatActivity {
         viewPager.addOnPageChangeListener(
                 new TabLayout.TabLayoutOnPageChangeListener(tabLayout)
         );
-
-        binding.navigation.setNavigationItemSelectedListener(item -> {
-            switch (item.getTitle().toString()) {
-                case "Home":
-                    Intent intent = new Intent(this, ListView.class);
-                    startActivity(intent);
-                    finish();
-                    break;
-            }
-            return true;
-        });
     }
 
     public void setViewPager() {
         viewPager = findViewById(R.id.viewPager);
-        UserPageTabAdatper adatper = new UserPageTabAdatper();
+        UserPageTabAdatper adatper = new UserPageTabAdatper(user);
         viewPager.setAdapter(adatper);
     }
 
@@ -89,15 +70,6 @@ public class UserPageView extends AppCompatActivity {
     }
 
 
-    private void setToolbar() {
-        Toolbar toolbar = findViewById(R.id.toolbar2);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        DrawerLayout drawer = findViewById(R.id.drawerLayout2);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, 0, -1);
-        toggle.syncState();
-    }
 
 
     @Override
@@ -106,11 +78,6 @@ public class UserPageView extends AppCompatActivity {
             viewModel.sucheck.set(false);
             return;
         }
-        DrawerLayout drawer = findViewById(R.id.drawerLayout2);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+        super.onBackPressed();
     }
 }

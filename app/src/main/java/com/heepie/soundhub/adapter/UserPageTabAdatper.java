@@ -4,11 +4,15 @@ import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.heepie.soundhub.R;
+import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.domain.model.User;
+import com.heepie.soundhub.domain.model.User_Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +22,14 @@ import java.util.List;
  */
 
 public class UserPageTabAdatper extends PagerAdapter{
+    User user;
+    public UserPageTabAdatper() {
+
+    }
+
+    public UserPageTabAdatper(User user) {
+        this.user = user;
+    }
 
     @Override
     public int getCount() {
@@ -30,17 +42,45 @@ public class UserPageTabAdatper extends PagerAdapter{
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.userpage_recycler, null);
         RecyclerView recyclerView = view.findViewById(R.id.userpagerecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
-        List<String> data = new ArrayList<>();
-        for(int i = 0; i < 1000; i++) {
-            data.add(i+" 번째 데이터");
-        }
-        if(position == 0 || position == 1) {
-            UserPagePostListAdapter adapter = new UserPagePostListAdapter(data);
+//        List<String> following = new ArrayList<>();
+//        if(user.getFollowing().size() != 0) {
+//            for (String string : user.getFollowing()) {
+//                following.add(string);
+//            }
+//        }
+//        List<String> follower = new ArrayList<>();
+//        if(user.getFollowing().size() != 0) {
+//            for (String string : user.getFollowing()) {
+//                follower.add(string);
+//            }
+//        }
+        if(position == 0) {
+            List<User_Post> uploadData = new ArrayList<>();
+            Log.e("haha", user.getPost_set().size() + "");
+            if(null != user.getPost_set()) {
+                for (User_Post post : user.getPost_set()) {
+                    uploadData.add(post);
+                }
+            }
+            UserPagePostListAdapter adapter = new UserPagePostListAdapter(uploadData);
             recyclerView.setAdapter(adapter);
-        }else {
-            UserPageUserListAdapter adapter = new UserPageUserListAdapter(data);
+        }else if(position == 1) {
+            List<User_Post> likedData = new ArrayList<>();
+            if(null != user.getLiked_posts()) {
+                for (User_Post post : user.getLiked_posts()) {
+                    likedData.add(post);
+                }
+            }
+            UserPagePostListAdapter adapter = new UserPagePostListAdapter(likedData);
             recyclerView.setAdapter(adapter);
         }
+//        else if(position == 2) {
+//            UserPageUserListAdapter adapter = new UserPageUserListAdapter(following);
+//            recyclerView.setAdapter(adapter);
+//        }else if(position == 3) {
+//            UserPageUserListAdapter adapter = new UserPageUserListAdapter(follower);
+//            recyclerView.setAdapter(adapter);
+//        }
         container.addView(view);
         return view;
     }

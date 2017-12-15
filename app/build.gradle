@@ -79,7 +79,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-login:[4,5)'
 
 //    To use OkHttp
-    implementation "com.squareup.okhttp3:logging-interceptor:3.9.1"
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
 }
 
 // Google Sign-in
