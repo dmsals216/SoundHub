@@ -52,14 +52,43 @@
         app:layout_constraintTop_toBottomOf="@+id/userpagepostuimage"
         app:srcCompat="@drawable/test2" />
 
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/userpagepostpimage"
+        app:layout_constraintEnd_toStartOf="@+id/userpageheart"
+        app:srcCompat="@drawable/icon_like" />
+
     <TextView
-        android:id="@+id/userpageposttime"
+        android:id="@+id/userpagecomments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:text="음악길이"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/userpagepostpimage"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/userpagepostpimage"
+        app:layout_constraintEnd_toStartOf="@+id/userpagecomments"
+        app:srcCompat="@drawable/comments" />
+
+    <TextView
+        android:id="@+id/userpageheart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintBottom_toTopOf="@+id/userpagepostpimage"
+        app:layout_constraintEnd_toStartOf="@+id/imageView8" />
 
 </android.support.constraint.ConstraintLayout>

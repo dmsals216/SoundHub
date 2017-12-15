@@ -1,12 +1,15 @@
 package com.heepie.soundhub.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.heepie.soundhub.R;
+import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.domain.model.User_Post;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,9 @@ import java.util.List;
  */
 
 public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostListAdapter.Holder>{
-    List<String> data = new ArrayList<>();
+    List<User_Post> data = new ArrayList<>();
 
-    public UserPagePostListAdapter(List<String> data) {
+    public UserPagePostListAdapter(List<User_Post> data) {
         this.data = data;
     }
 
@@ -30,8 +33,11 @@ public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostLi
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        String aaa = data.get(position);
-        holder.textView.setText(aaa);
+        User_Post post = data.get(position);
+        holder.textTitle.setText(post.getTitle() + "");
+        holder.textHeart.setText(post.getNum_liked() + "");
+        holder.textComments.setText(post.getNum_comments() + "");
+        Log.e("haha", post.getId() + "");
     }
 
     @Override
@@ -41,11 +47,17 @@ public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostLi
 
     class Holder extends RecyclerView.ViewHolder{
 
-        TextView textView;
+        TextView textTitle;
+        TextView textArtist;
+        TextView textHeart;
+        TextView textComments;
 
         public Holder(View itemView) {
             super(itemView);
-            textView = itemView.findViewById(R.id.userpageposttitle);
+            textTitle = itemView.findViewById(R.id.userpageposttitle);
+            textArtist = itemView.findViewById(R.id.userpagepostartist);
+            textHeart = itemView.findViewById(R.id.userpageheart);
+            textComments = itemView.findViewById(R.id.userpagecomments);
         }
     }
 }
