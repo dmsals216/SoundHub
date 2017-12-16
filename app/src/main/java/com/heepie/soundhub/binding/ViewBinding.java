@@ -98,7 +98,7 @@ public class ViewBinding {
 
         if (musicByte != null && path != null) {
             audioWaveView.setRawData(musicByte, () -> {
-                player.startPlaying(path, duration);
+                player.setMasterMusic(path, duration);
             });
         }
     }

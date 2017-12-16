@@ -108,13 +108,13 @@
                         tools:layout_editor_absoluteX="0dp">
 
                         <ImageButton
-                            android:id="@+id/imageButton6"
                             android:layout_width="0dp"
                             android:layout_height="45dp"
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
                             android:scaleType="fitXY"
                             android:background="@android:color/transparent"
+                            android:onClick="@{viewModel::onClickedMasterPlay}"
                             app:srcCompat="@drawable/music_play" />
 
                         <rm.com.audiowave.AudioWaveView

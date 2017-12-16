@@ -109,6 +109,8 @@ public class ListView extends AppCompatActivity {
     }
 
     public void onClickedRefresh(View v) {
+        listBinding.genreCategory.setVisibility(View.GONE);
+        listBinding.instrumentCategory.setVisibility(View.GONE);
         initData(Const.CATEGORY_DEFAULT,
                 (code, msg, data) -> {
                     if (code == Const.RESULT_SUCCESS)

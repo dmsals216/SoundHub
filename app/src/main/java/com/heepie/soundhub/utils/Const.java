@@ -17,6 +17,7 @@ public class Const {
     public static final String ACTION_MUSIC_NOT_INIT = "NOT_INIT";
     public static final String ACTION_MUSIC_PLAY = "PLAY";
     public static final String ACTION_MUSIC_PAUSE = "PAUSE";
+    public static final String ACTION_MUSIC_PREPARE = "PREPARE";
 
     public static final int SELECT_AUDIO_TRACK = 50;
 

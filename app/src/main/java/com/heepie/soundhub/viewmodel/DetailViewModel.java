@@ -12,8 +12,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.heepie.soundhub.BR;
 import com.heepie.soundhub.BuildConfig;
+import com.heepie.soundhub.R;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.controller.RecordController;
@@ -186,6 +188,7 @@ public class DetailViewModel {
     }
 
     public void onPause() {
+        player.initData();
         player.stopPlaying();
     }
 
@@ -196,6 +199,8 @@ public class DetailViewModel {
 
         if (onRecording) {
             // 녹음 진행 시작
+            player.setMusic(urls);
+
             checkSelectedTrack();
             targetView.setVisibility(View.VISIBLE);
 
@@ -226,7 +231,7 @@ public class DetailViewModel {
                             string -> {
                                 countDown.set(string);
                                 if ("START!".equals(string)) {
-                                    player.setMusic(urls);
+                                    player.play();
                                     recorder.startRecording();
                                 }
                             },
@@ -244,7 +249,7 @@ public class DetailViewModel {
             // 녹음이 진행 중지
             mRecordFilePath = recorder.stopRecording();
             // 녹음을 멈추고 재생 시작
-            player.startPlaying(mRecordFilePath, 0);
+            player.setMasterMusic(mRecordFilePath, 0);
             player.pause();
             ((ImageButton)v).setImageResource(android.R.drawable.ic_media_play);
         }
@@ -322,6 +327,32 @@ public class DetailViewModel {
 
     public void onClickedRepeat(View v) {
         player.stopPlaying();
-        player.startPlaying(mRecordFilePath, 0);
+        player.setMasterMusic(mRecordFilePath, 0);
+        player.startPlaying();
+    }
+
+    public void onClickedMasterPlay(View view) {
+        switch (PlayerController.playerStatus) {
+            case Const.ACTION_MUSIC_PLAY:
+                 Glide.with(context)
+                      .load(R.drawable.music_play)
+                      .into((ImageButton)view);
+                player.pausePlayer();
+                break;
+
+            case Const.ACTION_MUSIC_PREPARE:
+                 Glide.with(context)
+                      .load(R.drawable.music_pause)
+                      .into((ImageButton)view);
+                player.startPlaying();
+                break;
+            case Const.ACTION_MUSIC_PAUSE:
+                 Glide.with(context)
+                      .load(R.drawable.music_pause)
+                      .into((ImageButton)view);
+                player.startPlaying();
+                break;
+        }
+
     }
 }

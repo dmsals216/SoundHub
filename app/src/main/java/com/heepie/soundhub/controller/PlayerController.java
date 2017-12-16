@@ -6,6 +6,7 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.TimeUtil;
@@ -42,12 +43,16 @@ public class PlayerController {
     private int maxDuration;
     public ObservableField<Float> curDuration;
     public ObservableField<String> curTime;
+    private int curIndex;
 
     // Dispose 가능한 객체 선언
     private Disposable durationTimer;
 
     // Dispose 가능한 객체를 담아 놓을 수 있는 Container 선언
     private CompositeDisposable observableDisposal;
+
+    private String masterPath;
+    private boolean isPreparePlayers = false;
 
     private PlayerController() {
         mPlayer = new MediaPlayer();
@@ -58,7 +63,7 @@ public class PlayerController {
         curDuration = new ObservableField<>();
         observableDisposal = new CompositeDisposable();
         curTime = new ObservableField<>(" ");
-
+        curIndex = 1;
     }
 
     public static PlayerController getInstance() {
@@ -82,7 +87,7 @@ public class PlayerController {
 
                     // 모든 session이 준비가 완료되었다면 play 실행
                     if (countOfsession.get() == urls.size())
-                        play(playerList);
+                        isPreparePlayers = true;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -91,13 +96,32 @@ public class PlayerController {
         }
     }
 
-    private void play(List<MediaPlayer> playerList) {
-        for (MediaPlayer track : playerList) {
-            new Thread(() -> {
-                track.start();
-            }).start();
+    public void setMasterMusic(String mFileName, int duration) {
+        masterPath = mFileName;
+        stopPlaying();
+        Log.d(TAG, "startPlaying: " + masterPath);
+        this.maxDuration = duration/1000;
+        try {
+            mPlayer.setDataSource(masterPath);
+            mPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        playerStatus = Const.ACTION_MUSIC_PLAY;
+
+        playerStatus = Const.ACTION_MUSIC_PREPARE;
+    }
+
+    public void play() {
+        if (isPreparePlayers) {
+            for (MediaPlayer track : playerList) {
+                new Thread(() -> {
+                    track.start();
+                }).start();
+            }
+            playerStatus = Const.ACTION_MUSIC_PLAY;
+        } else {
+            Toast.makeText(context, "음악 준비 중입니다.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void pause() {
@@ -109,19 +133,14 @@ public class PlayerController {
         playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
 
-    public void startPlaying(String mFileName, int duration) {
-        stopPlaying();
-        Log.d(TAG, "startPlaying: " + mFileName);
-        try {
-            this.maxDuration = duration/1000;
-            mPlayer.setDataSource(mFileName);
-            mPlayer.prepare();
+    public void startPlaying() {
+        if (!mPlayer.isPlaying()) {
             mPlayer.start();
             startDurationTimer();
-        } catch (IOException e) {
-            Log.e(TAG, "prepare() failed");
+        } else {
+            mPlayer.notify();
+            durationTimer.notify();
         }
-
         playerStatus = Const.ACTION_MUSIC_PLAY;
     }
 
@@ -129,6 +148,12 @@ public class PlayerController {
         // Dispose 객체 Clear
         observableDisposal.clear();
         mPlayer.reset();
+        playerStatus = Const.ACTION_MUSIC_PAUSE;
+    }
+
+    public void pausePlayer() {
+        mPlayer.pause();
+        durationTimer.dispose();
         playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
 
@@ -142,9 +167,10 @@ public class PlayerController {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
                 try {
-                    for (int i = 1; i < maxDuration+1; i = i + 1) {
+                    for (int i = curIndex; i < maxDuration+1; i = i + 1) {
                         e.onNext(i);
                         Thread.sleep(1000);
+                        curIndex += 1;
                     }
                     e.onComplete();
                 } catch (Exception ex) {
@@ -173,5 +199,9 @@ public class PlayerController {
         observableDisposal.add(durationTimer);
     }
 
-
+    public void initData() {
+        curIndex = 0;
+        curDuration.set(0f);
+        curTime.set(" ");
+    }
 }
