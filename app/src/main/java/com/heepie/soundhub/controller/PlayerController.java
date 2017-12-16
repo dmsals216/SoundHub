@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.MusicUtil;
 import com.heepie.soundhub.utils.TimeUtil;
 
 import java.io.File;
@@ -157,6 +158,12 @@ public class PlayerController {
         playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
 
+    public void setCurPlayer(float curDuration) {
+        Log.d(TAG, "setCurPlayer: " + curDuration);
+        currIndex = (int)curDuration/1000;
+        mPlayer.seekTo((int)curDuration);
+    }
+
     public void initPlayer(Context context) {
         this.context = context;
     }
@@ -168,7 +175,7 @@ public class PlayerController {
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
                 try {
                     for (int i = curIndex; i < maxDuration+1; i = i + 1) {
-                        e.onNext(i);
+                        e.onNext(1);
                         Thread.sleep(1000);
                         curIndex += 1;
                     }
@@ -182,6 +189,8 @@ public class PlayerController {
         return mDurationSubscr;
     }
 
+    int currIndex = 0;
+
     // 해당 Observable을 실행하는 메소드
     private void startDurationTimer() {
         durationTimer =
@@ -190,9 +199,10 @@ public class PlayerController {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             curProgress -> {
+                                currIndex += curProgress;
                                 Log.d(TAG, "startDurationTimer: " + curProgress);
-                                curDuration.set((curProgress*(100/Float.parseFloat(maxDuration+""))));
-                                curTime.set(TimeUtil.secondToMMSS(curProgress) + " / " + TimeUtil.secondToMMSS(maxDuration));
+                                curDuration.set(MusicUtil.durationToPercent(currIndex, maxDuration));
+                                curTime.set(TimeUtil.secondToMMSS(currIndex) + " / " + TimeUtil.secondToMMSS(maxDuration));
                             }
                     );
         // Container에 등록
@@ -200,6 +210,7 @@ public class PlayerController {
     }
 
     public void initData() {
+        currIndex = 0;
         curIndex = 0;
         curDuration.set(0f);
         curTime.set(" ");

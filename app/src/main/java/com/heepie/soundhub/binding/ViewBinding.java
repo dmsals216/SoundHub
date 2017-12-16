@@ -20,6 +20,9 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.heepie.soundhub.controller.PlayerController;
+import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.MusicUtil;
 import com.heepie.soundhub.viewmodel.DetailViewModel;
 
 import java.io.File;
@@ -29,7 +32,6 @@ import java.io.FileNotFoundException;
 import kotlin.io.ByteStreamsKt;
 import rm.com.audiowave.AudioWaveView;
 import rm.com.audiowave.OnProgressListener;
-import rm.com.audiowave.OnSamplingListener;
 
 import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 
@@ -101,12 +103,33 @@ public class ViewBinding {
                 player.setMasterMusic(path, duration);
             });
         }
+
+        audioWaveView.setOnProgressListener(new OnProgressListener() {
+            @Override
+            public void onStartTracking(float v) {
+                Log.d("setWave", "onStartTracking: " + v);
+                player.setCurPlayer(MusicUtil.percentToDuration(v, duration));
+                audioWaveView.setProgress(v);
+            }
+
+            @Override
+            public void onStopTracking(float v) {
+
+            }
+
+            @Override
+            public void onProgressChanged(float v, boolean b) {
+
+            }
+        });
+
     }
 
     @BindingAdapter("setCurProgr")
     public static void setCurProgr(View view, float curProgress) {
         if (view instanceof AudioWaveView) {
-            ((AudioWaveView) view).setProgress(curProgress);
+            if (100 >= curProgress)
+                ((AudioWaveView) view).setProgress(curProgress);
             // progress bar 터치 이벤트 설정
         }
     }
@@ -126,4 +149,14 @@ public class ViewBinding {
         else
             view.setVisibility(View.VISIBLE);
     }
+
+    @BindingAdapter("setMergeVisible")
+    public static void setMergeVisible(View view, Post model) {
+        if (Const.user.getNickname().equals(model.getAuthor()))
+            view.setVisibility(View.VISIBLE);
+        else
+            view.setVisibility(View.GONE);
+    }
+
+
 }

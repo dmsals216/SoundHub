@@ -11,5 +11,4 @@ public class TimeUtil {
 
         return String.format("%02d" + ":" +"%02d", minute, sec);
     }
-
 }

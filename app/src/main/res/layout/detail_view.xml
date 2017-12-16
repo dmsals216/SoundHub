@@ -265,6 +265,7 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:onClick="@{viewModel::onClickedMerge}"
+                        app:setMergeVisible="@{model}"
                         android:text="음원 만들기" />
 
                     <Button
