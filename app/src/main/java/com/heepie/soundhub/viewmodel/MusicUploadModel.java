@@ -67,13 +67,13 @@ public class MusicUploadModel {
                     Toast.makeText(context, "업로드 완료 되었습니다.", Toast.LENGTH_SHORT).show();
                     listener.finishActivityss();
                 }else {
-                    Toast.makeText(context, "업로드 실패하였습니다1.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "업로드 실패하였습니다.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
-                Toast.makeText(context, "업로드 실패하였습니다2.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "업로드 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }

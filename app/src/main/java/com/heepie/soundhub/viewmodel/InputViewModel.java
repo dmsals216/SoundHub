@@ -127,7 +127,7 @@ public class InputViewModel {
 
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
-
+                Toast.makeText(view.getContext(), "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }

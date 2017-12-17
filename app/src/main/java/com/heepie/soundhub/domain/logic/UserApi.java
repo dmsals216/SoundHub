@@ -110,6 +110,7 @@ public class UserApi extends AbsApi {
         Call<User> getModify(@Path("id") String id,
                              @Header("Authorization")String token,
                              @Part("nickname")RequestBody nickname,
-                             @Part("instrument")RequestBody instrument);
+                             @Part("instrument")RequestBody instrument,
+                             @Part("genre")RequestBody genre);
     }
 }

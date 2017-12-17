@@ -4,6 +4,7 @@ import android.content.Context;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
 import com.heepie.soundhub.domain.logic.UserApi;
@@ -26,6 +27,7 @@ public class UserPageViewModel {
     public final ObservableBoolean check = new ObservableBoolean(false);
     public final ObservableField<String> userName = new ObservableField<>("");
     public final ObservableField<String> userInstrument = new ObservableField<>("");
+    public final ObservableField<String> userGenre = new ObservableField<>("");
 
     public final ObservableBoolean sucheck = new ObservableBoolean(false);
 
@@ -41,6 +43,10 @@ public class UserPageViewModel {
         this.userName.set(userName);
     }
 
+    public void setUserGenre(String userGenre) {
+        this.userGenre.set(userGenre);
+    }
+
     public void setUserInstrument(String userInstrument) {
         this.userInstrument.set(userInstrument);
     }
@@ -53,12 +59,35 @@ public class UserPageViewModel {
         }
     }
 
+    public void onClickedCancel(View view) {
+        userName.set(Const.user.getNickname());
+        userInstrument.set(Const.user.getInstrument());
+        userGenre.set(Const.user.getGenre());
+        sucheckChanged(view);
+        onClickedStage(view);
+    }
+
+    public void sucheckChanged() {
+        if(sucheck.get()) {
+            sucheck.set(false);
+        }else {
+            sucheck.set(true);
+        }
+    }
+
+    public void onClickedCancel() {
+        userName.set(Const.user.getNickname());
+        userInstrument.set(Const.user.getInstrument());
+        userGenre.set(Const.user.getGenre());
+        sucheckChanged();
+    }
+
     public void onClickedModify(View view) {
         UserApi.IUser service = RetrofitUtil.getInstance().create(UserApi.IUser.class);
         RequestBody name = RequestBody.create(MediaType.parse("text/plain"), userName.get());
         RequestBody instrument = RequestBody.create(MediaType.parse("text/plain"), userInstrument.get());
-
-        Call<User> response = service.getModify(Const.user.getId(), "Token " + Const.TOKEN, name, instrument);
+        RequestBody genre = RequestBody.create(MediaType.parse("text/plain"), userGenre.get());
+        Call<User> response = service.getModify(Const.user.getId(), "Token " + Const.TOKEN, name, instrument, genre);
         response.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -67,6 +96,7 @@ public class UserPageViewModel {
                     Const.user = response.body();
                     userName.set(Const.user.getNickname());
                     userInstrument.set(Const.user.getInstrument());
+                    userGenre.set(Const.user.getGenre());
                     Toast.makeText(context, "회원 정보가 수정되었습니다.", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(context, "회원수정에 실패 하셨습니다", Toast.LENGTH_SHORT).show();
@@ -78,5 +108,10 @@ public class UserPageViewModel {
                 Toast.makeText(context, "회원수정에 실패 하셨습니다", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    public void onClickedStage(View view) {
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
