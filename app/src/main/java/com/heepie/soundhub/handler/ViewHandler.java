@@ -1,5 +1,6 @@
 package com.heepie.soundhub.handler;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.heepie.soundhub.domain.model.Data;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.SignUtil;
 import com.heepie.soundhub.view.DetailView;
 import com.heepie.soundhub.view.UserPageView;
 import com.heepie.soundhub.viewmodel.PostViewModel;
@@ -152,5 +154,9 @@ public class ViewHandler {
 
     public void onClickedToast(View v) {
         Toast.makeText(v.getContext(), "Test", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onClickedLogOut(View v, Activity activity) {
+        SignUtil.logout(activity, activity);
     }
 }

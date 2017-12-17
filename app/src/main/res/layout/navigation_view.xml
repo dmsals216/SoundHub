@@ -5,6 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
         <variable
+            name="view"
+            type="com.heepie.soundhub.view.ListView"/>
+        <variable
             name="viewhandler"
             type="com.heepie.soundhub.handler.ViewHandler"/>
         <variable
@@ -27,13 +30,12 @@
             android:background="@color/black_2"
             >
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/user_image"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="50dp"
-                android:scaleType="fitXY"
                 android:src="@drawable/test"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -62,11 +64,12 @@
                 />
 
             <ImageButton
-                android:id="@+id/imageButton3"
                 style="@style/icon"
+                android:id="@+id/imageButton3"
                 android:layout_marginEnd="4dp"
                 android:layout_marginTop="4dp"
-                android:src="@drawable/close_btn_img"
+                android:src="@drawable/icon_close"
+                android:onClick="@{view::onClickedClose}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -103,7 +106,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:onClick="@{viewhandler::onClickedToast}"
+                android:onClick="@{view::onClickedRefresh}"
                 android:orientation="horizontal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -133,7 +136,7 @@
                 android:textAllCaps="false"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
-                android:onClick="@{viewhandler::onClickedToast}"
+                android:onClick="@{(v) -> viewhandler.onClickedLogOut(v, view)}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
         </android.support.constraint.ConstraintLayout>

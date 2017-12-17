@@ -56,6 +56,7 @@ public class ListView extends AppCompatActivity {
     private void initNavigationView() {
         NavigationViewBinding naviViewBinding = DataBindingUtil.inflate(getLayoutInflater(), R.layout.navigation_view,listBinding.navigation,false);
         listBinding.navigation.addView(naviViewBinding.getRoot());
+        naviViewBinding.setVariable(BR.view, this);
         naviViewBinding.setVariable(BR.model, Const.user);
         naviViewBinding.setVariable(BR.viewhandler, ViewHandler.getIntance());
     }
@@ -109,6 +110,7 @@ public class ListView extends AppCompatActivity {
     }
 
     public void onClickedRefresh(View v) {
+        listBinding.drawerLayout.closeDrawers();
         listBinding.genreCategory.setVisibility(View.GONE);
         listBinding.instrumentCategory.setVisibility(View.GONE);
         initData(Const.CATEGORY_DEFAULT,
@@ -116,6 +118,10 @@ public class ListView extends AppCompatActivity {
                     if (code == Const.RESULT_SUCCESS)
                         listBinding.progressBar.setVisibility(View.GONE);
         });
+    }
+
+    public void onClickedClose(View v) {
+        listBinding.drawerLayout.closeDrawers();
     }
 
     // 서버로 부터 카테고리 정보를 입력 받는 메소드
