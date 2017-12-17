@@ -61,7 +61,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="24dp"
                     android:onClick="@{viewModel::sucheckChanged}"
-                    android:src="@drawable/setting"
+                    android:src="@drawable/icon_setting"
                     android:visibility="@{viewModel.check ? View.VISIBLE : View.GONE}"
                     app:civ_border_color="@color/cardview_shadow_end_color"
                     app:civ_border_width="2dp"

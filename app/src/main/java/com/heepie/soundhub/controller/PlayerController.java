@@ -199,10 +199,12 @@ public class PlayerController {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             curProgress -> {
-                                currIndex += curProgress;
-                                Log.d(TAG, "startDurationTimer: " + curProgress);
-                                curDuration.set(MusicUtil.durationToPercent(currIndex, maxDuration));
-                                curTime.set(TimeUtil.secondToMMSS(currIndex) + " / " + TimeUtil.secondToMMSS(maxDuration));
+                                if (currIndex < maxDuration) {
+                                    currIndex += curProgress;
+                                    Log.d(TAG, "startDurationTimer: " + curProgress);
+                                    curDuration.set(MusicUtil.durationToPercent(currIndex, maxDuration));
+                                    curTime.set(TimeUtil.secondToMMSS(currIndex) + " / " + TimeUtil.secondToMMSS(maxDuration));
+                                }
                             }
                     );
         // Container에 등록

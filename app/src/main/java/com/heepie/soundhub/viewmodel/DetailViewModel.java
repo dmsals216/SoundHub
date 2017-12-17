@@ -114,10 +114,6 @@ public class DetailViewModel {
         });
     }
 
-    private void refreshPost(Post newPost) {
-        this.post = newPost;
-    }
-
     public void onClickedMerge(View view) {
         Log.d(TAG, "onClickedMerge: Clicked");
         checkSelectedTrack();
@@ -190,6 +186,7 @@ public class DetailViewModel {
     public void onPause() {
         player.initData();
         player.stopPlaying();
+        masterPath.set(" ");
     }
 
     public void onClickedRecord(View v, View targetView) {
@@ -251,7 +248,8 @@ public class DetailViewModel {
             // 녹음을 멈추고 재생 시작
             player.setMasterMusic(mRecordFilePath, 0);
             player.pause();
-            ((ImageButton)v).setImageResource(android.R.drawable.ic_media_play);
+            ((ImageButton)v).setImageResource(R.drawable.icon_record);
+            Toast.makeText(context, "녹음 완료!", Toast.LENGTH_SHORT).show();
         }
     }
 

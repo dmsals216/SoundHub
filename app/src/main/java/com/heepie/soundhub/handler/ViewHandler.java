@@ -2,6 +2,7 @@ package com.heepie.soundhub.handler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -158,5 +159,9 @@ public class ViewHandler {
 
     public void onClickedLogOut(View v, Activity activity) {
         SignUtil.logout(activity, activity);
+    }
+
+    public void onClickedClose(View v, DrawerLayout drawerLayout) {
+        drawerLayout.closeDrawers();
     }
 }

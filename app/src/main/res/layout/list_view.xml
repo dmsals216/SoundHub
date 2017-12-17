@@ -60,7 +60,7 @@
                         <ImageButton
                             style="@style/ToolBarButton"
                             android:layout_marginEnd="16dp"
-                            android:onClick="@{view::onClickedRefresh}"
+                            android:onClick="@{view::goHome}"
                             android:src="@drawable/icon_home"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/imageButton5"
@@ -107,6 +107,21 @@
                 </LinearLayout>
 
             </android.support.design.widget.AppBarLayout>
+
+            <FrameLayout
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/black_2"
+                android:visibility="gone">
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    />
+
+            </FrameLayout>
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -394,19 +409,7 @@
 
         </LinearLayout>
 
-        <FrameLayout
-            android:id="@+id/progress_bar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone">
 
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                />
-
-        </FrameLayout>
 
         <!--<include
             layout="@layout/navigation_view"

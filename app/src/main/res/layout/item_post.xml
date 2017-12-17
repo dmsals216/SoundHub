@@ -80,17 +80,16 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/list_user_image"
                     android:layout_width="59dp"
                     android:layout_height="55dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:src="@drawable/test"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-
-                    app:srcCompat="@drawable/test" />
-
+                    />
                 <!--app:loadCircleImage="@{model.testUser.user_image_path}"-->
 
                 <ImageView
