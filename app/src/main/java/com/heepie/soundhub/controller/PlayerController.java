@@ -92,7 +92,8 @@ public class PlayerController {
                     // 모든 session이 준비가 완료되었다면 play 실행
                     if (countOfsession.get() == urls.size()) {
                         isPreparePlayers = true;
-                        callback.initData(Const.RESULT_SUCCESS, "Sucess", null);
+                        if (callback != null)
+                            callback.initData(Const.RESULT_SUCCESS, "Sucess", null);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -118,7 +119,6 @@ public class PlayerController {
     }
 
     public boolean play() {
-
         for (MediaPlayer track : playerList) {
             new Thread(() -> {
                 track.start();

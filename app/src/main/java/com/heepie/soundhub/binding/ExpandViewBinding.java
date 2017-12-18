@@ -21,7 +21,9 @@ public class ExpandViewBinding {
     public static void setViewModel(View view, Post model) {
         if (view instanceof ExpandableListView) {
             // Comment의 그룹(피아노, 드럼 등) 추출
-            ArrayList<String> groups = new ArrayList<>(model.getComment_tracks().keySet());
+            ArrayList<String> groups = new ArrayList<>();
+            groups.add("Mixed");
+            groups.addAll(model.getComment_tracks().keySet());
             Log.d("ExpandViewBinding", "setViewModel: " + groups.toString());
             ExpandListAdapter adapter = new ExpandListAdapter(groups, model.getComment_tracks());
             ((ExpandableListView)view).setAdapter(adapter);

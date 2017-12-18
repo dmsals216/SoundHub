@@ -50,7 +50,6 @@ public class DetailView extends AppCompatActivity implements IGoHome {
     private void initData() {
         model = getIntent().getParcelableExtra("model");
         binding.setModel(model);
-
     }
 
     private void initNavigationView() {

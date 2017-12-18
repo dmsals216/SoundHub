@@ -18,6 +18,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
@@ -86,10 +87,15 @@ public class PostApi extends AbsApi {
         String sumString = strBuilder.toString();
         String mixTrack = sumString.substring(0, sumString.length() - SEPARATED.length());
 
-        Call<Post> result = service.requestMerge(post_id,"Token " + Const.TOKEN, mixTrack);
+        RequestBody mixTrackBody = RequestBody.create(MediaType.parse("text/plain"), mixTrack);
+
+        Log.d(TAG, "requestMerge: " + post_id + "/" + mixTrack + "/");
+
+        Call<Post> result = service.requestMerge(post_id,"Token " + Const.TOKEN, mixTrackBody);
         result.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {
+                Log.d(TAG, "onResponse: " + response.code());
                 if (response.isSuccessful()) {
                     Log.d(TAG, "requestMerge: " + response.code() + " " + response.message() + " " + response.body());
                     callback.initData(response.code(), response.message(), response.body());
@@ -124,9 +130,9 @@ public class PostApi extends AbsApi {
                             @Part MultipartBody.Part author_track);
 
         @Multipart
-        @PATCH("post/{post_id}/")
+        @PATCH("post/{post_id}/mix/")
         Call<Post> requestMerge (@Path("post_id") String post_id,
                                  @Header("Authorization") String token,
-                                 @Part("mix_tracks") String mix_tracks);
+                                 @Part("mix_tracks") RequestBody mix_tracks);
     }
 }

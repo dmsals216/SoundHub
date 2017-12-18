@@ -39,6 +39,9 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         this.groups = groups;
         this.comments = comments;
         notifyDataSetChanged();
+
+        for (int i=0; i<groups.size(); i=i+1)
+            onGroupExpanded(i);
     }
 
     @Override
