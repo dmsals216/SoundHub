@@ -52,6 +52,8 @@ public class InputViewModel {
     public ObservableField<String> password = new ObservableField<>("");
     public ObservableField<String> passwordCheck = new ObservableField<>("");
     public ObservableField<String> genre = new ObservableField<>("");
+    public ObservableField<String> instrument = new ObservableField<>("");
+    public ObservableField<String> nickname = new ObservableField<>("");
 
     public ObservableField<Integer> isSignUpFiled = new ObservableField<>(1);
 
@@ -128,6 +130,29 @@ public class InputViewModel {
             @Override
             public void onFailure(Call<LoginResult> call, Throwable t) {
                 Toast.makeText(view.getContext(), "로그인에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void onClickedSignUp(View view) {
+        Retrofit retrofit = RetrofitUtil.getInstance();
+        UserApi.IUser service = retrofit.create(UserApi.IUser.class);
+        RequestBody email1 = RequestBody.create(MediaType.parse("text/plain"), email.get());
+        RequestBody password1 = RequestBody.create(MediaType.parse("text/plain"), password.get());
+        RequestBody instrument1 = RequestBody.create(MediaType.parse("text/plain"), instrument.get());
+        RequestBody nickname1 = RequestBody.create(MediaType.parse("text/plain"), nickname.get());
+        RequestBody genre1 = RequestBody.create(MediaType.parse("text/plain"), genre.get());
+        Call<Result> result = service.signUpUser(email1, password1, password1, instrument1, nickname1);
+        result.enqueue(new Callback<Result>() {
+            @Override
+            public void onResponse(Call<Result> call, Response<Result> response) {
+                onCancelClicked();
+                Toast.makeText(view.getContext(), "이메일을 확인해 주세요..", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Result> call, Throwable t) {
+                Toast.makeText(view.getContext(), "회원가입에 실패하셨습니다.", Toast.LENGTH_SHORT).show();
             }
         });
     }
