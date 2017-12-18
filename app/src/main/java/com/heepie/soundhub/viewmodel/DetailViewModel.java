@@ -139,22 +139,28 @@ public class DetailViewModel {
         });
     }
 
-    public void onClickedPlayPause(View view) {
-        Log.d(TAG, "onClickedPlay: Clicked " + PlayerController.playerStatus);
-        player.setMusic(urls);
-        switch (PlayerController.playerStatus) {
-            case Const.ACTION_MUSIC_NOT_INIT:
+    public void onClickedPlayPause(View view, ProgressBar progressBar) {
+        Log.d(TAG, "onClickedPlay: Clicked " + PlayerController.selectMusicStatus);
+
+        switch (PlayerController.selectMusicStatus) {
+            case Const.ACTION_SELECT_MUSIC_NOT_INIT:
                 checkSelectedTrack();
+                progressBar.setVisibility(View.VISIBLE);
+                player.setMusic(urls, (code, msg, data) -> {
+                    if (code == Const.RESULT_SUCCESS) {
+                        player.play();
+                    }
+                });
+                ((Button)view).setText("일시정지");
+                progressBar.setVisibility(View.GONE);
 
+                break;
+            case Const.ACTION_SELECT_MUSIC_PAUSE:
                 if(player.play())
                     ((Button)view).setText("일시정지");
                 break;
-            case Const.ACTION_MUSIC_PAUSE:
-                if(player.play())
-                    ((Button)view).setText("일시정지");
-                break;
 
-            case Const.ACTION_MUSIC_PLAY:
+            case Const.ACTION_SELECT_MUSIC_PLAY:
                 player.pause();
                 ((Button)view).setText("재생");
                 break;
@@ -196,7 +202,7 @@ public class DetailViewModel {
     }
 
     public void onPause() {
-
+        urls.clear();
         player.initData();
         player.pause();
         player.stopPlaying();
@@ -209,7 +215,7 @@ public class DetailViewModel {
 
         if (onRecording) {
             // 녹음 진행 시작
-            player.setMusic(urls);
+            player.setMusic(urls, null);
 
             checkSelectedTrack();
             targetView.setVisibility(View.VISIBLE);
@@ -351,21 +357,21 @@ public class DetailViewModel {
     }
 
     public void onClickedMasterPlay(View view) {
-        switch (PlayerController.playerStatus) {
-            case Const.ACTION_MUSIC_PLAY:
+        switch (PlayerController.masterStatus) {
+            case Const.ACTION_MASTER_PLAY:
                  Glide.with(context)
                       .load(R.drawable.music_play)
                       .into((ImageButton)view);
                 player.pausePlayer();
                 break;
 
-            case Const.ACTION_MUSIC_PREPARE:
+            case Const.ACTION_MASTER_PREPARE:
                  Glide.with(context)
                       .load(R.drawable.music_pause)
                       .into((ImageButton)view);
                 player.startPlaying();
                 break;
-            case Const.ACTION_MUSIC_PAUSE:
+            case Const.ACTION_MASTER_PAUSE:
                  Glide.with(context)
                       .load(R.drawable.music_pause)
                       .into((ImageButton)view);

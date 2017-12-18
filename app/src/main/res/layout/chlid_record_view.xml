@@ -17,7 +17,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@color/black"
+        android:background="@color/black_2"
         >
 
         <TextView
@@ -34,18 +34,22 @@
             app:layout_constraintTop_toTopOf="@+id/frameLayout3" />
 
         <ImageButton
+            android:id="@+id/imageButton4"
             android:layout_width="100dp"
             android:layout_height="100dp"
+            android:layout_marginBottom="8dp"
             android:background="@drawable/shape_round_button"
             android:onClick="@{(view) -> viewModel.onClickedRecord(view, countDown)}"
             android:padding="4dp"
             android:src="@drawable/icon_record"
-            app:layout_constraintBottom_toTopOf="@+id/button14"
+            app:layout_constraintBottom_toBottomOf="@+id/button14"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/appCompatSpinner" />
 
         <Button
+            style="@style/blackConcept"
+            android:padding="8dp"
             android:id="@+id/button16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -100,6 +104,8 @@
         </FrameLayout>
 
         <Button
+            style="@style/blackConcept"
+            android:padding="8dp"
             android:id="@+id/button14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

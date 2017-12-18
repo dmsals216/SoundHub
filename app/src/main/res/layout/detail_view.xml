@@ -55,6 +55,8 @@
                 android:layout_weight="8"
                 android:orientation="vertical">
 
+
+
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
@@ -232,16 +234,26 @@
 
                 </android.support.constraint.ConstraintLayout>
 
-                <ExpandableListView
-                    android:id="@+id/expnad_list_view"
+                <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_weight="3"
-                    android:background="@color/black"
-                    >
+                    android:layout_weight="3">
 
-                </ExpandableListView>
+                    <ExpandableListView
+                        android:id="@+id/expnad_list_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/black"
+                        />
 
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:visibility="gone"
+                        />
+                </FrameLayout>
             </LinearLayout>
 
             <android.support.v7.widget.Toolbar
@@ -275,7 +287,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:onClick="@{viewModel::onClickedPlayPause}"
+                        android:onClick="@{(v) -> viewModel.onClickedPlayPause(v, progressBar)}"
                         android:text="재생" />
 
                     <Button

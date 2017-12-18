@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.MusicUtil;
 import com.heepie.soundhub.utils.TimeUtil;
@@ -33,7 +34,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PlayerController {
     public final String TAG = getClass().getSimpleName();
-    public static String playerStatus;
+    public static String masterStatus;
+    public static String selectMusicStatus;
     private static PlayerController instance;
     private MediaPlayer mPlayer;
     private List<MediaPlayer> playerList;
@@ -57,7 +59,8 @@ public class PlayerController {
 
     private PlayerController() {
         mPlayer = new MediaPlayer();
-        playerStatus = Const.ACTION_MUSIC_NOT_INIT;
+        masterStatus = Const.ACTION_MASTER_NOT_INIT;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_NOT_INIT;
         playerList = new ArrayList<>();
         countOfsession = new AtomicInteger(0);
 
@@ -73,7 +76,7 @@ public class PlayerController {
         return instance;
     }
 
-    public void setMusic(List<String> urls) {
+    public void setMusic(List<String> urls, ICallback callback) {
         for (String url : urls) {
             Log.d(TAG, "setMusic: " + url);
 
@@ -87,8 +90,10 @@ public class PlayerController {
                     countOfsession.set(countOfsession.get()+1);
 
                     // 모든 session이 준비가 완료되었다면 play 실행
-                    if (countOfsession.get() == urls.size())
+                    if (countOfsession.get() == urls.size()) {
                         isPreparePlayers = true;
+                        callback.initData(Const.RESULT_SUCCESS, "Sucess", null);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -109,22 +114,19 @@ public class PlayerController {
             e.printStackTrace();
         }
 
-        playerStatus = Const.ACTION_MUSIC_PREPARE;
+        masterStatus = Const.ACTION_MASTER_PREPARE;
     }
 
     public boolean play() {
-        if (isPreparePlayers) {
-            for (MediaPlayer track : playerList) {
-                new Thread(() -> {
-                    track.start();
-                }).start();
-            }
-            playerStatus = Const.ACTION_MUSIC_PLAY;
-            return true;
-        } else {
-            Toast.makeText(context, "음악 준비 중입니다.", Toast.LENGTH_SHORT).show();
-            return false;
+
+        for (MediaPlayer track : playerList) {
+            new Thread(() -> {
+                track.start();
+            }).start();
         }
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_PLAY;
+        return true;
+
     }
 
     public void pause() {
@@ -133,7 +135,7 @@ public class PlayerController {
                 track.pause();
             }).start();
         }
-        playerStatus = Const.ACTION_MUSIC_PAUSE;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_PAUSE;
     }
 
     public void startPlaying() {
@@ -144,20 +146,20 @@ public class PlayerController {
             mPlayer.notify();
             durationTimer.notify();
         }
-        playerStatus = Const.ACTION_MUSIC_PLAY;
+        masterStatus = Const.ACTION_MASTER_PLAY;
     }
 
     public void stopPlaying() {
         // Dispose 객체 Clear
         observableDisposal.clear();
         mPlayer.reset();
-        playerStatus = Const.ACTION_MUSIC_PAUSE;
+        masterStatus = Const.ACTION_MASTER_PAUSE;
     }
 
     public void pausePlayer() {
         mPlayer.pause();
         durationTimer.dispose();
-        playerStatus = Const.ACTION_MUSIC_PAUSE;
+        masterStatus = Const.ACTION_MASTER_PAUSE;
     }
 
     public void setCurPlayer(float curDuration) {
@@ -214,7 +216,8 @@ public class PlayerController {
     }
 
     public void initData() {
-        playerStatus = Const.ACTION_MUSIC_NOT_INIT;
+        masterStatus = Const.ACTION_MASTER_NOT_INIT;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_NOT_INIT;
         currIndex = 0;
         curIndex = 0;
         curDuration.set(0f);
