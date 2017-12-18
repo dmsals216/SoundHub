@@ -186,12 +186,10 @@ public class Post extends BaseObservable implements Parcelable {
         dest.writeString(this.title);
         dest.writeString(this.master_track);
         dest.writeStringArray(this.liked);
-        if (this.comment_tracks != null) {
-            dest.writeInt(this.comment_tracks.size());
-            for (Map.Entry<String, List<Comment_track>> entry : this.comment_tracks.entrySet()) {
-                dest.writeString(entry.getKey());
-                dest.writeList(entry.getValue());
-            }
+        dest.writeInt(this.comment_tracks.size());
+        for (Map.Entry<String, List<Comment_track>> entry : this.comment_tracks.entrySet()) {
+            dest.writeString(entry.getKey());
+            dest.writeList(entry.getValue());
         }
         dest.writeString(this.instrument);
     }

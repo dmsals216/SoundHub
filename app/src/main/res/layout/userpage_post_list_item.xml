@@ -7,8 +7,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/userpagepostuimage"
-        android:layout_width="96dp"
-        android:layout_height="80dp"
+        android:layout_width="70dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/test3"
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:text="Title"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         app:layout_constraintStart_toEndOf="@+id/userpagepostuimage"
@@ -54,8 +54,9 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="55dp"
-        android:layout_height="55dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/userpagepostpimage"
         app:layout_constraintEnd_toStartOf="@+id/userpageheart"
@@ -73,8 +74,9 @@
 
     <ImageView
         android:id="@+id/imageView8"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        style="@style/icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/userpagepostpimage"

@@ -14,17 +14,21 @@
             android:layout_height="match_parent"
             android:gravity="center"
             android:orientation="vertical"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Music Upload"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/edit_back"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -45,7 +49,7 @@
                         android:id="@+id/clearEditView7"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
+                        android:layout_weight="2.5"
                         android:text="@={viewModel.title}" />
                 </LinearLayout>
 
@@ -77,7 +81,7 @@
                         android:id="@+id/button4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0.5"
                         android:text="..." />
                 </LinearLayout>
 
@@ -98,9 +102,9 @@
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinner"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="3"
-                        android:entries="@array/instruments"
+                        android:layout_height="40dp"
+                        android:layout_weight="2.5"
+                        android:entries="@array/instrumentsv"
                         android:selectedValue="@={viewModel.instrument}" />
                 </LinearLayout>
 
@@ -121,9 +125,9 @@
                     <android.support.v7.widget.AppCompatSpinner
                         android:id="@+id/spinner2"
                         android:layout_width="0dp"
-                        android:layout_height="30dp"
-                        android:layout_weight="3"
-                        android:entries="@array/genre"
+                        android:layout_height="40dp"
+                        android:layout_weight="2.5"
+                        android:entries="@array/genrev"
                         android:selectedValue="@={viewModel.genre}" />
                 </LinearLayout>
             </LinearLayout>
@@ -138,24 +142,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Cancel"
-                    android:onClick="@{viewModel::onClickedCancel}"/>
+                    android:onClick="@{viewModel::onClickedCancel}"
+                    android:text="Cancel" />
 
                 <Button
                     android:id="@+id/button10"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Done"
-                    android:onClick="@{viewModel::onClickedDone}"/>
+                    android:onClick="@{viewModel::onClickedDone}"
+                    android:text="Done" />
             </LinearLayout>
 
-            <Button
-                android:id="@+id/button5"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Button"
-                android:onClick="@{viewModel::onClickedLogout}"/>
         </LinearLayout>
     </android.support.constraint.ConstraintLayout>
 </layout>

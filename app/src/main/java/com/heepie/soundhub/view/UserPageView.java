@@ -64,6 +64,7 @@ public class UserPageView extends AppCompatActivity {
         viewModel = new UserPageViewModel(this);
         viewModel.setUserName(user.getNickname());
         viewModel.setUserInstrument(user.getInstrument());
+        viewModel.setUserGenre(user.getGenre());
         if(user.getId().equals(Const.user.getId())) {
             viewModel.setCheck(true);
         }
@@ -75,7 +76,7 @@ public class UserPageView extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if(viewModel.sucheck.get()) {
-            viewModel.sucheck.set(false);
+            viewModel.onClickedCancel();
             return;
         }
         super.onBackPressed();
