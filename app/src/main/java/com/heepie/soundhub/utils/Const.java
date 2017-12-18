@@ -14,10 +14,15 @@ public class Const {
     public static final int DEFAULT_COUNT_OF_SHOW_ITEM = 5;
     public static final int MAX_COUNT_OF_SHOW_ITEM = 15;
 
-    public static final String ACTION_MUSIC_NOT_INIT = "NOT_INIT";
-    public static final String ACTION_MUSIC_PLAY = "PLAY";
-    public static final String ACTION_MUSIC_PAUSE = "PAUSE";
-    public static final String ACTION_MUSIC_PREPARE = "PREPARE";
+    public static final String ACTION_MASTER_NOT_INIT = "NOT_INIT";
+    public static final String ACTION_MASTER_PLAY = "PLAY";
+    public static final String ACTION_MASTER_PAUSE = "PAUSE";
+    public static final String ACTION_MASTER_PREPARE = "PREPARE";
+
+    public static final String ACTION_SELECT_MUSIC_NOT_INIT = "NOT_INIT";
+    public static final String ACTION_SELECT_MUSIC_PLAY = "PLAY";
+    public static final String ACTION_SELECT_MUSIC_PAUSE = "PAUSE";
+    public static final String ACTION_SELECT_MUSIC_PREPARE = "PREPARE";
 
     public static final int SELECT_AUDIO_TRACK = 50;
 
