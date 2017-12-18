@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 
+import com.facebook.stetho.Stetho;
 import com.heepie.soundhub.view.LoginView;
 
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.initializeWithDefaults(this);
         // 앱 버전 체크 - 호환성 처리
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             checkPermission();

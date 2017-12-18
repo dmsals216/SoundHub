@@ -80,6 +80,14 @@ dependencies {
 
 //    To use OkHttp
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+//    To use Room Library
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+
+    // facebook stetho
+    implementation "com.facebook.stetho:stetho:1.4.1"
+    implementation "com.facebook.stetho:stetho-js-rhino:1.4.1"
 }
 
 // Google Sign-in

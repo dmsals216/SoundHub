@@ -20,6 +20,7 @@
         <activity android:name=".view.MusicUploadView"
             android:theme="@style/DialogTheme"></activity>
         <activity android:name=".view.UserPageView"></activity>
+        <activity android:name=".view.SearchView"/>
         <activity android:name=".BaseActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
