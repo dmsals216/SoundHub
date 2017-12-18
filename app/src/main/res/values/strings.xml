@@ -10,13 +10,32 @@
         <item name="O">Others</item>
     </array>
     <array name="genre">
-        <item>pop</item>
-        <item>rock</item>
-        <item>jazz</item>
-        <item>hiphop</item>
-        <item>electronic</item>
-        <item>classic</item>
-        <item>others</item>
+        <item>Select your genre</item>
+        <item>Pop</item>
+        <item>Rock</item>
+        <item>Jazz</item>
+        <item>Hiphop</item>
+        <item>Electronic</item>
+        <item>Classic</item>
+        <item>Others</item>
+    </array>
+
+    <array name="instrumentsv">
+        <item>Vocal</item>
+        <item>Guitar</item>
+        <item>Bass</item>
+        <item>Drum</item>
+        <item>Keyboard</item>
+        <item>Others</item>
+    </array>
+    <array name="genrev">
+        <item>Pop</item>
+        <item>Rock</item>
+        <item>Jazz</item>
+        <item>Hiphop</item>
+        <item>Electronic</item>
+        <item>Classic</item>
+        <item>Others</item>
     </array>
 
     <string name="facebook_app_id">1977439629178361</string>

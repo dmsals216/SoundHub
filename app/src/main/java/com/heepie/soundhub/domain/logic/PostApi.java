@@ -26,6 +26,7 @@ import retrofit2.Response;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -57,9 +58,7 @@ public class PostApi extends AbsApi {
 
     public void pushLike(String post_id, ICallback callback) {
         IPost service = retrofit.create(IPost.class);
-
-        Call<Post> result = service.pushLike(post_id,
-                                             "Token " + Const.TOKEN);
+        Call<Post> result = service.pushLike(post_id, "Token " + Const.TOKEN);
 
         result.enqueue(new Callback<Post>() {
             @Override
@@ -69,7 +68,6 @@ public class PostApi extends AbsApi {
                     callback.initData(response.code(), response.message(), response.body());
                 }
             }
-
             @Override
             public void onFailure(Call<Post> call, Throwable t) {
 
@@ -77,17 +75,58 @@ public class PostApi extends AbsApi {
         });
     }
 
+    public void requestMerge(String post_id, List<String> mix_tracks, ICallback callback) {
+        final String SEPARATED = ", ";
+        IPost service = retrofit.create(IPost.class);
+        StringBuilder strBuilder = new StringBuilder();
+
+        for (String track_id : mix_tracks)
+            strBuilder.append(track_id).append(SEPARATED);
+
+        String sumString = strBuilder.toString();
+        String mixTrack = sumString.substring(0, sumString.length() - SEPARATED.length());
+
+        Call<Post> result = service.requestMerge(post_id,"Token " + Const.TOKEN, mixTrack);
+        result.enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                if (response.isSuccessful()) {
+                    Log.d(TAG, "requestMerge: " + response.code() + " " + response.message() + " " + response.body());
+                    callback.initData(response.code(), response.message(), response.body());
+                } else {
+                    Log.d(TAG, "requestMerge: " + "Fail");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                Log.d(TAG, "requestMerge: " + "Fail__");
+            }
+        });
+
+
+    }
+
     public interface IPost {
         @GET("post/{post_id}/")
         Observable<Response<Post>> getPost(@Path("post_id") String post_id);
 
-        @Multipart
-        @POST("post/")
-        Call<Post> getLogin(@Header("Authorization") String token, @Part("title") RequestBody title, @Part("instrument") RequestBody instrument, @Part("genre") RequestBody genre, @Part MultipartBody.Part author_track);
-
-
         @POST("post/{post_id}/like/")
         Call<Post> pushLike(@Path("post_id") String post_id,
                             @Header("Authorization")String token);
+
+        @Multipart
+        @POST("post/")
+        Call<Post> getLogin(@Header("Authorization") String token,
+                            @Part("title") RequestBody title,
+                            @Part("instrument") RequestBody instrument,
+                            @Part("genre") RequestBody genre,
+                            @Part MultipartBody.Part author_track);
+
+        @Multipart
+        @PATCH("post/{post_id}/")
+        Call<Post> requestMerge (@Path("post_id") String post_id,
+                                 @Header("Authorization") String token,
+                                 @Part("mix_tracks") String mix_tracks);
     }
 }

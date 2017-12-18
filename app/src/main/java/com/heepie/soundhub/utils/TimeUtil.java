@@ -6,8 +6,8 @@ package com.heepie.soundhub.utils;
 
 public class TimeUtil {
     public static String secondToMMSS(int secDuration) {
-        int minute = secDuration / 60;
         int sec = secDuration % 60;
+        int minute = secDuration / 60;
 
         return String.format("%02d" + ":" +"%02d", minute, sec);
     }

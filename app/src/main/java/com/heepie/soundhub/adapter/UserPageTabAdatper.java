@@ -42,18 +42,8 @@ public class UserPageTabAdatper extends PagerAdapter{
         View view = LayoutInflater.from(container.getContext()).inflate(R.layout.userpage_recycler, null);
         RecyclerView recyclerView = view.findViewById(R.id.userpagerecycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(container.getContext()));
-//        List<String> following = new ArrayList<>();
-//        if(user.getFollowing().size() != 0) {
-//            for (String string : user.getFollowing()) {
-//                following.add(string);
-//            }
-//        }
-//        List<String> follower = new ArrayList<>();
-//        if(user.getFollowing().size() != 0) {
-//            for (String string : user.getFollowing()) {
-//                follower.add(string);
-//            }
-//        }
+
+
         if(position == 0) {
             List<User_Post> uploadData = new ArrayList<>();
             Log.e("haha", user.getPost_set().size() + "");
@@ -74,13 +64,25 @@ public class UserPageTabAdatper extends PagerAdapter{
             UserPagePostListAdapter adapter = new UserPagePostListAdapter(likedData);
             recyclerView.setAdapter(adapter);
         }
-//        else if(position == 2) {
-//            UserPageUserListAdapter adapter = new UserPageUserListAdapter(following);
-//            recyclerView.setAdapter(adapter);
-//        }else if(position == 3) {
-//            UserPageUserListAdapter adapter = new UserPageUserListAdapter(follower);
-//            recyclerView.setAdapter(adapter);
-//        }
+        else if(position == 2) {
+            List<String> following = new ArrayList<>();
+            if(user.getFollowing().size() != 0) {
+                for (String string : user.getFollowing()) {
+                    following.add(string);
+                }
+            }
+            UserPageUserListAdapter adapter = new UserPageUserListAdapter(following);
+            recyclerView.setAdapter(adapter);
+        }else if(position == 3) {
+            List<String> follower = new ArrayList<>();
+            if(user.getFollowing().size() != 0) {
+                for (String string : user.getFollowing()) {
+                    follower.add(string);
+                }
+            }
+            UserPageUserListAdapter adapter = new UserPageUserListAdapter(follower);
+            recyclerView.setAdapter(adapter);
+        }
         container.addView(view);
         return view;
     }

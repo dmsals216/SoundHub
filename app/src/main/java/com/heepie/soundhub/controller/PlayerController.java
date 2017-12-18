@@ -32,7 +32,6 @@ import io.reactivex.schedulers.Schedulers;
 public class PlayerController {
     public final String TAG = getClass().getSimpleName();
     public static String playerStatus;
-
     private static PlayerController instance;
     private MediaPlayer mPlayer;
     private List<MediaPlayer> playerList;
@@ -122,12 +121,15 @@ public class PlayerController {
         } catch (IOException e) {
             Log.e(TAG, "prepare() failed");
         }
+
+        playerStatus = Const.ACTION_MUSIC_PLAY;
     }
 
     public void stopPlaying() {
         // Dispose 객체 Clear
         observableDisposal.clear();
         mPlayer.reset();
+        playerStatus = Const.ACTION_MUSIC_PAUSE;
     }
 
     public void initPlayer(Context context) {

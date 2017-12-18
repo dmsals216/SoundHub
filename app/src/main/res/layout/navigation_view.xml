@@ -7,20 +7,17 @@
         <variable
             name="viewhandler"
             type="com.heepie.soundhub.handler.ViewHandler"/>
+        <variable
+            name="model"
+            type="com.heepie.soundhub.domain.model.User"/>
     </data>
 
     <LinearLayout
         android:clickable="true"
         android:id="@+id/navi_view"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="@{viewhandler::onClickedToast}"
-            />
 
         <android.support.constraint.ConstraintLayout
             android:clickable="true"
@@ -30,13 +27,36 @@
             android:background="@color/black_2"
             >
 
+            <ImageView
+                android:id="@+id/user_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="50dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/test"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="80dp"
+                android:text="@{model.nickname}"
+                android:textSize="20dp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toEndOf="@+id/user_image"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageButton
-                android:clickable="true"
                 style="@style/icon"
+                android:onClick="@{viewhandler::onClickedSetting}"
                 android:layout_marginEnd="2dp"
                 android:layout_marginTop="4dp"
-                android:src="@drawable/setting"
-                android:onClick="@{viewhandler::onClickedToast}"
+                android:src="@drawable/icon_setting"
+
                 app:layout_constraintEnd_toStartOf="@+id/imageButton3"
                 app:layout_constraintTop_toTopOf="parent"
                 />
@@ -51,18 +71,26 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
                 style="@style/icon"
-                android:layout_marginBottom="8dp"
-                android:layout_marginStart="8dp"
+                android:layout_marginBottom="16dp"
+                android:layout_marginStart="60dp"
                 android:src="@drawable/icon_mypage"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
+            <ImageButton
+                style="@style/icon"
+                android:layout_marginBottom="16dp"
+                android:layout_marginEnd="60dp"
+                android:src="@drawable/icon_message"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+
 
         </android.support.constraint.ConstraintLayout>
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="250dp"
             android:layout_height="0dp"
             android:layout_weight="3"
@@ -72,26 +100,42 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:onClick="@{viewhandler::onClickedToast}"
                 android:orientation="horizontal"
-                android:onClick="@{viewhandler::onClickedSetting}">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="30dp"
                     android:layout_height="match_parent"
-                    android:src="@drawable/close_btn_img"
-                    />
+                    android:src="@drawable/icon_home" />
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
+                    android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_margin="8dp"
+                    android:gravity="center_vertical"
                     android:text="Home"
-                    android:textSize="30dp"
                     android:textColor="@color/white"
-                    />
+                    android:textSize="20dp" />
 
             </LinearLayout>
-        </LinearLayout>
+
+            <Button
+                style="@style/blackConcept"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Log Out"
+                android:textAllCaps="false"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="@{viewhandler::onClickedToast}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+        </android.support.constraint.ConstraintLayout>
     </LinearLayout>
 </layout>

@@ -3,6 +3,8 @@ package com.heepie.soundhub.viewmodel;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 import android.databinding.ObservableArrayList;
+import android.databinding.ObservableArrayMap;
+import android.databinding.ObservableField;
 import android.view.View;
 
 import com.heepie.soundhub.Interfaces.IModelGettable;

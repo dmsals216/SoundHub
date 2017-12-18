@@ -80,7 +80,6 @@ public class UserApi extends AbsApi {
                                 users.add(new UserViewModel(item));
                             }
 
-
                             callback.initData(user.code(), user.message(), user.body());
                         });
 
@@ -95,18 +94,23 @@ public class UserApi extends AbsApi {
 
         @Multipart
         @POST("user/signup/")
-        Call<Result> getData(@Part("email") RequestBody email, @Part("password1") RequestBody password1,
-                                                 @Part("password2") RequestBody password2, @Part("instrument") RequestBody instrument, @Part("nickname") RequestBody nickname);
+        Call<Result> signUpUser(@Part("email") RequestBody email,
+                                @Part("password1") RequestBody password1,
+                                @Part("password2") RequestBody password2,
+                                @Part("instrument") RequestBody instrument,
+                                @Part("nickname") RequestBody nickname);
 
         @Multipart
         @POST("user/login/")
-        Call<InputViewModel.LoginResult> getLogin(@Part("email") RequestBody email, @Part("password") RequestBody password);
+        Call<InputViewModel.LoginResult> getLogin(@Part("email") RequestBody email,
+                                                  @Part("password") RequestBody password);
 
         @Multipart
         @PATCH("user/{id}/")
-        Call<User> getModify(@Path("id") String id, @Header("Authorization")String token, @Part("nickname")RequestBody nickname, @Part("instrument")RequestBody instrument);
-
-
-
+        Call<User> getModify(@Path("id") String id,
+                             @Header("Authorization")String token,
+                             @Part("nickname")RequestBody nickname,
+                             @Part("instrument")RequestBody instrument,
+                             @Part("genre")RequestBody genre);
     }
 }
