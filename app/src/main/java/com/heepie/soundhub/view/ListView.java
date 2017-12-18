@@ -119,6 +119,10 @@ public class ListView extends AppCompatActivity implements IGoHome {
 
     @Override
     public void goHome(View v) {
+        refreshHome();
+    }
+
+    private void refreshHome() {
         listBinding.drawerLayout.closeDrawers();
         listBinding.genreCategory.setVisibility(View.GONE);
         listBinding.instrumentCategory.setVisibility(View.GONE);
@@ -127,5 +131,11 @@ public class ListView extends AppCompatActivity implements IGoHome {
                     if (code == Const.RESULT_SUCCESS)
                         listBinding.progressBar.setVisibility(View.GONE);
                 });
+    }
+
+    @Override
+    protected void onResume() {
+//        refreshHome();
+        super.onResume();
     }
 }

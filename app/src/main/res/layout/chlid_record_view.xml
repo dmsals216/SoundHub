@@ -86,7 +86,7 @@
                 android:elevation="3dp"
                 android:text="@{viewModel.countDown}"
                 android:textColor="@android:color/holo_red_dark"
-                android:textSize="60dp"
+                android:textSize="80dp"
                 android:visibility="gone"
                 app:setCountVisible="@{viewModel.countDown}" />
 

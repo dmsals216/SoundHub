@@ -35,6 +35,12 @@ public class ExpandListAdapter extends BaseExpandableListAdapter {
         this.comments = comments;
     }
 
+    public void setDataAndRefresh(List<String> groups, Map<String, List<Comment_track>> comments) {
+        this.groups = groups;
+        this.comments = comments;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getGroupCount() {
         // Get header size

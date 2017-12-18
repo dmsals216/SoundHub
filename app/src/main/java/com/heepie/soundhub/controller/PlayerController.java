@@ -112,7 +112,7 @@ public class PlayerController {
         playerStatus = Const.ACTION_MUSIC_PREPARE;
     }
 
-    public void play() {
+    public boolean play() {
         if (isPreparePlayers) {
             for (MediaPlayer track : playerList) {
                 new Thread(() -> {
@@ -120,8 +120,10 @@ public class PlayerController {
                 }).start();
             }
             playerStatus = Const.ACTION_MUSIC_PLAY;
+            return true;
         } else {
             Toast.makeText(context, "음악 준비 중입니다.", Toast.LENGTH_SHORT).show();
+            return false;
         }
     }
 
@@ -212,6 +214,7 @@ public class PlayerController {
     }
 
     public void initData() {
+        playerStatus = Const.ACTION_MUSIC_NOT_INIT;
         currIndex = 0;
         curIndex = 0;
         curDuration.set(0f);
