@@ -1,6 +1,8 @@
 package com.heepie.soundhub.view;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -26,6 +28,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
     private Post model;
     private ExpandListAdapter adapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +37,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
         viewModel = DetailViewModel.getInstance();
         viewModel.initContext(this);
 
+        setupWindowAnimations();
         initData();
         initNavigationView();
         initExpandableListView();
@@ -70,6 +74,12 @@ public class DetailView extends AppCompatActivity implements IGoHome {
 
     public void onClickedMenu(View v) {
         binding.drawerLayout.openDrawer(binding.navigation);
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setupWindowAnimations() {
+        // We are not interested in defining a new Enter Transition. Instead we change default transition duration
+        getWindow().getEnterTransition().setDuration(getResources().getInteger(R.integer.anim_duration_long));
     }
 
     @Override

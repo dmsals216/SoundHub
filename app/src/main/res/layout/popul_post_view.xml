@@ -6,8 +6,8 @@
     <data>
         <import type="com.heepie.soundhub.utils.Const"/>
         <variable
-            name="context"
-            type="android.content.Context"/>
+            name="activity"
+            type="android.app.Activity"/>
         <variable
             name="viewModel"
             type="com.heepie.soundhub.viewmodel.PostsViewModel"/>
@@ -36,7 +36,7 @@
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:context="@{context}"
+            app:activity="@{activity}"
             app:setInnerViewModel="@{viewModel.posts}"
             app:layoutType="@{Const.VIEW_TYPE_POPULAR_POST}"
             >

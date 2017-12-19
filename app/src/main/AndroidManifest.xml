@@ -51,8 +51,9 @@
         </activity>
         <activity
             android:name=".view.RecordView"
-            android:theme="@style/DialogTheme" />
-        <activity android:name=".view.PageView"></activity>
+            android:theme="@style/DialogTheme"/>
+        <activity android:name=".view.PageView"
+            android:theme="@style/MaterialAnimations"/>
     </application>
 
 </manifest>

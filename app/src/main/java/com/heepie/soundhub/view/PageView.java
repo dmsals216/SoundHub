@@ -1,10 +1,14 @@
 package com.heepie.soundhub.view;
 
 import android.databinding.DataBindingUtil;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,6 +26,7 @@ public class PageView extends AppCompatActivity implements IGoHome {
     private PageViewBinding binding;
     private PageViewModel viewModel;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +35,7 @@ public class PageView extends AppCompatActivity implements IGoHome {
         binding.setVariable(BR.view, this);
         binding.setVariable(BR.viewModel, viewModel);
 
+        setupWindowAnimations();
         initNavigationView();
         initListener();
         initData();
@@ -77,5 +83,15 @@ public class PageView extends AppCompatActivity implements IGoHome {
                 }
             }
         });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setupWindowAnimations() {
+        // Re-enter transition is executed when returning to this activity
+        Slide slideTransition = new Slide();
+        slideTransition.setSlideEdge(Gravity.LEFT);
+        slideTransition.setDuration(getResources().getInteger(R.integer.anim_duration_long));
+        getWindow().setReenterTransition(slideTransition);
+        getWindow().setExitTransition(slideTransition);
     }
 }

@@ -2,6 +2,10 @@ package com.heepie.soundhub.handler;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.View;
@@ -158,8 +162,39 @@ public class ViewHandler {
         }
     }
 
-    public void onClickedToast(View v) {
-        Toast.makeText(v.getContext(), "Test", Toast.LENGTH_SHORT).show();
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public void onClickedTmp(View v, Activity activity, View image, View like, View comment) {
+        Log.d(TAG, "onClickedTmp: " + activity);
+
+        postAPI = PostApi.getInstance();
+        final Post[] post = new Post[1];
+        Intent intent = new Intent(v.getContext(), DetailView.class);
+
+        Observable<Response<Post>> postObs = postAPI.getPost("77");
+        postObs.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        jsonData -> {
+                            if (jsonData.isSuccessful())
+                                post[0] = jsonData.body();
+                        },
+                        // Error 처리
+                        throwable -> {},
+                        // Complete 처리
+                        () -> {
+                            if (post[0] != null) {
+                                Pair<View, String> pair1 = Pair.create(image, image.getTransitionName());
+                                Pair<View, String> pair2 = Pair.create(like, like.getTransitionName());
+                                Pair<View, String> pair3 = Pair.create(comment, comment.getTransitionName());
+
+                                ActivityOptionsCompat options = ActivityOptionsCompat
+                                        .makeSceneTransitionAnimation(activity, pair1, pair2, pair3);
+
+                                intent.putExtra("model", post[0]);
+                                v.getContext().startActivity(intent, options.toBundle());
+                            }
+                        }
+                );
     }
 
     public void onClickedLogOut(View v, Activity activity) {
@@ -169,4 +204,6 @@ public class ViewHandler {
     public void onClickedClose(View v, DrawerLayout drawerLayout) {
         drawerLayout.closeDrawers();
     }
+
+
 }
