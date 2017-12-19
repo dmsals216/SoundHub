@@ -23,7 +23,7 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
     int layoutResId;
 
     public InnerRecyclerAdapter() {
-//        index=0;
+
     }
 
     public void setItems(ObservableArrayList<T> mItems, int layoutResId) {
