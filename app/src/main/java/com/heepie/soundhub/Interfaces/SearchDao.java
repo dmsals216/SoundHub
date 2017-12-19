@@ -1,6 +1,7 @@
 package com.heepie.soundhub.Interfaces;
 
 import android.arch.persistence.room.Dao;
+import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
@@ -19,4 +20,7 @@ public interface SearchDao {
 
     @Insert
     void insertItem(SearchModel model);
+
+    @Delete
+    void deleteItem(SearchModel model);
 }

@@ -4,10 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.heepie.soundhub.Interfaces.SearchDao;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.model.SearchModel;
+import com.heepie.soundhub.utils.DBHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,12 @@ public class SearchViewTitleAdapter extends RecyclerView.Adapter<SearchViewTitle
     public void onBindViewHolder(Holder holder, int position) {
         SearchModel model = data.get(position);
         holder.textView.setText(model.getSearch());
+        holder.imageView.setOnClickListener(view -> {
+            DBHelper dbHelper =  DBHelper.getInstance(view.getContext());
+            SearchDao dao = dbHelper.searchDao();
+            dao.deleteItem(model);
+            setData(dao.getAll());
+        });
     }
 
     @Override
@@ -43,9 +52,11 @@ public class SearchViewTitleAdapter extends RecyclerView.Adapter<SearchViewTitle
 
     class Holder extends RecyclerView.ViewHolder {
         TextView textView;
+        ImageView imageView;
         public Holder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.textView26);
+            imageView = itemView.findViewById(R.id.imageView9);
         }
     }
 }

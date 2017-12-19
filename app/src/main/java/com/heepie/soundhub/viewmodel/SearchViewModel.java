@@ -16,7 +16,7 @@ import com.heepie.soundhub.utils.DBHelper;
 import java.util.List;
 
 /**
- * Created by eunmin on 2017-12-18.
+ * Created by eunmin on 2017-12-18
  */
 
 public class SearchViewModel {
