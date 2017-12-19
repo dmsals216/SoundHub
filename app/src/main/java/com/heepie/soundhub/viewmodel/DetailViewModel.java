@@ -104,14 +104,13 @@ public class DetailViewModel {
 
         url = urlBuilder.toString();
 
+        urls.clear();
         urls.add(urlBuilder.toString());
         setMasterTrackWave();
 
         this.adapter = adapter;
         ArrayList<String> groups = new ArrayList<>(post.getComment_tracks().keySet());
         adapter.setDataAndRefresh(groups, post.getComment_tracks());
-        for (int i=0; i<groups.size(); i=i+1)
-            adapter.onGroupExpanded(i);
         Log.d(TAG, "setPost: " + adapter.getGroupCount());
     }
 
@@ -126,25 +125,27 @@ public class DetailViewModel {
     }
 
     public void onClickedMerge(View view) {
-        Log.d(TAG, "onClickedMerge: Clicked");
         checkSelectedTrack();
 
         for (String track_id : selectedTrack)
             Log.d(TAG, "onClickedMerge: " + track_id);
+
         postApi.requestMerge(post.getId(), selectedTrack, new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
-
+                Post result = (Post)data;
+                Log.d(TAG, "onClickedMerge: " + result.toString());
             }
         });
     }
 
     public void onClickedPlayPause(View view, ProgressBar progressBar) {
-        Log.d(TAG, "onClickedPlay: Clicked " + PlayerController.selectMusicStatus);
+        Log.d(TAG, "onClickedPlayPause: Clicked " + PlayerController.selectMusicStatus);
 
         switch (PlayerController.selectMusicStatus) {
             case Const.ACTION_SELECT_MUSIC_NOT_INIT:
                 checkSelectedTrack();
+                Log.d(TAG, "onClickedPlayPause: " + urls.toString());
                 progressBar.setVisibility(View.VISIBLE);
                 player.setMusic(urls, (code, msg, data) -> {
                     if (code == Const.RESULT_SUCCESS) {
@@ -202,12 +203,12 @@ public class DetailViewModel {
     }
 
     public void onPause() {
-        urls.clear();
-        player.initData();
         player.pause();
         player.stopPlaying();
+        player.initData();
         masterPath.set(" ");
     }
+
 
     public void onClickedRecord(View v, View targetView) {
         // 녹음 기능
@@ -216,6 +217,7 @@ public class DetailViewModel {
         if (onRecording) {
             // 녹음 진행 시작
             player.setMusic(urls, null);
+            Log.d(TAG, "onClickedRecord: " + urls.toString());
 
             checkSelectedTrack();
             targetView.setVisibility(View.VISIBLE);
