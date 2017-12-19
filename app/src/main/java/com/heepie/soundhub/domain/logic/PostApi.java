@@ -89,7 +89,7 @@ public class PostApi extends AbsApi {
 
         RequestBody mixTrackBody = RequestBody.create(MediaType.parse("text/plain"), mixTrack);
 
-        Log.d(TAG, "requestMerge: " + post_id + "/" + mixTrack + "/");
+        Log.d(TAG, "requestMerge: " + post_id + " " + "Token " + Const.TOKEN + " " + mixTrack);
 
         Call<Post> result = service.requestMerge(post_id,"Token " + Const.TOKEN, mixTrackBody);
         result.enqueue(new Callback<Post>() {

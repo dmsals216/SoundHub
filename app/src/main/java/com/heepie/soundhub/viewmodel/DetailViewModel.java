@@ -133,19 +133,19 @@ public class DetailViewModel {
         postApi.requestMerge(post.getId(), selectedTrack, new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
-                Post result = ((Post)data);
-                Log.d(TAG, "onClickedMerge: " + code + " " + msg + " " + ((Post)data).getMixed_tracks().toString());
+                Post result = (Post)data;
                 Log.d(TAG, "onClickedMerge: " + result.toString());
             }
         });
     }
 
     public void onClickedPlayPause(View view, ProgressBar progressBar) {
-        Log.d(TAG, "onClickedPlay: Clicked " + PlayerController.selectMusicStatus);
+        Log.d(TAG, "onClickedPlayPause: Clicked " + PlayerController.selectMusicStatus);
 
         switch (PlayerController.selectMusicStatus) {
             case Const.ACTION_SELECT_MUSIC_NOT_INIT:
                 checkSelectedTrack();
+                Log.d(TAG, "onClickedPlayPause: " + urls.toString());
                 progressBar.setVisibility(View.VISIBLE);
                 player.setMusic(urls, (code, msg, data) -> {
                     if (code == Const.RESULT_SUCCESS) {
@@ -203,9 +203,9 @@ public class DetailViewModel {
     }
 
     public void onPause() {
-        player.initData();
         player.pause();
         player.stopPlaying();
+        player.initData();
         masterPath.set(" ");
     }
 

@@ -26,10 +26,10 @@ public class ExpandViewBinding {
             groups.addAll(model.getComment_tracks().keySet());
             Log.d("ExpandViewBinding", "setViewModel: " + groups.toString());
             ExpandListAdapter adapter = new ExpandListAdapter(groups, model.getComment_tracks());
-            ((ExpandableListView)view).setAdapter(adapter);
+            ((ExpandableListView) view).setAdapter(adapter);
 
-            for (int i=0; i<groups.size(); i=i+1)
-                ((ExpandableListView)view).expandGroup(i);
+            for (int i = 0; i < groups.size(); i = i + 1)
+                ((ExpandableListView) view).expandGroup(i);
         }
     }
 }

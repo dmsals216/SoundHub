@@ -88,7 +88,7 @@ public class PlayerController {
                     track.prepare();
                     playerList.add(track);
                     countOfsession.set(countOfsession.get()+1);
-
+                    Log.d(TAG, "setMusic: " + countOfsession.get());
                     // 모든 session이 준비가 완료되었다면 play 실행
                     if (countOfsession.get() == urls.size()) {
                         isPreparePlayers = true;
@@ -216,11 +216,13 @@ public class PlayerController {
     }
 
     public void initData() {
+        curIndex = 0;
+        currIndex = 0;
+        curTime.set(" ");
+        playerList.clear();
+        curDuration.set(0f);
+        countOfsession.set(0);
         masterStatus = Const.ACTION_MASTER_NOT_INIT;
         selectMusicStatus = Const.ACTION_SELECT_MUSIC_NOT_INIT;
-        currIndex = 0;
-        curIndex = 0;
-        curDuration.set(0f);
-        curTime.set(" ");
     }
 }
