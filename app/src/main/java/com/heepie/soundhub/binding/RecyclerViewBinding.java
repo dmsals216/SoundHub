@@ -84,8 +84,15 @@ public class RecyclerViewBinding {
         }
     }
 
-    @BindingAdapter("setViewModel")
-    public static <T extends IModelGettable & IShowable> void setViewModel(View view, PostViewModel viewModel) {
+    @BindingAdapter({"setPageViewModel", "context"})
+    public static void setPageViewModel(View view, ObservableArrayList<PostViewModel> viewModels, Context context) {
+        if (view instanceof RecyclerView) {
+            InnerRecyclerAdapter<PostViewModel> pPostAdapter = new InnerRecyclerAdapter<>();
+            ((RecyclerView)view).setAdapter(pPostAdapter);
+            ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
 
+            // ViewModel 설정
+            pPostAdapter.setItems(viewModels, R.layout.item_page_post);
+        }
     }
 }

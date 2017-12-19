@@ -1,12 +1,9 @@
 package com.heepie.soundhub.view;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.heepie.soundhub.BR;
@@ -14,7 +11,6 @@ import com.heepie.soundhub.Interfaces.IGoHome;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.ExpandListAdapter;
 import com.heepie.soundhub.databinding.DetailViewBinding;
-import com.heepie.soundhub.databinding.NavigationHeaderBinding;
 import com.heepie.soundhub.databinding.NavigationViewBinding;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.handler.ViewHandler;

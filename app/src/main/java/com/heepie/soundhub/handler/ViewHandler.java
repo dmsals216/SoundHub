@@ -17,6 +17,7 @@ import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.SignUtil;
 import com.heepie.soundhub.view.DetailView;
+import com.heepie.soundhub.view.PageView;
 import com.heepie.soundhub.view.UserPageView;
 import com.heepie.soundhub.viewmodel.PostViewModel;
 import com.heepie.soundhub.viewmodel.PostsViewModel;
@@ -50,17 +51,19 @@ public class ViewHandler {
     }
 
     // '더보기' 버튼 클릭시 실행되는 메소드
-    public void onClickedMoreBtn(View view , PostsViewModel viewModel) {
+    public void onClickedMoreBtn(View v , PostsViewModel viewModel) {
         int startIndex;
         Data data = DataAPI.getInstance().getModelData();
 
-        switch (view.getId()) {
+        switch (v.getId()) {
         case R.id.populMoreBtn:
             startIndex = populPostIndex;
 
             // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
             if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
-                Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), PageView.class);
+                intent.putExtra("type" , Const.VIEW_TYPE_POPULAR_POST);
+                v.getContext().startActivity(intent);
             } else {
                 for (int i=startIndex; i<startIndex+Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
                     if (data.getPop_posts().size() > i) {
@@ -77,7 +80,9 @@ public class ViewHandler {
 
             // MAX_COUNT_OF_SHOW_ITEM까지 보여주고 추가로 누르면 상세 페이지로 이동
             if (startIndex == Const.MAX_COUNT_OF_SHOW_ITEM) {
-                Toast.makeText(view.getContext(), "상세 페이지로 이동", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(v.getContext(), PageView.class);
+                intent.putExtra("type" , Const.VIEW_TYPE_NEW_POST);
+                v.getContext().startActivity(intent);
             } else {
                 for (int i=startIndex; i<startIndex+Const.DEFAULT_COUNT_OF_SHOW_ITEM; i=i+1) {
                     if (data.getRecent_posts().size() > i) {
@@ -130,9 +135,9 @@ public class ViewHandler {
         v.getContext().startActivity(intent);
     }
 
-    public void onClickedLike(View view, View root, Post model) {
-        if (view instanceof ToggleButton) {
-            ToggleButton toggleBtn = (ToggleButton)view;
+    public void onClickedLike(View v, View root, Post model) {
+        if (v instanceof ToggleButton) {
+            ToggleButton toggleBtn = (ToggleButton)v;
 
             PostApi.getInstance().pushLike(model.getId(), (code, msg, data) -> {
                 model.setNum_liked(((Post) data).getNum_liked());

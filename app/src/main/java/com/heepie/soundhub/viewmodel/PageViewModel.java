@@ -1,5 +1,6 @@
 package com.heepie.soundhub.viewmodel;
 
+import android.databinding.BaseObservable;
 import android.databinding.Bindable;
 
 import com.heepie.soundhub.domain.logic.PostApi;
@@ -9,25 +10,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.Response;
 
 /**
  * Created by Heepie on 2017. 12. 18..
  */
 
-public class PageViewModel {
+public class PageViewModel extends BaseObservable {
     public static PageViewModel instance;
     private PostApi postApi;
     private List<Post> postList;
 
+    // For Dummy
+    private int index;
     @Bindable
     public PostsViewModel postsViewModel;
 
     private PageViewModel() {
+        index=0;
         postApi = PostApi.getInstance();
         postList = new ArrayList<>();
+        postsViewModel = new PostsViewModel();
     }
 
     public static PageViewModel getInstance() {
@@ -37,9 +40,8 @@ public class PageViewModel {
     }
 
     public void displayData(int type, int page_num) {
-        Observable<Response<List<Post>>> postObs = postApi.getPosts(type, page_num);
-
         // TODO 서버 API 완료 후 진행
+        /*Observable<Response<List<Post>>> postObs = postApi.getPosts(type, page_num);
         postObs.observeOn(Schedulers.io())
                .subscribeOn(Schedulers.newThread())
                .subscribe(
@@ -47,7 +49,19 @@ public class PageViewModel {
                            postList = jsonData.body();
                            setData(postList);
                        }
-               );
+               );*/
+
+        // Dummy Data
+        int startIndex = index;
+        for (int i=startIndex; i<index+15; i=i+1) {
+            Post dummyPost = new Post();
+            dummyPost.setId(i+"");
+            dummyPost.setAuthor("Tester_"+i);
+            dummyPost.setNum_liked(i+"");
+            dummyPost.setNum_comments(i+"");
+            postsViewModel.addPostViewModel(new PostViewModel(dummyPost));
+        }
+        index += 15;
     }
 
     private void setData(List<Post> postList) {

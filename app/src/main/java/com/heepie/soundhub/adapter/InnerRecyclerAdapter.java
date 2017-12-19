@@ -43,11 +43,7 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
     @Override
     public void onBindViewHolder(InnerRecyclerAdapter.Holder holder, int position) {
         T model = (T)mItems.get(position);
-
-        Log.e("heepie", layoutResId + "    " + model.isShow() + "");
-
-        if (model.isShow())
-            holder.bind(mItems.get(position).getModel());
+        holder.bind(mItems.get(position).getModel());
     }
 
     @Override

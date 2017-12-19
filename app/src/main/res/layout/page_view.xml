@@ -15,8 +15,10 @@
     </data>
 
     <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawer_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/black"
         tools:context="com.heepie.soundhub.view.PageView">
 
         <LinearLayout
@@ -55,8 +57,12 @@
                 android:orientation="vertical">
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"/>
+                    android:layout_height="match_parent"
+                    app:setPageViewModel="@{viewModel.postsViewModel.posts}"
+                    app:context="@{view}"
+                    />
 
             </LinearLayout>
         </LinearLayout>
