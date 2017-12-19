@@ -3,8 +3,12 @@ package com.heepie.soundhub.viewmodel;
 import android.content.Context;
 import android.databinding.ObservableField;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.heepie.soundhub.Interfaces.IMusicUploadCallback;
+import com.heepie.soundhub.R;
+import com.heepie.soundhub.databinding.MusicuploadViewBinding;
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
@@ -29,26 +33,31 @@ public class MusicUploadModel {
     public interface MusicUpload {
         String setModel();
         void finishActivityss();
-        void logout();
     }
 
     Context context;
     MusicUpload listener;
+    MusicuploadViewBinding binding;
     public ObservableField<String> title = new ObservableField<>("");
     public ObservableField<String> file_name = new ObservableField<>("");
     public ObservableField<String> instrument = new ObservableField<>("");
     public ObservableField<String> genre = new ObservableField<>("");
 
-    public MusicUploadModel(Context context, MusicUpload listener) {
+    public MusicUploadModel(Context context, MusicUpload listener,MusicuploadViewBinding binding) {
         this.context = context;
         this.listener = listener;
-    }
-
-    public void onClickedLogout(View view) {
-        listener.logout();
+        this.binding = binding;
     }
 
     public void onClickedDone(View v) {
+        binding.progressbarStage.setVisibility(View.VISIBLE);
+        binding.linearLayout.setVisibility(View.GONE);
+        uploadMusic(() -> {
+            binding.progressbarStage.setVisibility(View.GONE);
+        });
+    }
+
+    public void uploadMusic(IMusicUploadCallback callback) {
         String mediaPath = listener.setModel();
         Retrofit retrofit = RetrofitUtil.getInstance();
         PostApi.IPost upload = retrofit.create(PostApi.IPost.class);
@@ -65,6 +74,7 @@ public class MusicUploadModel {
             public void onResponse(Call<Post> call, Response<Post> response) {
                 if(response.code() == 201) {
                     Toast.makeText(context, "업로드 완료 되었습니다.", Toast.LENGTH_SHORT).show();
+                    callback.initData();
                     listener.finishActivityss();
                 }else {
                     Toast.makeText(context, "업로드 실패하였습니다.", Toast.LENGTH_SHORT).show();

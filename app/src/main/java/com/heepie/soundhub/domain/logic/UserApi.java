@@ -1,5 +1,6 @@
 package com.heepie.soundhub.domain.logic;
 
+import android.arch.persistence.room.Delete;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 
@@ -19,6 +20,7 @@ import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -112,5 +114,8 @@ public class UserApi extends AbsApi {
                              @Part("nickname")RequestBody nickname,
                              @Part("instrument")RequestBody instrument,
                              @Part("genre")RequestBody genre);
+
+        @DELETE("user/{id}/")
+        Call<Result> signOut(@Path("id") String id, @Header("Authorization") String token);
     }
 }
