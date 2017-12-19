@@ -119,6 +119,7 @@ public class ListView extends AppCompatActivity implements IGoHome {
 
     @Override
     public void goHome(View v) {
+        ViewHandler.getIntance().initIndex();
         refreshHome();
     }
 

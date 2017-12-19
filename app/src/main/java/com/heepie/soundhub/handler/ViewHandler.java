@@ -39,14 +39,19 @@ public class ViewHandler {
     public static ViewHandler intance;
 
     private ViewHandler() {
-        populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
         newPostIndex   = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
+        populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
     }
 
     public static ViewHandler getIntance() {
         if (intance == null)
             intance = new ViewHandler();
         return intance;
+    }
+
+    public void initIndex() {
+        newPostIndex   = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
+        populPostIndex = Const.DEFAULT_COUNT_OF_SHOW_ITEM;
     }
 
     // '더보기' 버튼 클릭시 실행되는 메소드
