@@ -42,6 +42,8 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
         this.layoutResId = layoutResId;
     }
 
+
+
     @Override
     public InnerRecyclerAdapter.Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
@@ -74,7 +76,7 @@ public class InnerRecyclerAdapter<T extends IModelGettable & IShowable> extends 
         }
 
         public void bind(@NonNull Object obj) {
-            Log.d("InnerRecyclerAdapter", "onClickedTmp: Inner" + activity);
+//            Log.d("InnerRecyclerAdapter", "onClickedTmp: Inner" + activity);
             mBinding.setVariable(BR.activity, activity);
             mBinding.setVariable(BR.view, mBinding.getRoot());
             mBinding.setVariable(BR.model, obj);

@@ -170,7 +170,7 @@ public class ViewHandler {
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     public void onClickedTmp(View v, Activity activity, View image, View like, View comment) {
-        Log.d(TAG, "onClickedTmp: " + activity);
+//        Log.d(TAG, "onClickedTmp: " + activity);
 
         postAPI = PostApi.getInstance();
         final Post[] post = new Post[1];

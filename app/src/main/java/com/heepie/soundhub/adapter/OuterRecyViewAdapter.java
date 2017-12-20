@@ -55,7 +55,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d("OuterRecyViewAdapter", "onClickedTmp: Outer" + activity);
+//        Log.d("OuterRecyViewAdapter", "onClickedTmp: Outer" + activity);
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         // 각각의 리사이클러 뷰 설정

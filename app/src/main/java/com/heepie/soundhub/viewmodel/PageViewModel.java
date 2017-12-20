@@ -2,6 +2,7 @@ package com.heepie.soundhub.viewmodel;
 
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
+import android.util.Log;
 
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
@@ -17,6 +18,7 @@ import retrofit2.Response;
  */
 
 public class PageViewModel extends BaseObservable {
+    private final String TAG = getClass().getSimpleName();
     public static PageViewModel instance;
     private PostApi postApi;
     private List<Post> postList;
@@ -52,8 +54,10 @@ public class PageViewModel extends BaseObservable {
                );*/
 
         // Dummy Data
-        int startIndex = index;
-        for (int i=startIndex; i<index+15; i=i+1) {
+        postsViewModel.posts.clear();
+        int startIndex = (page_num-1)*100;
+        Log.d(TAG, "displayData: before" + index);
+        for (int i=startIndex; i<startIndex+100; i=i+1) {
             Post dummyPost = new Post();
             dummyPost.setId(i+"");
             dummyPost.setAuthor("Tester_"+i);
@@ -61,7 +65,7 @@ public class PageViewModel extends BaseObservable {
             dummyPost.setNum_comments(i+"");
             postsViewModel.addPostViewModel(new PostViewModel(dummyPost));
         }
-        index += 15;
+        Log.d(TAG, "displayData: after" + index);
     }
 
     private void setData(List<Post> postList) {
