@@ -169,8 +169,6 @@
                         <ImageView
                             android:id="@+id/imageView6"
                             style="@style/icon"
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
                             android:transitionName="@string/sharedLike"
                             app:layout_constraintEnd_toStartOf="@+id/textView6"
                             app:srcCompat="@drawable/icon_like" />
