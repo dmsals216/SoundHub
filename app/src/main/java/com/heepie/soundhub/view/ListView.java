@@ -1,5 +1,6 @@
 package com.heepie.soundhub.view;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -132,6 +133,11 @@ public class ListView extends AppCompatActivity implements IGoHome {
                     if (code == Const.RESULT_SUCCESS)
                         listBinding.progressBar.setVisibility(View.GONE);
                 });
+    }
+
+    public void goSearch(View v) {
+        Intent intent = new Intent(this, SearchView.class);
+        startActivity(intent);
     }
 
     @Override

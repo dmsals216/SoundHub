@@ -41,7 +41,6 @@ public class Comment_track extends BaseObservable implements Parcelable {
         Log.d(TAG, "setIsCheck: " + check);
         notifyPropertyChanged(BR.isCheck);
     }
-
     public String getId ()
     {
         return id;

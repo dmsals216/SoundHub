@@ -39,10 +39,12 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 22) {
-            Uri uri = data.getData();
-            realPath = PathUtil.getPath(this, uri);
-            File file = new File(realPath);
-            model.file_name.set(file.getName());
+            if(data != null) {
+                Uri uri = data.getData();
+                realPath = PathUtil.getPath(this, uri);
+                File file = new File(realPath);
+                model.file_name.set(file.getName());
+            }
         }
     }
 

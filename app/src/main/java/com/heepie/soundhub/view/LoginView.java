@@ -108,11 +108,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                         if(result != null) {
                             Const.TOKEN = result.token;
                             Const.user = result.user;
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            Log.e("haha", Const.user.getId() + "");
                             Intent intent = new Intent(LoginView.this, ListView.class);
                             startActivity(intent);
                             finish();
