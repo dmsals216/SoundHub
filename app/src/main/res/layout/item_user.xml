@@ -6,6 +6,9 @@
     >
     <data>
         <variable
+            name="activity"
+            type="android.app.Activity"/>
+        <variable
             name="model"
             type="com.heepie.soundhub.domain.model.User"/>
         <variable

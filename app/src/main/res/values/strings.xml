@@ -40,4 +40,8 @@
 
     <string name="facebook_app_id">1977439629178361</string>
     <string name="fb_login_protocol_scheme">fb1977439629178361</string>
+
+    <string name="sharedLike">sharedLike</string>
+    <string name="sharedComment">sharedComment</string>
+    <string name="sharedImage">sharedImage</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.heepie.soundhub.binding;
 
+import android.app.Activity;
 import android.content.Context;
 import android.databinding.BindingAdapter;
 import android.databinding.ObservableArrayList;
@@ -24,20 +25,21 @@ import com.heepie.soundhub.viewmodel.UserViewModel;
  */
 
 public class RecyclerViewBinding {
-    @BindingAdapter({"setOuterViewModel", "context"})
-    public static <T extends IModelGettable> void setViewModel(View view, ListViewModel items, Context context) {
+    @BindingAdapter({"setOuterViewModel", "activity"})
+    public static <T extends IModelGettable> void setViewModel(View view, ListViewModel items, Activity activity) {
         if (view instanceof RecyclerView) {
 
             OuterRecyViewAdapter<T> adapter = new OuterRecyViewAdapter<>();
             ((RecyclerView)view).setAdapter(adapter);
-            ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
+            ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(activity));
 
+            adapter.setActivity(activity);
             adapter.setItems(items);
         }
     }
 
-    @BindingAdapter({"setInnerViewModel", "layoutType", "context"})
-    public static <T extends IModelGettable & IShowable> void setInnerViewModel(View view, ObservableArrayList<T> items, int layoutType, Context context) {
+    @BindingAdapter({"setInnerViewModel", "layoutType", "activity"})
+    public static <T extends IModelGettable & IShowable> void setInnerViewModel(View view, ObservableArrayList<T> items, int layoutType, Activity activity) {
         if (view instanceof RecyclerView) {
             int layoutResId=-1;
 
@@ -48,13 +50,13 @@ public class RecyclerViewBinding {
                 case Const.VIEW_TYPE_POPULAR_USER:
                     // 어뎁터 생성 및 설정
                     InnerRecyclerAdapter<T> userAdapter = new InnerRecyclerAdapter<>();
+
                     ((RecyclerView)view).setAdapter(userAdapter);
-
-
                     layoutResId = R.layout.item_user;
-                    ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+                    ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false));
 
                     // ViewModel 설정
+                    userAdapter.setActivity(activity);
                     userAdapter.setItems(items, layoutResId);
                     break;
                 case Const.VIEW_TYPE_POPULAR_POST:
@@ -63,9 +65,10 @@ public class RecyclerViewBinding {
                     ((RecyclerView)view).setAdapter(pPostAdapter);
 
                     layoutResId = R.layout.item_post;
-                    ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
+                    ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(activity));
 
                     // ViewModel 설정
+                    pPostAdapter.setActivity(activity);
                     pPostAdapter.setItems(items, layoutResId);
                     break;
                 case Const.VIEW_TYPE_NEW_POST:
@@ -74,18 +77,27 @@ public class RecyclerViewBinding {
                     InnerRecyclerAdapter<T> nPostAdapter = new InnerRecyclerAdapter<>();
                     ((RecyclerView)view).setAdapter(nPostAdapter);
 
-                    ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(context));
+                    ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(activity));
                     Log.i("heepie", "In Switch");
 
                     // ViewModel 설정
+                    nPostAdapter.setActivity(activity);
                     nPostAdapter.setItems(items, layoutResId);
                     break;
             }
         }
     }
 
-    @BindingAdapter("setViewModel")
-    public static <T extends IModelGettable & IShowable> void setViewModel(View view, PostViewModel viewModel) {
+    @BindingAdapter({"setPageViewModel", "activity"})
+    public static void setPageViewModel(View view, ObservableArrayList<PostViewModel> viewModels, Activity activity) {
+        if (view instanceof RecyclerView) {
+            InnerRecyclerAdapter<PostViewModel> pPostAdapter = new InnerRecyclerAdapter<>();
+            ((RecyclerView)view).setAdapter(pPostAdapter);
+            ((RecyclerView)view).setLayoutManager(new LinearLayoutManager(activity));
 
+            // ViewModel 설정
+            pPostAdapter.setActivity(activity);
+            pPostAdapter.setItems(viewModels, R.layout.item_page_post);
+        }
     }
 }

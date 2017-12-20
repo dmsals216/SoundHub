@@ -19,7 +19,6 @@ import java.io.File;
  */
 
 public class MusicUploadView extends AppCompatActivity implements MusicUploadModel.MusicUpload{
-
     MusicUploadModel model = new MusicUploadModel(this, this);
     MusicuploadViewBinding binding;
     String realPath;
@@ -36,7 +35,6 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
             startActivityForResult(Intent.createChooser(intent,"Select Audio "), 22);
         });
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

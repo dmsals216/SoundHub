@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.bumptech.glide.request.RequestOptions;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
@@ -66,6 +67,14 @@ public class ViewBinding {
         Glide.with(view.getContext())
                 .load(resId)
                 .apply(bitmapTransform(new CircleCrop()))
+                .into(view);
+    }
+
+    @BindingAdapter("loadBlurImage")
+    public static void setLoadBlurImage(ImageView view, int resId) {
+        // TODO Glide 4.+ Blur 처리 알아보기
+        Glide.with(view.getContext())
+                .load(resId)
                 .into(view);
     }
 
