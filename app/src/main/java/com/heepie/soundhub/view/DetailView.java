@@ -84,7 +84,6 @@ public class DetailView extends AppCompatActivity implements IGoHome {
 
     @Override
     protected void onPause() {
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
         super.onPause();
         viewModel.onPause();
     }

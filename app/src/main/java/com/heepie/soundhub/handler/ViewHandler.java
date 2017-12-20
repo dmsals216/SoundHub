@@ -98,8 +98,7 @@ public class ViewHandler {
             break;
         }
     }
-
-    public void onClickPostItem(View v, Post model) {
+    public void onClickPostItem(View v, Post model, Activity activity, View image, View like, View comment) {
         final Post[] post = new Post[1];
         postAPI = PostApi.getInstance();
         Intent intent = new Intent(v.getContext(), DetailView.class);
@@ -117,8 +116,15 @@ public class ViewHandler {
                    // Complete 처리
                    () -> {
                        if (post[0] != null) {
+                           Pair<View, String> pair1 = Pair.create(image, image.getTransitionName());
+                           Pair<View, String> pair2 = Pair.create(like, like.getTransitionName());
+                           Pair<View, String> pair3 = Pair.create(comment, comment.getTransitionName());
+
+                           ActivityOptionsCompat options = ActivityOptionsCompat
+                                   .makeSceneTransitionAnimation(activity, pair1, pair2, pair3);
+
                            intent.putExtra("model", post[0]);
-                           v.getContext().startActivity(intent);
+                           v.getContext().startActivity(intent, options.toBundle());
                        }
                    }
                );
