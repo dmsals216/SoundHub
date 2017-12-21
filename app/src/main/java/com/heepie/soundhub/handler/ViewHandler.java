@@ -118,7 +118,7 @@ public class ViewHandler {
 
     public void onClickUserItem(View v, User model) {
         Intent intent = new Intent(v.getContext(), UserPageView.class);
-        intent.putExtra("user", model);
+        intent.putExtra("userid", model.getId());
 
         if (intent != null)
             v.getContext().startActivity(intent);
@@ -126,7 +126,7 @@ public class ViewHandler {
 
     public void onClickedSetting(View v) {
         Intent intent = new Intent(v.getContext(), UserPageView.class);
-        intent.putExtra("user", Const.user);
+        intent.putExtra("userid", Const.user.getId());
         v.getContext().startActivity(intent);
     }
 

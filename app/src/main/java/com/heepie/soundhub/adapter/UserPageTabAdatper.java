@@ -1,5 +1,6 @@
 package com.heepie.soundhub.adapter;
 
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,18 +18,16 @@ import com.heepie.soundhub.domain.model.User_Post;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by eunmin on 2017-12-11.
- */
-
 public class UserPageTabAdatper extends PagerAdapter{
     User user;
+    Activity activity;
     public UserPageTabAdatper() {
 
     }
 
-    public UserPageTabAdatper(User user) {
+    public UserPageTabAdatper(User user, Activity activity) {
         this.user = user;
+        this.activity = activity;
     }
 
     @Override
@@ -46,7 +45,6 @@ public class UserPageTabAdatper extends PagerAdapter{
 
         if(position == 0) {
             List<User_Post> uploadData = new ArrayList<>();
-            Log.e("haha", user.getPost_set().size() + "");
             if(null != user.getPost_set()) {
                 for (User_Post post : user.getPost_set()) {
                     uploadData.add(post);
@@ -71,16 +69,16 @@ public class UserPageTabAdatper extends PagerAdapter{
                     following.add(string);
                 }
             }
-            UserPageUserListAdapter adapter = new UserPageUserListAdapter(following);
+            UserPageUserListAdapter adapter = new UserPageUserListAdapter(following, activity);
             recyclerView.setAdapter(adapter);
         }else if(position == 3) {
             List<String> follower = new ArrayList<>();
-            if(user.getFollowing().size() != 0) {
-                for (String string : user.getFollowing()) {
+            if(user.getFollowers().size() != 0) {
+                for (String string : user.getFollowers()) {
                     follower.add(string);
                 }
             }
-            UserPageUserListAdapter adapter = new UserPageUserListAdapter(follower);
+            UserPageUserListAdapter adapter = new UserPageUserListAdapter(follower, activity);
             recyclerView.setAdapter(adapter);
         }
         container.addView(view);

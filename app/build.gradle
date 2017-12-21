@@ -20,6 +20,7 @@ android {
             buildConfigField "String", "NAVER_CLIENT_PW", "\"Pj8BFTHyQD\""
             buildConfigField "String", "NAVER_CLIENT_NAME", "\"SoundHub\""
             buildConfigField "String", "GOOGLE_CLIENT_ID", "\"316999981907-onsccon0ovrkv8tm7eaqrl5vn7q7a3eq.apps.googleusercontent.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://s3.console.aws.amazon.com/s3/buckets/che1-soundhub/media/\""
         }
 
         release {

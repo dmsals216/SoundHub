@@ -117,5 +117,8 @@ public class UserApi extends AbsApi {
 
         @DELETE("user/{id}/")
         Call<Result> signOut(@Path("id") String id, @Header("Authorization") String token);
+
+        @GET("user/{id}/")
+        Call<User> get1User(@Path("id") String id);
     }
 }
