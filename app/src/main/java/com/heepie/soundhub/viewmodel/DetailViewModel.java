@@ -126,16 +126,9 @@ public class DetailViewModel {
 
     public void onClickedMerge(View view) {
         checkSelectedTrack();
-
-        for (String track_id : selectedTrack)
-            Log.d(TAG, "onClickedMerge: " + track_id);
-
-        postApi.requestMerge(post.getId(), selectedTrack, new ICallback() {
-            @Override
-            public void initData(int code, String msg, Object data) {
+        postApi.requestMerge(post.getId(), selectedTrack, (code, msg, data) -> {
                 Post result = (Post)data;
                 Log.d(TAG, "onClickedMerge: " + result.toString());
-            }
         });
     }
 

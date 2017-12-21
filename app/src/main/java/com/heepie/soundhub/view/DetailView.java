@@ -1,12 +1,11 @@
 package com.heepie.soundhub.view;
 
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.ActionBarDrawerToggle;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.Toast;
 
 import com.heepie.soundhub.BR;
@@ -14,7 +13,6 @@ import com.heepie.soundhub.Interfaces.IGoHome;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.adapter.ExpandListAdapter;
 import com.heepie.soundhub.databinding.DetailViewBinding;
-import com.heepie.soundhub.databinding.NavigationHeaderBinding;
 import com.heepie.soundhub.databinding.NavigationViewBinding;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.handler.ViewHandler;
@@ -30,6 +28,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
     private Post model;
     private ExpandListAdapter adapter;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +37,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
         viewModel = DetailViewModel.getInstance();
         viewModel.initContext(this);
 
+        setupWindowAnimations();
         initData();
         initNavigationView();
         initExpandableListView();
@@ -76,9 +76,14 @@ public class DetailView extends AppCompatActivity implements IGoHome {
         binding.drawerLayout.openDrawer(binding.navigation);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void setupWindowAnimations() {
+        // We are not interested in defining a new Enter Transition. Instead we change default transition duration
+        getWindow().getEnterTransition().setDuration(getResources().getInteger(R.integer.anim_duration_long));
+    }
+
     @Override
     protected void onPause() {
-        Toast.makeText(this, "onPause", Toast.LENGTH_SHORT).show();
         super.onPause();
         viewModel.onPause();
     }

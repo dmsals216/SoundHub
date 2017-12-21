@@ -57,6 +57,23 @@ public class PostApi extends AbsApi {
         return server.getPost(post_id);
     }
 
+    public Observable<Response<List<Post>>> getPosts(int type, int page_num) {
+        IPost server = retrofit.create(IPost.class);
+        Observable<Response<List<Post>>> ret;
+        switch (type) {
+            case Const.VIEW_TYPE_POPULAR_POST:
+                ret = server.getPopulPosts(page_num);
+                break;
+
+            case Const.VIEW_TYPE_NEW_POST:
+                ret = server.getNewPosts(page_num);
+                break;
+            default:
+                ret = null;
+        }
+        return ret;
+    }
+
     public void pushLike(String post_id, ICallback callback) {
         IPost service = retrofit.create(IPost.class);
         Call<Post> result = service.pushLike(post_id, "Token " + Const.TOKEN);
@@ -109,13 +126,19 @@ public class PostApi extends AbsApi {
                 Log.d(TAG, "requestMerge: " + "Fail__");
             }
         });
-
-
     }
 
     public interface IPost {
         @GET("post/{post_id}/")
         Observable<Response<Post>> getPost(@Path("post_id") String post_id);
+
+        // TODO Add Pagenagtion URL & Path
+        @GET("")
+        Observable<Response<List<Post>>> getNewPosts(@Path("") int page_num);
+
+        // TODO Add Pagenagtion URL & Path
+        @GET("")
+        Observable<Response<List<Post>>> getPopulPosts(@Path("") int page_num);
 
         @POST("post/{post_id}/like/")
         Call<Post> pushLike(@Path("post_id") String post_id,

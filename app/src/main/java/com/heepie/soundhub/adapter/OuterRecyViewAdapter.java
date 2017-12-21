@@ -1,9 +1,11 @@
 package com.heepie.soundhub.adapter;
 
+import android.app.Activity;
 import android.databinding.DataBindingUtil;
 import android.databinding.ViewDataBinding;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,12 @@ import com.heepie.soundhub.viewmodel.UsersViewModel;
  */
 
 public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView.Adapter<OuterRecyViewAdapter.Holder> {
+    Activity activity;
     ListViewModel mItems;
+
+    public void setActivity(Activity activity) {
+        this.activity = activity;
+    }
 
     public void setItems(ListViewModel mItems) {
         this.mItems = mItems;
@@ -48,6 +55,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
+//        Log.d("OuterRecyViewAdapter", "onClickedTmp: Outer" + activity);
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
 
         // 각각의 리사이클러 뷰 설정
@@ -55,7 +63,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
             case Const.VIEW_TYPE_POPULAR_USER:
                 PopulUserViewBinding populUserViewBinding = DataBindingUtil.inflate(inflater, R.layout.popul_user_view, parent,false);
                 populUserViewBinding.setViewModel(mItems.populUsers);
-                populUserViewBinding.setContext(parent.getContext());
+                populUserViewBinding.setActivity(activity);
 
                 Holder<UsersViewModel> usersHolder = new Holder<>(populUserViewBinding, viewType);
                 return usersHolder;
@@ -63,7 +71,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
             case Const.VIEW_TYPE_POPULAR_POST:
                 PopulPostViewBinding populPostViewBinding = DataBindingUtil.inflate(inflater, R.layout.popul_post_view, parent, false);
                 populPostViewBinding.setViewModel(mItems.populPosts);
-                populPostViewBinding.setContext(parent.getContext());
+                populPostViewBinding.setActivity(activity);
                 populPostViewBinding.setViewhandler(ViewHandler.getIntance());
 
                 Holder<PostsViewModel> populPostsHolder = new Holder<>(populPostViewBinding, viewType);
@@ -72,7 +80,7 @@ public class OuterRecyViewAdapter<T extends IModelGettable> extends RecyclerView
             case Const.VIEW_TYPE_NEW_POST:
                 NewPostViewBinding newPostViewBinding = DataBindingUtil.inflate(inflater, R.layout.new_post_view, parent, false);
                 newPostViewBinding.setViewModel(mItems.newPosts);
-                newPostViewBinding.setContext(parent.getContext());
+                newPostViewBinding.setActivity(activity);
                 newPostViewBinding.setViewhandler(ViewHandler.getIntance());
 
                 Holder<PostsViewModel> newPostsHolder = new Holder<>(newPostViewBinding, viewType);
