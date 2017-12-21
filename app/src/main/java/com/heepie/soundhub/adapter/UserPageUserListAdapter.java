@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.logic.UserApi;
@@ -59,8 +60,8 @@ public class UserPageUserListAdapter extends RecyclerView.Adapter<UserPageUserLi
             public void onResponse(Call<User> call, Response<User> response) {
                 holder.textView.setText(response.body().getNickname());
                 String a = BuildConfig.MEDIA_URL + response.body().getProfile_img();
-                Glide.with(activity).load(a).into(holder.userpagepostuimage);
-                Log.e("haha", a);
+                RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user);
+                Glide.with(activity).load(a).apply(options).into(holder.userpagepostuimage);
             }
 
             @Override

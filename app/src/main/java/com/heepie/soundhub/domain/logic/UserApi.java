@@ -15,6 +15,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
@@ -120,5 +121,16 @@ public class UserApi extends AbsApi {
 
         @GET("user/{id}/")
         Call<User> get1User(@Path("id") String id);
+
+        @Multipart
+        @PATCH("user/{id}/profile-img/")
+        Call<Result> modifyProimg(@Path("id") String id,
+                                  @Header("Authorization") String token,
+                                  @Part MultipartBody.Part profile_img);
+
+//        @PATCH("user/{id}/profile-img/")
+//        Call<Result> modifyBackimg(@Path("id") String id,
+//                                   @Header("Authorization") String token,
+//                                   @Part MultipartBody.Part profile_bg);
     }
 }

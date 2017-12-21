@@ -26,16 +26,17 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <FrameLayout
+                <ImageView
                     android:id="@+id/frameLayout"
                     android:layout_width="0dp"
                     android:layout_height="170dp"
-                    android:background="@drawable/test2"
+                    android:onClick="onClickedBackImg"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
-                </FrameLayout>
+                </ImageView>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/userpagepostuimage"
@@ -50,7 +51,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/frameLayout"
-                    app:layout_constraintVertical_bias="0.484" />
+                    app:layout_constraintVertical_bias="0.484"
+                    android:onClick="onClickedProfileImg"/>
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image2"
@@ -174,28 +176,13 @@
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:gravity="center"
             android:visibility="@{viewModel.sucheck ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:onClick="@{viewModel::onClickedStage}">
-
-            <Space
-                android:id="@+id/space"
-                android:layout_width="match_parent"
-                android:layout_height="30dp" />
-
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_image3"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:src="@drawable/test3"
-                app:civ_border_width="0dp" />
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
 
             <LinearLayout
                 android:id="@+id/linearLayout2"

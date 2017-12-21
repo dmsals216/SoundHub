@@ -7,12 +7,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User_Post;
+import com.heepie.soundhub.view.UserPageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by eunmin on 2017-12-11.
@@ -37,7 +43,9 @@ public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostLi
         holder.textTitle.setText(post.getTitle() + "");
         holder.textHeart.setText(post.getNum_liked() + "");
         holder.textComments.setText(post.getNum_comments() + "");
-        Log.e("haha", post.getId() + "");
+        holder.textArtist.setText(post.getAuthor().get("name") + "");
+        RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user);
+        Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getAuthor().get("profile_img")).apply(options1).into(holder.userpagepostuimage);
     }
 
     @Override
@@ -51,6 +59,7 @@ public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostLi
         TextView textArtist;
         TextView textHeart;
         TextView textComments;
+        CircleImageView userpagepostuimage;
 
         public Holder(View itemView) {
             super(itemView);
@@ -58,6 +67,7 @@ public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostLi
             textArtist = itemView.findViewById(R.id.userpagepostartist);
             textHeart = itemView.findViewById(R.id.userpageheart);
             textComments = itemView.findViewById(R.id.userpagecomments);
+            userpagepostuimage = itemView.findViewById(R.id.userpagepostuimage);
         }
     }
 }
