@@ -43,9 +43,9 @@ public class UserPagePostListAdapter extends RecyclerView.Adapter<UserPagePostLi
         holder.textTitle.setText(post.getTitle() + "");
         holder.textHeart.setText(post.getNum_liked() + "");
         holder.textComments.setText(post.getNum_comments() + "");
-        holder.textArtist.setText(post.getAuthor().get("nickname") + "");
-        RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user);
-        Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getAuthor().get("profile_img")).apply(options1).into(holder.userpagepostuimage);
+//        holder.textArtist.setText(post.getAuthor().get("nickname") + "");
+//        RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user);
+//        Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getAuthor().get("profile_img")).apply(options1).into(holder.userpagepostuimage);
     }
 
     @Override
