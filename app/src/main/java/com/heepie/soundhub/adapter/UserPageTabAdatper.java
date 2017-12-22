@@ -50,7 +50,7 @@ public class UserPageTabAdatper extends PagerAdapter{
                     uploadData.add(post);
                 }
             }
-            UserPagePostListAdapter adapter = new UserPagePostListAdapter(uploadData);
+            UserPageMyPostListAdapter adapter = new UserPageMyPostListAdapter(uploadData);
             recyclerView.setAdapter(adapter);
         }else if(position == 1) {
             List<User_Post> likedData = new ArrayList<>();

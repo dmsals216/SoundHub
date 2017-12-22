@@ -68,11 +68,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                 ,BuildConfig.NAVER_CLIENT_NAME
         );
         if(null != mOAuthLoginModule.getAccessToken(this)) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
         }
     }
@@ -82,11 +77,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(null != account) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();
@@ -107,9 +97,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                     if (response.isSuccessful()) {
                         InputViewModel.LoginResult result = response.body();
                         if(result != null) {
-                            Const.TOKEN = result.token;
-                            Const.user = result.user;
-                            Log.e("haha", Const.user.getId() + "");
                             Intent intent = new Intent(LoginView.this, ListView.class);
                             startActivity(intent);
                             finish();

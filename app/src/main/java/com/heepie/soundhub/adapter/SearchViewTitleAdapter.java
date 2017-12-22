@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.heepie.soundhub.Interfaces.SearchDao;
 import com.heepie.soundhub.R;
-import com.heepie.soundhub.domain.model.SearchModel;
+import com.heepie.soundhub.domain.model.Search;
 import com.heepie.soundhub.utils.DBHelper;
 
 import java.util.ArrayList;
@@ -20,9 +20,9 @@ import java.util.List;
  */
 
 public class SearchViewTitleAdapter extends RecyclerView.Adapter<SearchViewTitleAdapter.Holder>{
-    List<SearchModel> data = new ArrayList<>();
+    List<Search> data = new ArrayList<>();
 
-    public void setData(List<SearchModel> data) {
+    public void setData(List<Search> data) {
         this.data = data;
         notifyDataSetChanged();
     }
@@ -35,7 +35,7 @@ public class SearchViewTitleAdapter extends RecyclerView.Adapter<SearchViewTitle
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        SearchModel model = data.get(position);
+        Search model = data.get(position);
         holder.textView.setText(model.getSearch());
         holder.imageView.setOnClickListener(view -> {
             DBHelper dbHelper =  DBHelper.getInstance(view.getContext());
