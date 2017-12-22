@@ -171,13 +171,15 @@ public class ViewBinding {
 
     @BindingAdapter("setLikeImage")
     public static void setLikeImage(View view, Post model) {
-        for (int i=0; i<model.getLiked().length; i=i+1) {
-            if (Const.user.getId().equals(model.getLiked()[i])) {
-                view.setBackgroundDrawable(
-                        view.getContext().getResources().
-                                getDrawable(R.drawable.icon_like));
-                ((ToggleButton)view).setChecked(true);
-                return;
+        if (model.getLiked() != null) {
+            for (int i = 0; i < model.getLiked().length; i = i + 1) {
+                if (Const.user.getId().equals(model.getLiked()[i])) {
+                    view.setBackgroundDrawable(
+                            view.getContext().getResources().
+                                    getDrawable(R.drawable.icon_like));
+                    ((ToggleButton) view).setChecked(true);
+                    return;
+                }
             }
         }
     }
