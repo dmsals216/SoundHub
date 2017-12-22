@@ -358,7 +358,8 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
-                        android:inputType="text" />
+                        android:inputType="text"
+                        android:text="@={viewModel.nickname}"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -378,7 +379,7 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="3"
-                        android:entries="@array/genre"
+                        android:entries="@array/genrev"
                         android:selectedValue="@={viewModel.genre}">
 
                     </android.support.v7.widget.AppCompatSpinner>
@@ -402,7 +403,8 @@
                         android:layout_width="0dp"
                         android:layout_height="40dp"
                         android:layout_weight="3"
-                        android:entries="@array/instruments">
+                        android:entries="@array/instrumentsv"
+                        android:selectedValue="@={viewModel.instrument}">
 
                     </android.support.v7.widget.AppCompatSpinner>
 

@@ -19,7 +19,7 @@ import java.io.File;
  */
 
 public class MusicUploadView extends AppCompatActivity implements MusicUploadModel.MusicUpload{
-    MusicUploadModel model = new MusicUploadModel(this, this);
+    MusicUploadModel model;
     MusicuploadViewBinding binding;
     String realPath;
 
@@ -27,6 +27,7 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.musicupload_view);
+        model = new MusicUploadModel(this, this, binding);
         binding.setViewModel(model);
         binding.button4.setOnClickListener(v -> {
             Intent intent = new Intent();
@@ -56,11 +57,6 @@ public class MusicUploadView extends AppCompatActivity implements MusicUploadMod
     @Override
     public void finishActivityss() {
         finish();
-    }
-
-    @Override
-    public void logout() {
-        SignUtil.logout(this, this);
     }
 
 }

@@ -29,6 +29,8 @@ public class User implements Parcelable
     private String num_followings;//
     private String num_followers;
     private String user_type;
+    private String profile_img;
+    private String profile_bg;
 
     public User(){
 
@@ -181,6 +183,22 @@ public class User implements Parcelable
         this.post_set = post_set;
     }
 
+    public String getProfile_img() {
+        return profile_img;
+    }
+
+    public void setProfile_img(String profile_img) {
+        this.profile_img = profile_img;
+    }
+
+    public String getProfile_bg() {
+        return profile_bg;
+    }
+
+    public void setProfile_bg(String profile_bg) {
+        this.profile_bg = profile_bg;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -218,8 +236,8 @@ public class User implements Parcelable
         this.genre = in.readString();
         in.readTypedList(this.post_set, User_Post.CREATOR);
         in.readTypedList(this.liked_posts, User_Post.CREATOR);
-        this.followers = in.createStringArrayList();
-        this.following = in.createStringArrayList();
+        in.readStringList(this.followers);
+        in.readStringList(this.following);
         this.num_followings = in.readString();
         this.num_followers = in.readString();
         this.user_type = in.readString();
