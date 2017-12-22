@@ -66,6 +66,7 @@ public class DetailViewModel {
     public List<String> selectedTrack;
 
     private ExpandListAdapter adapter;
+    private ExpandableListView exListView;
 
     public static DetailViewModel getInstance() {
         if (instance == null)
@@ -93,7 +94,7 @@ public class DetailViewModel {
         recorder.initRecorder(context);
     }
 
-    public void setPost(Post post, ExpandListAdapter adapter) {
+    public void setPost(Post post, ExpandableListView exListView, ExpandListAdapter adapter) {
         this.post = post;
 
         // 무조건 실행되는 Author 트랙 초기 설정
@@ -109,9 +110,13 @@ public class DetailViewModel {
         setMasterTrackWave();
 
         this.adapter = adapter;
+        this.exListView = exListView;
         ArrayList<String> groups = new ArrayList<>(post.getComment_tracks().keySet());
         adapter.setDataAndRefresh(groups, post.getComment_tracks());
         Log.d(TAG, "setPost: " + adapter.getGroupCount());
+
+        for (int i=0; i<groups.size(); i=i+1)
+            exListView.expandGroup(i);
     }
 
     private void setMasterTrackWave() {
@@ -295,7 +300,7 @@ public class DetailViewModel {
                                         () -> {
                                             if (post != null) {
                                                 Log.d(TAG, "onUploadFrAudio: " + post.toString());
-                                                setPost(post, adapter);
+                                                setPost(post, exListView, adapter);
                                                 progress_bar.setVisibility(View.GONE);
                                                 callFrom.finish();
                                             }
@@ -334,7 +339,7 @@ public class DetailViewModel {
                                             () -> {
                                                 if (post != null) {
                                                     Log.d(TAG, "onUploadFrFile: " + post.toString());
-                                                    setPost(post, adapter);
+                                                    setPost(post, exListView, adapter);
                                                     progress_bar.setVisibility(View.GONE);
                                                     callFrom.finish();
                                                 }

@@ -84,7 +84,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{model.author}"
+                            android:text="@{model.author.nickname}"
                             android:textSize="14dp" />
 
 

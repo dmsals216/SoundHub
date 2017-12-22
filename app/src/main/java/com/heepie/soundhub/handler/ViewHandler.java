@@ -117,7 +117,9 @@ public class ViewHandler {
                            post[0] = jsonData.body();
                    },
                    // Error 처리
-                   throwable -> {},
+                   throwable -> {
+                       Log.d(TAG, "onClickPostItem: " + throwable.getMessage());
+                   },
                    // Complete 처리
                    () -> {
                        if (post[0] != null) {

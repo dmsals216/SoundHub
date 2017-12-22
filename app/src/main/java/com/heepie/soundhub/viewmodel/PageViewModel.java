@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.heepie.soundhub.domain.logic.PostApi;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.domain.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,7 +61,9 @@ public class PageViewModel extends BaseObservable {
         for (int i=startIndex; i<startIndex+100; i=i+1) {
             Post dummyPost = new Post();
             dummyPost.setId(i+"");
-            dummyPost.setAuthor("Tester_"+i);
+            User user = new User();
+            user.setId(""+i);
+            dummyPost.setAuthor(user);
             dummyPost.setNum_liked(i+"");
             dummyPost.setNum_comments(i+"");
             postsViewModel.addPostViewModel(new PostViewModel(dummyPost));

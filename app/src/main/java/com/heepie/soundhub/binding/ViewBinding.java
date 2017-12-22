@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.heepie.soundhub.R;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.utils.Const;
@@ -167,5 +169,18 @@ public class ViewBinding {
             view.setVisibility(View.GONE);
     }
 
-
+    @BindingAdapter("setLikeImage")
+    public static void setLikeImage(View view, Post model) {
+        if (model.getLiked() != null) {
+            for (int i = 0; i < model.getLiked().length; i = i + 1) {
+                if (Const.user.getId().equals(model.getLiked()[i])) {
+                    view.setBackgroundDrawable(
+                            view.getContext().getResources().
+                                    getDrawable(R.drawable.icon_like));
+                    ((ToggleButton) view).setChecked(true);
+                    return;
+                }
+            }
+        }
+    }
 }

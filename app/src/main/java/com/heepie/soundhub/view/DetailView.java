@@ -41,7 +41,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
         initData();
         initNavigationView();
         initExpandableListView();
-        viewModel.setPost(model, adapter);
+        viewModel.setPost(model, binding.expnadListView, adapter);
 
         binding.setVariable(BR.view, this);
         binding.setVariable(BR.viewModel, viewModel);
