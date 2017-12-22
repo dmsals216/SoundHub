@@ -135,6 +135,7 @@
                         android:textOff=""
                         android:textOn=""
                         android:transitionName="@string/sharedLike"
+                        app:setLikeImage="@{model}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/list_like_count"
                         app:layout_constraintTop_toTopOf="parent" />
