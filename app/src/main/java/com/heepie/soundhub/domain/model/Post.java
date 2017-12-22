@@ -31,7 +31,7 @@ public class Post extends BaseObservable implements Parcelable {
 
     private String num_liked;
 
-    private String author;
+    private User author;
 
     private String title;
 
@@ -46,6 +46,10 @@ public class Post extends BaseObservable implements Parcelable {
     private Map<String, List<Comment_track>> mixed_tracks;
 
     private String instrument;
+
+    private String post_img;
+
+    private String bpm;
 
     public Post() {
 
@@ -104,12 +108,28 @@ public class Post extends BaseObservable implements Parcelable {
         notifyPropertyChanged(BR.num_liked);
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public String getPost_img() {
+        return post_img;
+    }
+
+    public void setPost_img(String post_img) {
+        this.post_img = post_img;
+    }
+
+    public String getBpm() {
+        return bpm;
+    }
+
+    public void setBpm(String bpm) {
+        this.bpm = bpm;
     }
 
     public String getTitle() {
@@ -163,6 +183,7 @@ public class Post extends BaseObservable implements Parcelable {
         this.instrument = instrument;
     }
 
+
     @Override
     public String toString() {
         return "Post{" +
@@ -177,9 +198,13 @@ public class Post extends BaseObservable implements Parcelable {
                 ", master_track='" + master_track + '\'' +
                 ", liked=" + Arrays.toString(liked) +
                 ", comment_tracks=" + comment_tracks +
+                ", mixed_tracks=" + mixed_tracks +
                 ", instrument='" + instrument + '\'' +
+                ", post_img='" + post_img + '\'' +
+                ", bpm='" + bpm + '\'' +
                 '}';
     }
+
 
     @Override
     public int describeContents() {
@@ -194,7 +219,7 @@ public class Post extends BaseObservable implements Parcelable {
         dest.writeString(this.id);
         dest.writeString(this.num_comments);
         dest.writeString(this.num_liked);
-        dest.writeString(this.author);
+        dest.writeParcelable(this.author, flags);
         dest.writeString(this.title);
         dest.writeString(this.master_track);
         dest.writeStringArray(this.liked);
@@ -211,6 +236,8 @@ public class Post extends BaseObservable implements Parcelable {
             }
         }
         dest.writeString(this.instrument);
+        dest.writeString(this.post_img);
+        dest.writeString(this.bpm);
     }
 
     protected Post(Parcel in) {
@@ -220,7 +247,7 @@ public class Post extends BaseObservable implements Parcelable {
         this.id = in.readString();
         this.num_comments = in.readString();
         this.num_liked = in.readString();
-        this.author = in.readString();
+        this.author = in.readParcelable(User.class.getClassLoader());
         this.title = in.readString();
         this.master_track = in.readString();
         this.liked = in.createStringArray();
@@ -241,6 +268,8 @@ public class Post extends BaseObservable implements Parcelable {
             this.mixed_tracks.put(key, value);
         }
         this.instrument = in.readString();
+        this.post_img = in.readString();
+        this.bpm = in.readString();
     }
 
     public static final Creator<Post> CREATOR = new Creator<Post>() {
