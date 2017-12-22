@@ -26,6 +26,7 @@ import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.databinding.LoginViewBinding;
 import com.heepie.soundhub.domain.logic.UserApi;
+import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.RetrofitUtil;
 import com.heepie.soundhub.viewmodel.InputViewModel;
@@ -108,22 +109,24 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                         if(result != null) {
                             Const.TOKEN = result.token;
                             Const.user = result.user;
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
+                            Log.e("haha", Const.user.getId() + "");
                             Intent intent = new Intent(LoginView.this, ListView.class);
                             startActivity(intent);
                             finish();
                         }
                     }else {
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.commit();
                         Toast.makeText(LoginView.this, "로그인을 다시 시도해 주십시오", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<InputViewModel.LoginResult> call, Throwable t) {
-
+                    SharedPreferences.Editor editor = sp.edit();
+                    editor.clear();
+                    editor.commit();
+                    Toast.makeText(LoginView.this, "로그인을 다시 시도해 주십시오", Toast.LENGTH_SHORT).show();
                 }
             });
         }

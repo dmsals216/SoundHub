@@ -20,6 +20,7 @@ android {
             buildConfigField "String", "NAVER_CLIENT_PW", "\"Pj8BFTHyQD\""
             buildConfigField "String", "NAVER_CLIENT_NAME", "\"SoundHub\""
             buildConfigField "String", "GOOGLE_CLIENT_ID", "\"316999981907-onsccon0ovrkv8tm7eaqrl5vn7q7a3eq.apps.googleusercontent.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://s3.ap-northeast-2.amazonaws.com/che1-soundhub/media/\""
         }
 
         release {
@@ -80,6 +81,14 @@ dependencies {
 
 //    To use OkHttp
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
+
+//    To use Room Library
+    implementation "android.arch.persistence.room:runtime:1.0.0"
+    annotationProcessor "android.arch.persistence.room:compiler:1.0.0"
+
+    // facebook stetho
+    implementation "com.facebook.stetho:stetho:1.4.1"
+    implementation "com.facebook.stetho:stetho-js-rhino:1.4.1"
 }
 
 // Google Sign-in

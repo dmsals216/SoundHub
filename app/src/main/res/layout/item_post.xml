@@ -6,6 +6,9 @@
 
     <data>
         <variable
+            name="activity"
+            type="android.app.Activity"/>
+        <variable
             name="view"
             type="android.view.View"/>
         <variable
@@ -19,7 +22,7 @@
 
     <LinearLayout
         android:id="@+id/item_post"
-        android:onClick="@{(view) -> viewhandler.onClickPostItem(view, model)}"
+        android:onClick="@{(v) -> viewhandler.onClickPostItem(v, model, activity, listUserImage, likeToggle, commentBtn)}"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -80,17 +83,17 @@
                     </LinearLayout>
                 </LinearLayout>
 
-                <ImageView
+                <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/list_user_image"
                     android:layout_width="59dp"
                     android:layout_height="55dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
+                    android:src="@drawable/test"
+                    android:transitionName="@string/sharedImage"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-
-                    app:srcCompat="@drawable/test" />
-
+                    />
                 <!--app:loadCircleImage="@{model.testUser.user_image_path}"-->
 
                 <ImageView
@@ -121,16 +124,17 @@
                     <!--android:text="@{model.tag}"-->
 
                     <ToggleButton
-                        android:id="@+id/toggleButton"
+                        android:id="@+id/like_toggle"
                         style="@style/icon"
                         android:layout_alignParentTop="true"
                         android:layout_marginEnd="2dp"
-                        android:layout_toLeftOf="@+id/imageButton2"
-                        android:layout_toStartOf="@+id/imageButton2"
+                        android:layout_toLeftOf="@+id/comment_btn"
+                        android:layout_toStartOf="@+id/comment_btn"
                         android:background="@drawable/icon_unlike"
                         android:onClick="@{(v) -> viewhandler.onClickedLike(v, view, model)}"
                         android:textOff=""
                         android:textOn=""
+                        android:transitionName="@string/sharedLike"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/list_like_count"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -139,19 +143,19 @@
                         android:id="@+id/list_like_count"
                         android:layout_width="20dp"
                         android:layout_height="wrap_content"
-                        android:layout_alignBaseline="@+id/toggleButton"
-                        android:layout_alignBottom="@+id/toggleButton"
+                        android:layout_alignBaseline="@+id/like_toggle"
+                        android:layout_alignBottom="@+id/like_toggle"
                         android:layout_marginEnd="8dp"
-                        android:layout_toEndOf="@+id/toggleButton"
-                        android:layout_toRightOf="@+id/toggleButton"
+                        android:layout_toEndOf="@+id/like_toggle"
+                        android:layout_toRightOf="@+id/like_toggle"
                         android:text="@{model.num_liked}"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/imageButton2"
+                        app:layout_constraintEnd_toStartOf="@+id/comment_btn"
                         app:layout_constraintTop_toTopOf="parent" />
                     <!--android:text="@{model.like_count}"-->
 
                     <ImageButton
-                        android:id="@+id/imageButton2"
+                        android:id="@+id/comment_btn"
                         style="@style/icon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
@@ -160,6 +164,7 @@
                         android:layout_toLeftOf="@+id/list_comment_count"
                         android:layout_toStartOf="@+id/list_comment_count"
                         android:src="@drawable/comments"
+                        android:transitionName="@string/sharedComment"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/list_comment_count"
                         app:layout_constraintTop_toTopOf="parent" />

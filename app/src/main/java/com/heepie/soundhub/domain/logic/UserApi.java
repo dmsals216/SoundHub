@@ -1,5 +1,6 @@
 package com.heepie.soundhub.domain.logic;
 
+import android.arch.persistence.room.Delete;
 import android.databinding.ObservableArrayList;
 import android.util.Log;
 
@@ -14,11 +15,13 @@ import java.util.List;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Response;
 import retrofit2.adapter.rxjava2.Result;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -112,5 +115,22 @@ public class UserApi extends AbsApi {
                              @Part("nickname")RequestBody nickname,
                              @Part("instrument")RequestBody instrument,
                              @Part("genre")RequestBody genre);
+
+        @DELETE("user/{id}/")
+        Call<Result> signOut(@Path("id") String id, @Header("Authorization") String token);
+
+        @GET("user/{id}/")
+        Call<User> get1User(@Path("id") String id);
+
+        @Multipart
+        @PATCH("user/{id}/profile-img/")
+        Call<Result> modifyProimg(@Path("id") String id,
+                                  @Header("Authorization") String token,
+                                  @Part MultipartBody.Part profile_img);
+
+//        @PATCH("user/{id}/profile-img/")
+//        Call<Result> modifyBackimg(@Path("id") String id,
+//                                   @Header("Authorization") String token,
+//                                   @Part MultipartBody.Part profile_bg);
     }
 }

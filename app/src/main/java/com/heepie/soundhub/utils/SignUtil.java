@@ -12,9 +12,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.heepie.soundhub.BuildConfig;
+import com.heepie.soundhub.domain.logic.UserApi;
 import com.heepie.soundhub.domain.model.User;
 import com.heepie.soundhub.view.LoginView;
 import com.nhn.android.naverlogin.OAuthLogin;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.Result;
 
 /**
  * Created by eunmin on 2017-12-05.
@@ -71,7 +78,32 @@ public class SignUtil {
         Const.user = new User();
     }
 
-    public static void logoutAndSignout() {
+    public static void logoutAndSignout(Activity activity) {
+        SharedPreferences sp = activity.getBaseContext().getSharedPreferences("User", Context.MODE_PRIVATE);
+        if(!sp.getString("userEmail", "").equals("")) {
+            Retrofit retrofit = RetrofitUtil.getInstance();
+            UserApi.IUser service = retrofit.create(UserApi.IUser.class);
+            Call<Result> result = service.signOut(Const.user.getId(), "Token " + Const.TOKEN);
+            result.enqueue(new Callback<Result>() {
+                @Override
+                public void onResponse(Call<Result> call, Response<Result> response) {
+                    if(response.isSuccessful()) {
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.clear();
+                        editor.commit();
+                        setClear();
+                        Intent intent = new Intent(activity.getBaseContext(), LoginView.class);
+                        activity.getBaseContext().startActivity(intent);
+                        activity.finishAffinity();
+                    }
+                }
 
+                @Override
+                public void onFailure(Call<Result> call, Throwable t) {
+
+                }
+            });
+
+        }
     }
 }

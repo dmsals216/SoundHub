@@ -3,11 +3,15 @@ package com.heepie.soundhub.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Map;
+
 /**
  * Created by eunmin on 2017-12-15.
  */
 
 public class User_Post implements Parcelable {
+
+
     private String id;
     private String title;
     private String genre;
@@ -15,6 +19,8 @@ public class User_Post implements Parcelable {
     private String num_liked;
     private String num_comments;
     private String created_date;
+    private Map<String, String> author;
+
 
     public User_Post(String id, String title, String genre, String instrument, String num_liked, String num_comments, String created_date) {
         this.id = id;
@@ -121,5 +127,13 @@ public class User_Post implements Parcelable {
 
     public void setCreated_date(String created_date) {
         this.created_date = created_date;
+    }
+
+    public Map<String, String> getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Map<String, String> author) {
+        this.author = author;
     }
 }

@@ -42,6 +42,9 @@ public class Post extends BaseObservable implements Parcelable {
     @Bindable
     private Map<String, List<Comment_track>> comment_tracks;
 
+    @Bindable
+    private Map<String, List<Comment_track>> mixed_tracks;
+
     private String instrument;
 
     public Post() {
@@ -143,6 +146,15 @@ public class Post extends BaseObservable implements Parcelable {
         notifyPropertyChanged(BR.comment_tracks);
     }
 
+    @Bindable
+    public Map<String, List<Comment_track>> getMixed_tracks() {
+        return mixed_tracks;
+    }
+
+    public void setMixed_tracks(Map<String, List<Comment_track>> mixed_tracks) {
+        this.mixed_tracks = mixed_tracks;
+    }
+
     public String getInstrument() {
         return instrument;
     }
@@ -191,6 +203,13 @@ public class Post extends BaseObservable implements Parcelable {
             dest.writeString(entry.getKey());
             dest.writeList(entry.getValue());
         }
+        if (this.mixed_tracks != null) {
+            dest.writeInt(this.mixed_tracks.size());
+            for (Map.Entry<String, List<Comment_track>> entry : this.mixed_tracks.entrySet()) {
+                dest.writeString(entry.getKey());
+                dest.writeList(entry.getValue());
+            }
+        }
         dest.writeString(this.instrument);
     }
 
@@ -212,6 +231,14 @@ public class Post extends BaseObservable implements Parcelable {
             List<Comment_track> value = new ArrayList<Comment_track>();
             in.readList(value, Comment_track.class.getClassLoader());
             this.comment_tracks.put(key, value);
+        }
+        int mixed_tracksSize = in.readInt();
+        this.mixed_tracks = new HashMap<String, List<Comment_track>>(mixed_tracksSize);
+        for (int i = 0; i < mixed_tracksSize; i++) {
+            String key = in.readString();
+            List<Comment_track> value = new ArrayList<Comment_track>();
+            in.readList(value, Comment_track.class.getClassLoader());
+            this.mixed_tracks.put(key, value);
         }
         this.instrument = in.readString();
     }

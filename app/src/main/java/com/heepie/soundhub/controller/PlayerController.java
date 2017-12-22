@@ -6,8 +6,11 @@ import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.heepie.soundhub.Interfaces.ICallback;
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.MusicUtil;
 import com.heepie.soundhub.utils.TimeUtil;
 
 import java.io.File;
@@ -31,7 +34,8 @@ import io.reactivex.schedulers.Schedulers;
 
 public class PlayerController {
     public final String TAG = getClass().getSimpleName();
-    public static String playerStatus;
+    public static String masterStatus;
+    public static String selectMusicStatus;
     private static PlayerController instance;
     private MediaPlayer mPlayer;
     private List<MediaPlayer> playerList;
@@ -42,6 +46,7 @@ public class PlayerController {
     private int maxDuration;
     public ObservableField<Float> curDuration;
     public ObservableField<String> curTime;
+    private int curIndex;
 
     // Dispose 가능한 객체 선언
     private Disposable durationTimer;
@@ -49,16 +54,20 @@ public class PlayerController {
     // Dispose 가능한 객체를 담아 놓을 수 있는 Container 선언
     private CompositeDisposable observableDisposal;
 
+    private String masterPath;
+    private boolean isPreparePlayers = false;
+
     private PlayerController() {
         mPlayer = new MediaPlayer();
-        playerStatus = Const.ACTION_MUSIC_NOT_INIT;
+        masterStatus = Const.ACTION_MASTER_NOT_INIT;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_NOT_INIT;
         playerList = new ArrayList<>();
         countOfsession = new AtomicInteger(0);
 
         curDuration = new ObservableField<>();
         observableDisposal = new CompositeDisposable();
         curTime = new ObservableField<>(" ");
-
+        curIndex = 1;
     }
 
     public static PlayerController getInstance() {
@@ -67,7 +76,7 @@ public class PlayerController {
         return instance;
     }
 
-    public void setMusic(List<String> urls) {
+    public void setMusic(List<String> urls, ICallback callback) {
         for (String url : urls) {
             Log.d(TAG, "setMusic: " + url);
 
@@ -79,10 +88,13 @@ public class PlayerController {
                     track.prepare();
                     playerList.add(track);
                     countOfsession.set(countOfsession.get()+1);
-
+                    Log.d(TAG, "setMusic: " + countOfsession.get());
                     // 모든 session이 준비가 완료되었다면 play 실행
-                    if (countOfsession.get() == urls.size())
-                        play(playerList);
+                    if (countOfsession.get() == urls.size()) {
+                        isPreparePlayers = true;
+                        if (callback != null)
+                            callback.initData(Const.RESULT_SUCCESS, "Sucess", null);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -91,13 +103,30 @@ public class PlayerController {
         }
     }
 
-    private void play(List<MediaPlayer> playerList) {
+    public void setMasterMusic(String mFileName, int duration) {
+        masterPath = mFileName;
+        stopPlaying();
+        Log.d(TAG, "startPlaying: " + masterPath);
+        this.maxDuration = duration/1000;
+        try {
+            mPlayer.setDataSource(masterPath);
+            mPlayer.prepare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        masterStatus = Const.ACTION_MASTER_PREPARE;
+    }
+
+    public boolean play() {
         for (MediaPlayer track : playerList) {
             new Thread(() -> {
                 track.start();
             }).start();
         }
-        playerStatus = Const.ACTION_MUSIC_PLAY;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_PLAY;
+        return true;
+
     }
 
     public void pause() {
@@ -106,30 +135,37 @@ public class PlayerController {
                 track.pause();
             }).start();
         }
-        playerStatus = Const.ACTION_MUSIC_PAUSE;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_PAUSE;
     }
 
-    public void startPlaying(String mFileName, int duration) {
-        stopPlaying();
-        Log.d(TAG, "startPlaying: " + mFileName);
-        try {
-            this.maxDuration = duration/1000;
-            mPlayer.setDataSource(mFileName);
-            mPlayer.prepare();
+    public void startPlaying() {
+        if (!mPlayer.isPlaying()) {
             mPlayer.start();
             startDurationTimer();
-        } catch (IOException e) {
-            Log.e(TAG, "prepare() failed");
+        } else {
+            mPlayer.notify();
+            durationTimer.notify();
         }
-
-        playerStatus = Const.ACTION_MUSIC_PLAY;
+        masterStatus = Const.ACTION_MASTER_PLAY;
     }
 
     public void stopPlaying() {
         // Dispose 객체 Clear
         observableDisposal.clear();
         mPlayer.reset();
-        playerStatus = Const.ACTION_MUSIC_PAUSE;
+        masterStatus = Const.ACTION_MASTER_PAUSE;
+    }
+
+    public void pausePlayer() {
+        mPlayer.pause();
+        durationTimer.dispose();
+        masterStatus = Const.ACTION_MASTER_PAUSE;
+    }
+
+    public void setCurPlayer(float curDuration) {
+        Log.d(TAG, "setCurPlayer: " + curDuration);
+        currIndex = (int)curDuration/1000;
+        mPlayer.seekTo((int)curDuration);
     }
 
     public void initPlayer(Context context) {
@@ -142,9 +178,10 @@ public class PlayerController {
             @Override
             public void subscribe(ObservableEmitter<Integer> e) throws Exception {
                 try {
-                    for (int i = 1; i < maxDuration+1; i = i + 1) {
-                        e.onNext(i);
+                    for (int i = curIndex; i < maxDuration+1; i = i + 1) {
+                        e.onNext(1);
                         Thread.sleep(1000);
+                        curIndex += 1;
                     }
                     e.onComplete();
                 } catch (Exception ex) {
@@ -156,6 +193,8 @@ public class PlayerController {
         return mDurationSubscr;
     }
 
+    int currIndex = 0;
+
     // 해당 Observable을 실행하는 메소드
     private void startDurationTimer() {
         durationTimer =
@@ -164,14 +203,26 @@ public class PlayerController {
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(
                             curProgress -> {
-                                Log.d(TAG, "startDurationTimer: " + curProgress);
-                                curDuration.set((curProgress*(100/Float.parseFloat(maxDuration+""))));
-                                curTime.set(TimeUtil.secondToMMSS(curProgress) + " / " + TimeUtil.secondToMMSS(maxDuration));
+                                if (currIndex < maxDuration) {
+                                    currIndex += curProgress;
+                                    Log.d(TAG, "startDurationTimer: " + curProgress);
+                                    curDuration.set(MusicUtil.durationToPercent(currIndex, maxDuration));
+                                    curTime.set(TimeUtil.secondToMMSS(currIndex) + " / " + TimeUtil.secondToMMSS(maxDuration));
+                                }
                             }
                     );
         // Container에 등록
         observableDisposal.add(durationTimer);
     }
 
-
+    public void initData() {
+        curIndex = 0;
+        currIndex = 0;
+        curTime.set(" ");
+        playerList.clear();
+        curDuration.set(0f);
+        countOfsession.set(0);
+        masterStatus = Const.ACTION_MASTER_NOT_INIT;
+        selectMusicStatus = Const.ACTION_SELECT_MUSIC_NOT_INIT;
+    }
 }
