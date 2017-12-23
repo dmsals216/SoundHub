@@ -9,7 +9,7 @@
   - 최초 게시자는 올라온 음악을 들어보고 마음에 들며 Merge(합친다)!
 
 ## 프로젝트의 목적
-- MVVM 패턴 사용의 목적과 DataBinding을 이해한다.
+- MVVM 패턴, DataBinding을 이해한다.
 - Git Flow 개념과 해당 branch(develop, master etc…)을 프로젝트에 적용해 사용하고 이해한다.
 - 음악 재생 기능을 통해 MediaPlayer와 Service을 이해한다.
 - 백엔드 팀과 협업하며 서버와 안드로이드 간의 데이터 통신을 이해한다.
