@@ -384,9 +384,13 @@ public class DetailViewModel {
     }
 
     public void onClickedRepeat(View v) {
-        player.stopPlaying();
-        player.setMasterMusic(mRecordFilePath, 0);
-        player.startPlaying();
+        if (mRecordFilePath != null) {
+            player.stopPlaying();
+            player.setMasterMusic(mRecordFilePath, 0);
+            player.startPlaying();
+        } else {
+            Toast.makeText(v.getContext(), "먼저 녹음을 해주세요.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClickedMasterPlay(View view) {

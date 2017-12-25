@@ -125,7 +125,7 @@ public class ListViewModel extends BaseObservable {
         }
     }
 
-    public void onClickedUpLoad(View view) {
+    public void onClickedUpLoad(View v) {
         Intent intent = new Intent(context, MusicUploadView.class);
         context.startActivity(intent);
     }
