@@ -17,8 +17,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:background="@color/black_2"
-        >
+        android:background="@color/black_2">
 
         <TextView
             android:id="@+id/explain"
@@ -48,38 +47,26 @@
             app:layout_constraintTop_toBottomOf="@+id/appCompatSpinner" />
 
         <Button
-            style="@style/blackConcept"
-            android:padding="8dp"
             android:id="@+id/button16"
-            android:layout_width="wrap_content"
+            style="@style/blackConcept"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:onClick="@{(v) -> viewModel.onUploadFrAudio(v, progressBar, view)}"
+            android:padding="8dp"
             android:text="Upload From Audio"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <android.support.v7.widget.AppCompatSpinner
-            android:id="@+id/appCompatSpinner"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginEnd="8dp"
-            android:entries="@array/instruments"
-            android:selectedValue="@={viewModel.selectedInstrument}"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/explain" />
-
         <FrameLayout
             android:id="@+id/frameLayout3"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
@@ -104,16 +91,30 @@
         </FrameLayout>
 
         <Button
-            style="@style/blackConcept"
-            android:padding="8dp"
             android:id="@+id/button14"
-            android:layout_width="wrap_content"
+            style="@style/blackConcept"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:onClick="@{viewModel::onClickedRepeat}"
+            android:padding="8dp"
             android:text="녹음 다시 듣기"
             app:layout_constraintBottom_toTopOf="@+id/button16"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <android.support.v7.widget.AppCompatSpinner
+            android:id="@+id/appCompatSpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginEnd="0dp"
+            android:layout_marginStart="0dp"
+            android:entries="@array/instruments"
+            android:popupBackground="@color/black"
+            android:selectedValue="@={viewModel.selectedInstrument}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/explain" />
 
     </android.support.constraint.ConstraintLayout>
 
