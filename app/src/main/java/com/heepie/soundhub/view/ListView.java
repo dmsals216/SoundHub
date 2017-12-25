@@ -6,6 +6,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -34,7 +35,6 @@ public class ListView extends AppCompatActivity implements IGoHome {
         listBinding = DataBindingUtil.setContentView(this, R.layout.list_view);
         listViewModel = new ListViewModel(this);
 
-
         initNavigationView();
         initData(Const.CATEGORY_DEFAULT, (code, msg, data) -> {
             if  (code == Const.RESULT_SUCCESS)
@@ -46,7 +46,6 @@ public class ListView extends AppCompatActivity implements IGoHome {
     }
 
     private void initData(String category, ICallback callback) {
-        listBinding.progressBar.setVisibility(View.VISIBLE);
         listViewModel.resetData();
         listViewModel.setDisplayData(category, callback);
         listViewModel.setDisplayCategory();
@@ -128,6 +127,7 @@ public class ListView extends AppCompatActivity implements IGoHome {
         listBinding.drawerLayout.closeDrawers();
         listBinding.genreCategory.setVisibility(View.GONE);
         listBinding.instrumentCategory.setVisibility(View.GONE);
+        listBinding.progressBar.setVisibility(View.VISIBLE);
         initData(Const.CATEGORY_DEFAULT,
                 (code, msg, data) -> {
                     if (code == Const.RESULT_SUCCESS)

@@ -29,7 +29,7 @@ public class Comment_track extends BaseObservable implements Parcelable {
     private String comment_track;
 
     public Comment_track() {
-        isCheck = false;
+
     }
 
     @Expose

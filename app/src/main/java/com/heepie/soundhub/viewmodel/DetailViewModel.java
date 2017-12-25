@@ -64,6 +64,7 @@ public class DetailViewModel {
     public ObservableField<String> countDown;
 
     public List<String> selectedTrack;
+    private String waveTrack;
 
     private ExpandListAdapter adapter;
     private ExpandableListView exListView;
@@ -98,16 +99,20 @@ public class DetailViewModel {
         this.post = post;
 
         // 무조건 실행되는 Author 트랙 초기 설정
+        waveTrack = post.getMaster_track()  != null ? post.getMaster_track() : post.getAuthor_track();
+
+        Log.d(TAG, "setPost: " + waveTrack);
+
         urlBuilder = new StringBuilder();
         urlBuilder.append(BuildConfig.FILE_SERVER_URL)
                   .append("media/")
-                  .append(post.getAuthor_track());
+                  .append(waveTrack);
 
         url = urlBuilder.toString();
 
         urls.clear();
         urls.add(urlBuilder.toString());
-        setMasterTrackWave();
+        setMasterTrackWave(url);
 
         this.adapter = adapter;
         this.exListView = exListView;
@@ -119,7 +124,7 @@ public class DetailViewModel {
             exListView.expandGroup(i);
     }
 
-    private void setMasterTrackWave() {
+    private void setMasterTrackWave(String url) {
         FileApi.getInstance().getMusic(context, url, post.getId(), new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
@@ -129,11 +134,38 @@ public class DetailViewModel {
         });
     }
 
-    public void onClickedMerge(View view) {
+    public void onClickedMerge(View view, Activity activity, ProgressBar progressBar) {
         checkSelectedTrack();
+        progressBar.setVisibility(View.VISIBLE);
         postApi.requestMerge(post.getId(), selectedTrack, (code, msg, data) -> {
-                Post result = (Post)data;
-                Log.d(TAG, "onClickedMerge: " + result.toString());
+            Observable<Response<Post>> postObs = postApi.getPost(post.getId());
+                postObs.subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(
+                                jsonData -> {
+                                    try {
+                                        Thread.sleep(8000);
+                                    } catch (Exception e) {
+
+                                    }
+                                    if (jsonData.isSuccessful()) {
+                                        waveTrack = jsonData.body().getMaster_track();
+                                    }
+                                },
+                                throwable -> {
+                                },
+                                () -> {
+                                    Log.d(TAG, "onClickedMerge: " + post.getMaster_track());
+                                    urlBuilder = new StringBuilder();
+                                    urlBuilder.append(BuildConfig.FILE_SERVER_URL)
+                                            .append("media/")
+                                            .append(waveTrack);
+
+                                    url = urlBuilder.toString();
+                                    setMasterTrackWave(url);
+
+                                    activity.runOnUiThread(() -> progressBar.setVisibility(View.GONE));
+                                });
         });
     }
 
@@ -181,6 +213,7 @@ public class DetailViewModel {
         selectedTrack.clear();
         for(String instrument : post.getComment_tracks().keySet()) {
             for(Comment_track track : post.getComment_tracks().get(instrument)) {
+                Log.d(TAG, "checkSelectedTrack: " + instrument + ":\t" + track.getId() + " " + track.getIsCheck());
                 if (track.getIsCheck()) {
                     selectedTrack.add(track.getId());
                     Log.d(TAG, "checkSelectedTrack: " + track.getId());

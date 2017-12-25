@@ -69,7 +69,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
                         android:transitionName="@string/sharedImage"
-                        android:src="@drawable/test"
+                        app:loadImage="@{model.author.profile_img}"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         />
@@ -278,7 +278,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:onClick="@{viewModel::onClickedMerge}"
+                        android:onClick="@{(v) -> viewModel.onClickedMerge(v, view, progressBar)}"
                         app:setMergeVisible="@{model}"
                         android:text="음원 만들기" />
 

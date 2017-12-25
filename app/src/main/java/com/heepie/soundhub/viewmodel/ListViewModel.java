@@ -82,6 +82,10 @@ public class ListViewModel extends BaseObservable {
         category[1][5] = "Others";
     }
 
+    public void setUser() {
+
+    }
+
     public void setDisplayData(String category, ICallback callback) {
         dataAPI = DataAPI.getInstance();
         Observable<Response<Data>> dataObs = dataAPI.getData(category);
@@ -122,7 +126,6 @@ public class ListViewModel extends BaseObservable {
     }
 
     public void onClickedUpLoad(View view) {
-        Toast.makeText(view.getContext(), "Clicked UpLoad", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(context, MusicUploadView.class);
         context.startActivity(intent);
     }

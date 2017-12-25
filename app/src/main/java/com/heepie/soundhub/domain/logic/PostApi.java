@@ -38,6 +38,7 @@ import retrofit2.http.Path;
 
 public class PostApi extends AbsApi {
     public final String TAG = getClass().getSimpleName();
+    final String SEPARATED = ", ";
 
     private static PostApi instance;
     public static ObservableArrayList<PostViewModel> posts = new ObservableArrayList<>();
@@ -94,14 +95,17 @@ public class PostApi extends AbsApi {
     }
 
     public void requestMerge(String post_id, List<String> mix_tracks, ICallback callback) {
-        final String SEPARATED = ", ";
+
         IPost service = retrofit.create(IPost.class);
         StringBuilder strBuilder = new StringBuilder();
 
-        for (String track_id : mix_tracks)
+        for (String track_id : mix_tracks) {
+            Log.d(TAG, "requestMerge1: " + track_id);
             strBuilder.append(track_id).append(SEPARATED);
+        }
 
         String sumString = strBuilder.toString();
+
         String mixTrack = sumString.substring(0, sumString.length() - SEPARATED.length());
 
         RequestBody mixTrackBody = RequestBody.create(MediaType.parse("text/plain"), mixTrack);
@@ -150,6 +154,7 @@ public class PostApi extends AbsApi {
                             @Part("title") RequestBody title,
                             @Part("instrument") RequestBody instrument,
                             @Part("genre") RequestBody genre,
+                            @Part("bpm") RequestBody bpm,
                             @Part MultipartBody.Part author_track);
 
         @Multipart
