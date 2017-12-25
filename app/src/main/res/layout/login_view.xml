@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background">
+        android:background="@drawable/background_2">
 
 
         <LinearLayout
@@ -27,18 +27,10 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:layout_weight="1"
-                android:background="@drawable/soundhublogo">
-
-            </FrameLayout>
-
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="130dp"
-                android:layout_weight="1" />
+                android:layout_weight="2" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -56,12 +48,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView8"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="E-mail"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView"
@@ -80,12 +73,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView15"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Password"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView2"
@@ -106,6 +100,8 @@
                 android:orientation="horizontal">
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -114,6 +110,8 @@
                     android:text="Sign up" />
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -140,6 +138,8 @@
                     android:layout_weight="1" />
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button6"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -152,6 +152,8 @@
                     android:layout_weight="1" />
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button7"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -164,6 +166,8 @@
                     android:layout_weight="1" />
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button8"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
@@ -231,12 +235,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView18"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="E-mail"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView3"
@@ -254,12 +259,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView19"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Password"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView4"
@@ -277,12 +283,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView20"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Password"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView5"
@@ -301,6 +308,8 @@
                 android:orientation="horizontal">
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button11"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -309,6 +318,8 @@
                     android:onClick="@{viewModel::onCancelClicked}"/>
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button12"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -346,12 +357,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView22"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Nickname"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView9"
@@ -368,12 +380,13 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        style="@style/defaultText"
                         android:id="@+id/textView23"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Genre"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                        />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:layout_width="0dp"
@@ -418,6 +431,8 @@
                 android:orientation="horizontal">
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button13"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -426,6 +441,8 @@
                     android:text="Cancel" />
 
                 <Button
+                    style="@style/blackConcept"
+                    android:layout_margin="4dp"
                     android:id="@+id/button16"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
