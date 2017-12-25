@@ -55,11 +55,22 @@ public class InputViewModel {
     public ObservableField<String> instrument = new ObservableField<>("");
     public ObservableField<String> nickname = new ObservableField<>("");
 
-    public ObservableField<Integer> isSignUpFiled = new ObservableField<>(1);
+    public ObservableField<Integer> isSignUpFiled = new ObservableField<>(0);
 
     public ObservableBoolean isEmailCheck = new ObservableBoolean(false);
     public ObservableBoolean isPasswordCheck = new ObservableBoolean(false);
     public ObservableBoolean isPassword1Check = new ObservableBoolean(false);
+
+    public final ObservableField<Boolean> showSignUp = new ObservableField<>(false);
+    public final ObservableField<Boolean> showSignIn = new ObservableField<>(false);
+
+    public void showSignUp(View view) {
+        isSignUpFiled.set(2);
+    }
+
+    public void showSignIn(View view) {
+        isSignUpFiled.set(1);
+    }
 
     public void onEmailChanged(CharSequence s, int start, int before, int count) {
         isEmailCheck.set(isValidEmail());
@@ -86,14 +97,14 @@ public class InputViewModel {
         password.set("");
         passwordCheck.set("");
         genre.set("");
-        isSignUpFiled.set(1);
+        isSignUpFiled.set(0);
     }
     public void onCancelClicked() {
         email.set("");
         password.set("");
         passwordCheck.set("");
         genre.set("");
-        isSignUpFiled.set(1);
+        isSignUpFiled.set(0);
     }
 
     public void onContinueClicked(View view) {
@@ -182,4 +193,6 @@ public class InputViewModel {
 //        Matcher m = p.matcher(name.get());
 //        return m.matches();
 //    }
+
+
 }

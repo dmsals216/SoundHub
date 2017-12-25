@@ -228,7 +228,7 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
 
     @Override
     public void onBackPressed() {
-        if(inputViewModel.isSignUpFiled.get() != 1) {
+        if(inputViewModel.isSignUpFiled.get() != 0) {
             inputViewModel.onCancelClicked();
             return;
         }
