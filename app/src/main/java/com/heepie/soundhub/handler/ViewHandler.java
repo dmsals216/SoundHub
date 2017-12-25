@@ -130,6 +130,7 @@ public class ViewHandler {
                            ActivityOptionsCompat options = ActivityOptionsCompat
                                    .makeSceneTransitionAnimation(activity, pair1, pair2, pair3);
 
+                           Log.d(TAG, "onClickPostItem: " + post[0].getAuthor().getProfile_img());
                            intent.putExtra("model", post[0]);
                            v.getContext().startActivity(intent, options.toBundle());
                        }

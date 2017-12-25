@@ -21,9 +21,11 @@ import android.widget.ToggleButton;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
+import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.controller.PlayerController;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.domain.model.User_Post;
 import com.heepie.soundhub.utils.Const;
 import com.heepie.soundhub.utils.MusicUtil;
 import com.heepie.soundhub.viewmodel.DetailViewModel;
@@ -45,10 +47,19 @@ import static com.bumptech.glide.request.RequestOptions.bitmapTransform;
 public class ViewBinding {
     @BindingAdapter("loadImage")
     public static void setLoadImage(ImageView view, String path) {
+        String url = BuildConfig.FILE_SERVER_URL + "media/" + path;
+        RequestOptions options = new RequestOptions()
+                                            .centerCrop()
+                                            .placeholder(R.drawable.blur_green)
+                                            .error(R.drawable.blur_green);
+
         Glide.with(view.getContext())
                 .load(path)
+                .load(url)
+                .apply(options)
                 .into(view);
     }
+
 
     @BindingAdapter("loadImage")
     public static void setLoadImage(ImageView view, Uri uri) {
@@ -163,7 +174,7 @@ public class ViewBinding {
 
     @BindingAdapter("setMergeVisible")
     public static void setMergeVisible(View view, Post model) {
-        if (Const.user.getNickname().equals(model.getAuthor()))
+        if (Const.user.getNickname().equals(model.getAuthor().getNickname()))
             view.setVisibility(View.VISIBLE);
         else
             view.setVisibility(View.GONE);
@@ -171,9 +182,9 @@ public class ViewBinding {
 
     @BindingAdapter("setLikeImage")
     public static void setLikeImage(View view, Post model) {
-        if (model.getLiked() != null) {
-            for (int i = 0; i < model.getLiked().length; i = i + 1) {
-                if (Const.user.getId().equals(model.getLiked()[i])) {
+        if (Const.user.getLiked_posts() != null) {
+            for (User_Post item : Const.user.getLiked_posts()) {
+                if (item.getId().equals(model.getId())) {
                     view.setBackgroundDrawable(
                             view.getContext().getResources().
                                     getDrawable(R.drawable.icon_like));

@@ -41,7 +41,7 @@
                     android:layout_width="150dp"
                     android:layout_height="80dp"
                     android:scaleType="fitXY"
-                    app:srcCompat="@drawable/test2" />
+                    app:loadImage="@{model.profile_img}"/>
 
                 <ImageView
                     android:id="@+id/imageView5"
