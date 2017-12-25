@@ -1,10 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
     <data>
-        <import type="android.view.View"/>
-        <variable name="viewModel" type="com.heepie.soundhub.viewmodel.InputViewModel"/>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="com.heepie.soundhub.viewmodel.InputViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
@@ -12,245 +17,278 @@
         android:layout_height="match_parent"
         android:background="@drawable/background_2">
 
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/soundhublogo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/showSigninBtn"
+            style="@style/blackConcept"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:elevation="0dp"
+            android:onClick="@{viewModel.showSignIn}"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Sign in"
+            android:visibility="@{viewModel.isSignUpFiled == 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/showSignupBtn" />
+
+        <Button
+            android:id="@+id/showSignupBtn"
+            style="@style/blackConcept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="35dp"
+            android:layout_marginStart="35dp"
+            android:elevation="1dp"
+            android:onClick="@{viewModel::onSignUpClicked}"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:text="Create an account"
+            android:visibility="@{viewModel.isSignUpFiled == 0 ? View.VISIBLE : View.GONE}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <FrameLayout
+            android:id="@+id/frameLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_3"
+            android:visibility="@{viewModel.isSignUpFiled == 1 ? View.VISIBLE : View.GONE}"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <com.heepie.soundhub.customview.CustomSignButton
+                    android:id="@+id/button7"
+                    style="@style/SignBtnStyle"
+                    app:bg="@color/naver_bg"
+                    app:imgSrc="@drawable/naver_icon"
+                    app:text="Sign in with Naver"
+                    app:textColor="@color/naver_white" />
+
+                <com.heepie.soundhub.customview.CustomSignButton
+                    android:id="@+id/button6"
+                    style="@style/SignBtnStyle"
+                    app:bg="@color/google_bg"
+                    app:imgSrc="@drawable/google"
+                    app:text="Sign in with Google"
+                    app:textColor="@color/google_red" />
+
+                <com.heepie.soundhub.customview.CustomSignButton
+                    android:id="@+id/button8"
+                    style="@style/SignBtnStyle"
+                    app:bg="@color/face_bg"
+                    app:imgSrc="@drawable/facebook"
+                    app:text="Sign in with Facebook"
+                    app:textColor="@color/face_white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:background="@drawable/loginview_textback"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView8"
+                            style="@style/defaultText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="E-mail" />
+
+                        <com.heepie.soundhub.customview.ClearEditView
+                            android:id="@+id/clearEditView"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:inputType="textEmailAddress"
+                            android:onTextChanged="@{viewModel::onEmailChanged}"
+                            android:text="@={viewModel.email}"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            style="@style/defaultText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Password" />
+
+                        <com.heepie.soundhub.customview.ClearEditView
+                            android:id="@+id/clearEditView2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:inputType="textPassword"
+                            android:onTextChanged="@{viewModel::onPasswordChanged}"
+                            android:text="@={viewModel.password}"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/button3"
+                        style="@style/blackConcept"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginRight="8dp"
+                        android:enabled="@{viewModel.isEmailCheck &amp;&amp; viewModel.isPasswordCheck ? true : false}"
+                        android:onClick="@{viewModel::onLoginClicked}"
+                        android:text="Log in" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_3"
             android:gravity="center"
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:visibility="@{viewModel.isSignUpFiled == 1 ? View.VISIBLE : View.GONE}"
+            android:visibility="@{viewModel.isSignUpFiled == 2 ? View.VISIBLE : View.GONE}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="130dp"
-                android:layout_weight="2" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@drawable/loginview_textback"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                    android:background="@drawable/loginview_textback"
+                    android:orientation="vertical">
 
-                    <TextView
-                        style="@style/defaultText"
-                        android:id="@+id/textView8"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="E-mail"
-                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
 
-                    <com.heepie.soundhub.customview.ClearEditView
-                        android:id="@+id/clearEditView"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:inputType="textEmailAddress"
-                        android:onTextChanged="@{viewModel::onEmailChanged}"
-                        android:text="@={viewModel.email}" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/textView18"
+                            style="@style/defaultText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="E-mail" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+                        <com.heepie.soundhub.customview.ClearEditView
+                            android:id="@+id/clearEditView3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:inputType="textEmailAddress"
+                            android:onTextChanged="@{viewModel::onEmailChanged}"
+                            android:text="@={viewModel.email}"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
 
-                    <TextView
-                        style="@style/defaultText"
-                        android:id="@+id/textView15"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Password"
-                        />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
 
-                    <com.heepie.soundhub.customview.ClearEditView
-                        android:id="@+id/clearEditView2"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:inputType="textPassword"
-                        android:onTextChanged="@{viewModel::onPasswordChanged}"
-                        android:text="@={viewModel.password}" />
-                </LinearLayout>
+                        <TextView
+                            android:id="@+id/textView19"
+                            style="@style/defaultText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Password" />
 
-            </LinearLayout>
+                        <com.heepie.soundhub.customview.ClearEditView
+                            android:id="@+id/clearEditView4"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:inputType="textPassword"
+                            android:onTextChanged="@{viewModel::onPasswordChanged}"
+                            android:text="@={viewModel.password}"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:layout_marginRight="8dp"
+                        android:orientation="horizontal">
 
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:onClick="@{viewModel::onSignUpClicked}"
-                    android:text="Sign up" />
+                        <TextView
+                            android:id="@+id/textView20"
+                            style="@style/defaultText"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Password" />
 
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:enabled="@{viewModel.isEmailCheck &amp;&amp; viewModel.isPasswordCheck ? true : false}"
-                    android:onClick="@{viewModel::onLoginClicked}"
-                    android:text="Log in" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="70dp"
-                android:layout_weight="1" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal">
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button6"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/google" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button7"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/naver_icon" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button8"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/facebook" />
-
-                <Space
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="100dp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/textView16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="아이디 찾기" />
-
-                <TextView
-                    android:id="@+id/textView17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:text="비밀번호 찾기" />
-            </LinearLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="@{viewModel.isSignUpFiled == 2 ? View.VISIBLE : View.GONE}"
-            android:gravity="center">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/loginview_textback"
-                android:orientation="vertical"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/defaultText"
-                        android:id="@+id/textView18"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="E-mail"
-                        />
-
-                    <com.heepie.soundhub.customview.ClearEditView
-                        android:id="@+id/clearEditView3"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:inputType="textEmailAddress"
-                        android:text="@={viewModel.email}"
-                        android:onTextChanged="@{viewModel::onEmailChanged}"/>
+                        <com.heepie.soundhub.customview.ClearEditView
+                            android:id="@+id/clearEditView5"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="3"
+                            android:inputType="textPassword"
+                            android:onTextChanged="@{viewModel::onPassword1Changed}"
+                            android:text="@={viewModel.passwordCheck}" />
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -258,77 +296,32 @@
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
-                    <TextView
-                        style="@style/defaultText"
-                        android:id="@+id/textView19"
-                        android:layout_width="0dp"
+                    <Button
+                        android:id="@+id/button11"
+                        style="@style/blackConcept"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
                         android:layout_weight="1"
-                        android:text="Password"
-                        />
+                        android:onClick="@{viewModel::onCancelClicked}"
+                        android:text="Cancel" />
 
-                    <com.heepie.soundhub.customview.ClearEditView
-                        android:id="@+id/clearEditView4"
-                        android:layout_width="0dp"
+                    <Button
+                        android:id="@+id/button12"
+                        style="@style/blackConcept"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:inputType="textPassword"
-                        android:text="@={viewModel.password}"
-                        android:onTextChanged="@{viewModel::onPasswordChanged}" />
+                        android:layout_margin="4dp"
+                        android:layout_weight="1"
+                        android:enabled="@{viewModel.isEmailCheck &amp;&amp; viewModel.isPasswordCheck &amp;&amp; viewModel.isPassword1Check ? true : false}"
+                        android:onClick="@{viewModel::onContinueClicked}"
+                        android:text="Continue" />
                 </LinearLayout>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        style="@style/defaultText"
-                        android:id="@+id/textView20"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="Password"
-                        />
-
-                    <com.heepie.soundhub.customview.ClearEditView
-                        android:id="@+id/clearEditView5"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="3"
-                        android:inputType="textPassword"
-                        android:text="@={viewModel.passwordCheck}"
-                        android:onTextChanged="@{viewModel::onPassword1Changed}"/>
-                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
 
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button11"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Cancel"
-                    android:onClick="@{viewModel::onCancelClicked}"/>
-
-                <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
-                    android:id="@+id/button12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Continue"
-                    android:enabled="@{viewModel.isEmailCheck &amp;&amp; viewModel.isPasswordCheck &amp;&amp; viewModel.isPassword1Check ? true : false}"
-                    android:onClick="@{viewModel::onContinueClicked}"/>
-            </LinearLayout>
-        </LinearLayout>
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -337,7 +330,7 @@
             android:orientation="vertical"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:visibility="@{viewModel.isSignUpFiled == 3 ? View.VISIBLE : View.GONE}"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -357,13 +350,12 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/defaultText"
                         android:id="@+id/textView22"
+                        style="@style/defaultText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Nickname"
-                        />
+                        android:text="Nickname" />
 
                     <com.heepie.soundhub.customview.ClearEditView
                         android:id="@+id/clearEditView9"
@@ -371,7 +363,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="3"
                         android:inputType="text"
-                        android:text="@={viewModel.nickname}"/>
+                        android:text="@={viewModel.nickname}" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -380,13 +372,12 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        style="@style/defaultText"
                         android:id="@+id/textView23"
+                        style="@style/defaultText"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Genre"
-                        />
+                        android:text="Genre" />
 
                     <android.support.v7.widget.AppCompatSpinner
                         android:layout_width="0dp"
@@ -431,21 +422,21 @@
                 android:orientation="horizontal">
 
                 <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
                     android:id="@+id/button13"
+                    style="@style/blackConcept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:onClick="@{viewModel::onCancelClicked}"
                     android:text="Cancel" />
 
                 <Button
-                    style="@style/blackConcept"
-                    android:layout_margin="4dp"
                     android:id="@+id/button16"
+                    style="@style/blackConcept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:onClick="@{viewModel::onClickedSignUp}"
                     android:text="Sign up" />
