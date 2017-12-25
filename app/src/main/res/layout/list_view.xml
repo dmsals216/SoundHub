@@ -337,7 +337,7 @@
                     android:layout_marginEnd="24dp"
                     android:onClick="@{viewModel::onClickedUpLoad}"
                     android:src="@android:drawable/ic_menu_upload"
-                    app:backgroundTint="@android:color/black"
+                    app:backgroundTint="@color/black_2"
                     app:elevation="4dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

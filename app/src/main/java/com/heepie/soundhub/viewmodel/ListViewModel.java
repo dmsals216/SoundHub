@@ -121,8 +121,7 @@ public class ListViewModel extends BaseObservable {
         }
     }
 
-    public void onClickedUpLoad(View view) {
-        Toast.makeText(view.getContext(), "Clicked UpLoad", Toast.LENGTH_SHORT).show();
+    public void onClickedUpLoad(View v) {
         Intent intent = new Intent(context, MusicUploadView.class);
         context.startActivity(intent);
     }

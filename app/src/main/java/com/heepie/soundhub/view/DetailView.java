@@ -90,6 +90,6 @@ public class DetailView extends AppCompatActivity implements IGoHome {
 
     @Override
     public void goHome(View v) {
-        Toast.makeText(this, "Clicked Home", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }
