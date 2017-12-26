@@ -50,8 +50,8 @@ public class ViewBinding {
         String url = BuildConfig.FILE_SERVER_URL + "media/" + path;
         RequestOptions options = new RequestOptions()
                                             .centerCrop()
-                                            .placeholder(R.drawable.blur_green)
-                                            .error(R.drawable.blur_green);
+                                            .placeholder(R.drawable.piano)
+                                            .error(R.drawable.piano);
 
         Glide.with(view.getContext())
                 .load(path)
