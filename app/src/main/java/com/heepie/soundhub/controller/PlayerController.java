@@ -76,10 +76,12 @@ public class PlayerController {
         return instance;
     }
 
+    // 1. 음악 플레이어를 track 개수만큼 생성
+    // 2. 음악 Prepare
+    // 3. 음악 플레이어 리스트에 등록
+    // 4. 모든 track이 준비되면 Flag를 true로 변경
     public void setMusic(List<String> urls, ICallback callback) {
         for (String url : urls) {
-            Log.d(TAG, "setMusic: " + url);
-
             new Thread(() -> {
                 MediaPlayer track = new MediaPlayer();
                 track.setAudioStreamType(AudioManager.STREAM_MUSIC);
@@ -88,8 +90,7 @@ public class PlayerController {
                     track.prepare();
                     playerList.add(track);
                     countOfsession.set(countOfsession.get()+1);
-                    Log.d(TAG, "setMusic: " + countOfsession.get());
-                    // 모든 session이 준비가 완료되었다면 play 실행
+
                     if (countOfsession.get() == urls.size()) {
                         isPreparePlayers = true;
                         if (callback != null)
@@ -98,7 +99,6 @@ public class PlayerController {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }).start();
         }
     }

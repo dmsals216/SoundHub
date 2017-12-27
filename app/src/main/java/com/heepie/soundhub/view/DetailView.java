@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
 
     private void initData() {
         model = getIntent().getParcelableExtra("model");
+        Log.d(TAG, "initData: " + model.getAuthor().getProfile_img());
         binding.setModel(model);
     }
 
@@ -90,6 +92,6 @@ public class DetailView extends AppCompatActivity implements IGoHome {
 
     @Override
     public void goHome(View v) {
-        Toast.makeText(this, "Clicked Home", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

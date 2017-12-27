@@ -19,10 +19,13 @@ public class User_Post implements Parcelable {
     private String num_liked;
     private String num_comments;
     private String created_date;
-    private Map<String, String> author;
+    private User author;
 
+    public User_Post() {
 
-    public User_Post(String id, String title, String genre, String instrument, String num_liked, String num_comments, String created_date) {
+    }
+
+    public User_Post(String id, String title, String genre, String instrument, String num_liked, String num_comments, String created_date, User author) {
         this.id = id;
         this.title = title;
         this.genre = genre;
@@ -30,48 +33,10 @@ public class User_Post implements Parcelable {
         this.num_liked = num_liked;
         this.num_comments = num_comments;
         this.created_date = created_date;
+        this.author = author;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.title);
-        dest.writeString(this.genre);
-        dest.writeString(this.instrument);
-        dest.writeString(this.num_liked);
-        dest.writeString(this.num_comments);
-        dest.writeString(this.created_date);
-    }
-
-    public User_Post() {
-    }
-
-    protected User_Post(Parcel in) {
-        this.id = in.readString();
-        this.title = in.readString();
-        this.genre = in.readString();
-        this.instrument = in.readString();
-        this.num_liked = in.readString();
-        this.num_comments = in.readString();
-        this.created_date = in.readString();
-    }
-
-    public static final Parcelable.Creator<User_Post> CREATOR = new Parcelable.Creator<User_Post>() {
-        @Override
-        public User_Post createFromParcel(Parcel source) {
-            return new User_Post(source);
-        }
-
-        @Override
-        public User_Post[] newArray(int size) {
-            return new User_Post[size];
-        }
-    };
 
     public String getId() {
         return id;
@@ -129,11 +94,51 @@ public class User_Post implements Parcelable {
         this.created_date = created_date;
     }
 
-    public Map<String, String> getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(Map<String, String> author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.genre);
+        dest.writeString(this.instrument);
+        dest.writeString(this.num_liked);
+        dest.writeString(this.num_comments);
+        dest.writeString(this.created_date);
+        dest.writeParcelable(this.author, flags);
+    }
+
+    protected User_Post(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.genre = in.readString();
+        this.instrument = in.readString();
+        this.num_liked = in.readString();
+        this.num_comments = in.readString();
+        this.created_date = in.readString();
+        this.author = in.readParcelable(User.class.getClassLoader());
+    }
+
+    public static final Creator<User_Post> CREATOR = new Creator<User_Post>() {
+        @Override
+        public User_Post createFromParcel(Parcel source) {
+            return new User_Post(source);
+        }
+
+        @Override
+        public User_Post[] newArray(int size) {
+            return new User_Post[size];
+        }
+    };
 }

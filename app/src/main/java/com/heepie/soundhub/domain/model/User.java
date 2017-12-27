@@ -222,6 +222,9 @@ public class User implements Parcelable
         dest.writeString(this.num_followings);
         dest.writeString(this.num_followers);
         dest.writeString(this.user_type);
+        dest.writeString(this.profile_img);
+        dest.writeString(this.profile_bg);
+
     }
 
     protected User(Parcel in) {
@@ -241,6 +244,9 @@ public class User implements Parcelable
         this.num_followings = in.readString();
         this.num_followers = in.readString();
         this.user_type = in.readString();
+        this.profile_img = in.readString();
+        this.profile_bg = in.readString();
+
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
