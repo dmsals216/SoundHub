@@ -103,8 +103,6 @@ public class UserPageView extends AppCompatActivity {
                 setTabLayout();
                 setViewPager();
                 setListener();
-
-                Log.d("getUser", "onResponse: " + user.getLiked_posts().get(0).getAuthor().getProfile_img());
             }
 
             @Override

@@ -9,6 +9,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by eunmin on 2017-12-22.
@@ -37,7 +38,7 @@ public class SearchAPI {
     }
 
     public interface ISearch {
-        @GET("search?keyword={keyword}")
-        Call<ServerSearch> result(@Path("keyword") String keyword);
+        @GET("search")
+        Call<ServerSearch> result(@Query("keyword") String keyword);
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @Dao
 public interface SearchDao {
-    @Query("select * from Search order by id desc")
+    @Query("select distinct id, search from Search order by id desc")
     List<Search> getAll();
 
     @Insert
@@ -23,4 +23,7 @@ public interface SearchDao {
 
     @Delete
     void deleteItem(Search model);
+
+    @Query("delete from Search WHERE id NOT IN (SELECT MIN(id) FROM Search GROUP BY search)")
+    void deleteItems();
 }

@@ -39,7 +39,7 @@ public class SearchUserListAdpater extends RecyclerView.Adapter<SearchUserListAd
 
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.userpage_user_list_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_user_item, parent, false);
         return new Holder(view);
     }
 

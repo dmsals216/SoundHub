@@ -56,6 +56,7 @@ public class SearchViewModel {
             SearchDao dao = dbHelper.searchDao();
             Search model = new Search(searchtitle.get());
             dao.insertItem(model);
+            dao.deleteItems();
             SearchAPI.ISearch service = RetrofitUtil.getInstance().create(SearchAPI.ISearch.class);
             Call<SearchAPI.ServerSearch> result = service.result(searchtitle.get());
             result.enqueue(new Callback<SearchAPI.ServerSearch>() {

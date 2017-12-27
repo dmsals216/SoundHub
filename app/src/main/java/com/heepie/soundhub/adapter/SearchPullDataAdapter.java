@@ -52,7 +52,7 @@ public class SearchPullDataAdapter extends RecyclerView.Adapter<SearchPullDataAd
         if(viewType == 0) {
             view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_user_list, parent, false);
         }else if(viewType == 1){
-            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_title_item, parent, false);
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_post_list, parent, false);
         }
         return new Holder(view, viewType);
     }
@@ -72,16 +72,16 @@ public class SearchPullDataAdapter extends RecyclerView.Adapter<SearchPullDataAd
         public Holder(View itemView, int viewType) {
             super(itemView);
             if(viewType == 0) {
-                if(users != null) {
+                if(users.size() != 0) {
                     RecyclerView recyclerView = itemView.findViewById(R.id.recyclerView);
                     SearchUserListAdpater userListAdpater = new SearchUserListAdpater(users, activity);
                     recyclerView.setAdapter(userListAdpater);
                     recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
                 }
             }else if(viewType == 1){
-                if(posts_by_title != null) {
+                if(posts_by_title.size() != 0) {
                     RecyclerView recyclerView = itemView.findViewById(R.id.recyclerView);
-                    SearchPostListAdapter postListAdapter = new SearchPostListAdapter(posts_by_title);
+                    SearchPostListAdapter postListAdapter = new SearchPostListAdapter(posts_by_title, activity);
                     recyclerView.setAdapter(postListAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(itemView.getContext()));
                 }

@@ -11,6 +11,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Post"
+        android:textColor="#FFFFFF"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
