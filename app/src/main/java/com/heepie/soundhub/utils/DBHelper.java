@@ -5,13 +5,13 @@ import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
 import com.heepie.soundhub.Interfaces.SearchDao;
-import com.heepie.soundhub.domain.model.SearchModel;
+import com.heepie.soundhub.domain.model.Search;
 
 /**
  * Created by eunmin on 2017-12-18.
  */
 
-@Database(entities = {SearchModel.class}, version = 1, exportSchema = false)
+@Database(entities = {Search.class}, version = 1, exportSchema = false)
 public abstract class DBHelper extends RoomDatabase {
     private static DBHelper INSTANCE = null;
     private static final Object sLock = new Object();

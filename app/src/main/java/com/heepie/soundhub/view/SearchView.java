@@ -25,9 +25,10 @@ public class SearchView extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        adapter = new SearchViewTitleAdapter();
-        viewModel = new SearchViewModel(adapter);
         binding = DataBindingUtil.setContentView(this, R.layout.search_view);
+        adapter = new SearchViewTitleAdapter(this, binding);
+        viewModel = new SearchViewModel(adapter, binding, this);
+        adapter.setViewModel(viewModel);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.recyclerView.setAdapter(adapter);
         binding.setViewModel(viewModel);

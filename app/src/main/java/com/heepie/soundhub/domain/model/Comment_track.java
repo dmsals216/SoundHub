@@ -19,7 +19,7 @@ public class Comment_track extends BaseObservable implements Parcelable {
     private String id;
 
     // 코멘트 등록자
-    private String author;
+    private User author;
 
     // 해당 포스트 이름
     private String post;
@@ -27,6 +27,10 @@ public class Comment_track extends BaseObservable implements Parcelable {
     private String instrument;
 
     private String comment_track;
+
+    public Comment_track() {
+
+    }
 
     @Expose
     private boolean isCheck;
@@ -51,13 +55,11 @@ public class Comment_track extends BaseObservable implements Parcelable {
         this.id = id;
     }
 
-    public String getAuthor ()
-    {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor (String author)
-    {
+    public void setAuthor(User author) {
         this.author = author;
     }
 
@@ -91,43 +93,6 @@ public class Comment_track extends BaseObservable implements Parcelable {
         this.comment_track = comment_track;
     }
 
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(this.id);
-        dest.writeString(this.author);
-        dest.writeString(this.post);
-        dest.writeString(this.instrument);
-        dest.writeString(this.comment_track);
-    }
-
-    public Comment_track() {
-        isCheck = false;
-    }
-
-    protected Comment_track(Parcel in) {
-        this.id = in.readString();
-        this.author = in.readString();
-        this.post = in.readString();
-        this.instrument = in.readString();
-        this.comment_track = in.readString();
-    }
-
-    public static final Creator<Comment_track> CREATOR = new Creator<Comment_track>() {
-        @Override
-        public Comment_track createFromParcel(Parcel source) {
-            return new Comment_track(source);
-        }
-
-        @Override
-        public Comment_track[] newArray(int size) {
-            return new Comment_track[size];
-        }
-    };
 
     @Override
     public String toString() {
@@ -141,4 +106,40 @@ public class Comment_track extends BaseObservable implements Parcelable {
                 ", isCheck=" + isCheck +
                 '}';
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeParcelable(this.author, flags);
+        dest.writeString(this.post);
+        dest.writeString(this.instrument);
+        dest.writeString(this.comment_track);
+        dest.writeByte(this.isCheck ? (byte) 1 : (byte) 0);
+    }
+
+    protected Comment_track(Parcel in) {
+        this.id = in.readString();
+        this.author = in.readParcelable(User.class.getClassLoader());
+        this.post = in.readString();
+        this.instrument = in.readString();
+        this.comment_track = in.readString();
+        this.isCheck = in.readByte() != 0;
+    }
+
+    public static final Creator<Comment_track> CREATOR = new Creator<Comment_track>() {
+        @Override
+        public Comment_track createFromParcel(Parcel source) {
+            return new Comment_track(source);
+        }
+
+        @Override
+        public Comment_track[] newArray(int size) {
+            return new Comment_track[size];
+        }
+    };
 }

@@ -68,11 +68,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                 ,BuildConfig.NAVER_CLIENT_NAME
         );
         if(null != mOAuthLoginModule.getAccessToken(this)) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             mOAuthLoginModule.startOauthLoginActivity(this, mOAuthLoginHandler);
         }
     }
@@ -82,11 +77,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
         if(null != account) {
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             Intent intent = new Intent(this, ListView.class);
             startActivity(intent);
             finish();
@@ -109,7 +99,6 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
                         if(result != null) {
                             Const.TOKEN = result.token;
                             Const.user = result.user;
-                            Log.e("haha", Const.user.getId() + "");
                             Intent intent = new Intent(LoginView.this, ListView.class);
                             startActivity(intent);
                             finish();
@@ -226,13 +215,31 @@ public class LoginView extends AppCompatActivity implements InputViewModel.Login
         };
     };
 
+    private final long FINISH_INTERVAL_TIME = 2000;
+    private long   backPressedTime = 0;
+
     @Override
     public void onBackPressed() {
-        if(inputViewModel.isSignUpFiled.get() != 1) {
+        if(inputViewModel.isSignUpFiled.get() != 0) {
             inputViewModel.onCancelClicked();
             return;
+        } else {
+            long tempTime = System.currentTimeMillis();
+            long intervalTime = tempTime - backPressedTime;
+            String strFlag;
+
+            if (0 <= intervalTime && FINISH_INTERVAL_TIME >= intervalTime) {
+
+                Intent intent = new Intent();
+                strFlag = "exit";
+                intent.putExtra("value", strFlag);
+                setResult(RESULT_OK, intent);
+                super.onBackPressed();
+            } else {
+                backPressedTime = tempTime;
+                Toast.makeText(getApplicationContext(), "한번더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            }
         }
-        super.onBackPressed();
     }
 
     @Override

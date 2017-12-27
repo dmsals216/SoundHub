@@ -65,10 +65,13 @@ public class MusicUploadModel {
         RequestBody title1 = RequestBody.create(MediaType.parse("text/plain"), title.get());
         RequestBody instrument1 = RequestBody.create(MediaType.parse("text/plain"), instrument.get());
         RequestBody genre1 = RequestBody.create(MediaType.parse("text/plain"), genre.get());
+
+        RequestBody bpm = RequestBody.create(MediaType.parse("text/plain"), "100");
+
         RequestBody requestBody = RequestBody.create(MediaType.parse("*/*"), file);
         MultipartBody.Part author_track = MultipartBody.Part.createFormData("author_track", file.getName(), requestBody);
 
-        Call<Post> response = upload.getLogin("Token " + Const.TOKEN + "", title1, instrument1, genre1, author_track);
+        Call<Post> response = upload.getLogin("Token " + Const.TOKEN + "", title1, instrument1, genre1, bpm, author_track);
         response.enqueue(new Callback<Post>() {
             @Override
             public void onResponse(Call<Post> call, Response<Post> response) {

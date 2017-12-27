@@ -5,7 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import com.heepie.soundhub.domain.model.SearchModel;
+import com.heepie.soundhub.domain.model.Search;
 
 import java.util.List;
 
@@ -15,12 +15,15 @@ import java.util.List;
 
 @Dao
 public interface SearchDao {
-    @Query("select * from search order by id desc")
-    List<SearchModel> getAll();
+    @Query("select distinct id, search from Search order by id desc")
+    List<Search> getAll();
 
     @Insert
-    void insertItem(SearchModel model);
+    void insertItem(Search model);
 
     @Delete
-    void deleteItem(SearchModel model);
+    void deleteItem(Search model);
+
+    @Query("delete from Search WHERE id NOT IN (SELECT MIN(id) FROM Search GROUP BY search)")
+    void deleteItems();
 }

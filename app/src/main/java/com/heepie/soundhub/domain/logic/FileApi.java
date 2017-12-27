@@ -40,8 +40,7 @@ public class FileApi {
         File futureStudioIconFile = new File(path);
 
         if (futureStudioIconFile.exists()) {
-            callback.initData(200, "OK", path);
-            return;
+            futureStudioIconFile.delete();
         }
 
         Request request = new Request.Builder().url(url).build();

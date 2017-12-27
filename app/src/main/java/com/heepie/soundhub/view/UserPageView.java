@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestBuilder;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
@@ -90,9 +92,9 @@ public class UserPageView extends AppCompatActivity {
                 viewModel.setUserName(user.getNickname());
                 viewModel.setUserInstrument(user.getInstrument());
                 viewModel.setUserGenre(user.getGenre());
-                RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.test2).error(R.drawable.test2);
+                RequestOptions options = new RequestOptions().centerCrop().placeholder(R.drawable.test2).error(R.drawable.test2).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
                 Glide.with(UserPageView.this).load(BuildConfig.MEDIA_URL + user.getProfile_bg()).apply(options).into(binding.frameLayout);
-                RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user);
+                RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
                 Glide.with(UserPageView.this).load(BuildConfig.MEDIA_URL + user.getProfile_img()).apply(options1).into(binding.userpagepostuimage);
                 if (user.getId().equals(Const.user.getId())) {
                     viewModel.setCheck(true);

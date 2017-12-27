@@ -9,16 +9,16 @@ import android.arch.persistence.room.PrimaryKey;
  */
 
 @Entity(tableName = "search")
-public class SearchModel {
+public class Search {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
     @ColumnInfo
     private String search;
 
-    public SearchModel() {}
+    public Search() {}
 
-    public SearchModel(String search) {
+    public Search(String search) {
         this.search = search;
     }
 

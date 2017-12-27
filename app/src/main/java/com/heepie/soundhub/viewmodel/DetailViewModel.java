@@ -64,8 +64,10 @@ public class DetailViewModel {
     public ObservableField<String> countDown;
 
     public List<String> selectedTrack;
+    private String waveTrack;
 
     private ExpandListAdapter adapter;
+    private ExpandableListView exListView;
 
     public static DetailViewModel getInstance() {
         if (instance == null)
@@ -93,28 +95,36 @@ public class DetailViewModel {
         recorder.initRecorder(context);
     }
 
-    public void setPost(Post post, ExpandListAdapter adapter) {
+    public void setPost(Post post, ExpandableListView exListView, ExpandListAdapter adapter) {
         this.post = post;
 
         // 무조건 실행되는 Author 트랙 초기 설정
+        waveTrack = post.getMaster_track()  != null ? post.getMaster_track() : post.getAuthor_track();
+
+        Log.d(TAG, "setPost: " + waveTrack);
+
         urlBuilder = new StringBuilder();
         urlBuilder.append(BuildConfig.FILE_SERVER_URL)
                   .append("media/")
-                  .append(post.getAuthor_track());
+                  .append(waveTrack);
 
         url = urlBuilder.toString();
 
         urls.clear();
         urls.add(urlBuilder.toString());
-        setMasterTrackWave();
+        setMasterTrackWave(url);
 
         this.adapter = adapter;
+        this.exListView = exListView;
         ArrayList<String> groups = new ArrayList<>(post.getComment_tracks().keySet());
         adapter.setDataAndRefresh(groups, post.getComment_tracks());
         Log.d(TAG, "setPost: " + adapter.getGroupCount());
+
+        for (int i=0; i<groups.size(); i=i+1)
+            exListView.expandGroup(i);
     }
 
-    private void setMasterTrackWave() {
+    private void setMasterTrackWave(String url) {
         FileApi.getInstance().getMusic(context, url, post.getId(), new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
@@ -124,11 +134,38 @@ public class DetailViewModel {
         });
     }
 
-    public void onClickedMerge(View view) {
+    public void onClickedMerge(View view, Activity activity, ProgressBar progressBar) {
         checkSelectedTrack();
+        progressBar.setVisibility(View.VISIBLE);
         postApi.requestMerge(post.getId(), selectedTrack, (code, msg, data) -> {
-                Post result = (Post)data;
-                Log.d(TAG, "onClickedMerge: " + result.toString());
+            Observable<Response<Post>> postObs = postApi.getPost(post.getId());
+                postObs.subscribeOn(Schedulers.io())
+                        .observeOn(Schedulers.newThread())
+                        .subscribe(
+                                jsonData -> {
+                                    try {
+                                        Thread.sleep(8000);
+                                    } catch (Exception e) {
+
+                                    }
+                                    if (jsonData.isSuccessful()) {
+                                        waveTrack = jsonData.body().getMaster_track();
+                                    }
+                                },
+                                throwable -> {
+                                },
+                                () -> {
+                                    Log.d(TAG, "onClickedMerge: " + post.getMaster_track());
+                                    urlBuilder = new StringBuilder();
+                                    urlBuilder.append(BuildConfig.FILE_SERVER_URL)
+                                            .append("media/")
+                                            .append(waveTrack);
+
+                                    url = urlBuilder.toString();
+                                    setMasterTrackWave(url);
+
+                                    activity.runOnUiThread(() -> progressBar.setVisibility(View.GONE));
+                                });
         });
     }
 
@@ -176,6 +213,7 @@ public class DetailViewModel {
         selectedTrack.clear();
         for(String instrument : post.getComment_tracks().keySet()) {
             for(Comment_track track : post.getComment_tracks().get(instrument)) {
+                Log.d(TAG, "checkSelectedTrack: " + instrument + ":\t" + track.getId() + " " + track.getIsCheck());
                 if (track.getIsCheck()) {
                     selectedTrack.add(track.getId());
                     Log.d(TAG, "checkSelectedTrack: " + track.getId());
@@ -295,7 +333,7 @@ public class DetailViewModel {
                                         () -> {
                                             if (post != null) {
                                                 Log.d(TAG, "onUploadFrAudio: " + post.toString());
-                                                setPost(post, adapter);
+                                                setPost(post, exListView, adapter);
                                                 progress_bar.setVisibility(View.GONE);
                                                 callFrom.finish();
                                             }
@@ -334,7 +372,7 @@ public class DetailViewModel {
                                             () -> {
                                                 if (post != null) {
                                                     Log.d(TAG, "onUploadFrFile: " + post.toString());
-                                                    setPost(post, adapter);
+                                                    setPost(post, exListView, adapter);
                                                     progress_bar.setVisibility(View.GONE);
                                                     callFrom.finish();
                                                 }
@@ -346,9 +384,13 @@ public class DetailViewModel {
     }
 
     public void onClickedRepeat(View v) {
-        player.stopPlaying();
-        player.setMasterMusic(mRecordFilePath, 0);
-        player.startPlaying();
+        if (mRecordFilePath != null) {
+            player.stopPlaying();
+            player.setMasterMusic(mRecordFilePath, 0);
+            player.startPlaying();
+        } else {
+            Toast.makeText(v.getContext(), "먼저 녹음을 해주세요.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClickedMasterPlay(View view) {

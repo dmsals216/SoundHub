@@ -48,10 +48,11 @@
                         android:layout_marginStart="2dp"
                         android:layout_marginTop="2dp"
                         android:layout_weight="1"
+                        app:loadImage="@{model.author.profile_img}"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@mipmap/ic_launcher_round" />
+                        />
 
                     <LinearLayout
                         android:layout_width="0dp"
@@ -72,7 +73,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_weight="2"
                             android:gravity="center"
-                            android:text="곡에 대한 정보"
+                            android:text="@{model.instrument}"
                             android:textSize="14dp" />
 
                         <TextView
@@ -84,7 +85,7 @@
                             android:layout_marginTop="2dp"
                             android:layout_weight="1"
                             android:gravity="center"
-                            android:text="@{model.author}"
+                            android:text="@{model.author.nickname}"
                             android:textSize="14dp" />
 
 

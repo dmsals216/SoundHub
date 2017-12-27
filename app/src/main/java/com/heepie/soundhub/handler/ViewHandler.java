@@ -117,7 +117,9 @@ public class ViewHandler {
                            post[0] = jsonData.body();
                    },
                    // Error 처리
-                   throwable -> {},
+                   throwable -> {
+                       Log.d(TAG, "onClickPostItem: " + throwable.getMessage());
+                   },
                    // Complete 처리
                    () -> {
                        if (post[0] != null) {
@@ -128,6 +130,7 @@ public class ViewHandler {
                            ActivityOptionsCompat options = ActivityOptionsCompat
                                    .makeSceneTransitionAnimation(activity, pair1, pair2, pair3);
 
+                           Log.d(TAG, "onClickPostItem: " + post[0].getAuthor().getProfile_img());
                            intent.putExtra("model", post[0]);
                            v.getContext().startActivity(intent, options.toBundle());
                        }
