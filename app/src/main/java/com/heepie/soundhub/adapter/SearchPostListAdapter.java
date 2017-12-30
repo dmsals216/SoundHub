@@ -48,7 +48,7 @@ public class SearchPostListAdapter extends RecyclerView.Adapter<SearchPostListAd
         Post post = posts.get(position);
         RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getAuthor().getProfile_img()).apply(options1).into(holder.userpagepostuimage);
-        RequestOptions options2 = new RequestOptions().centerCrop().placeholder(R.drawable.test2).error(R.drawable.test2).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
+        RequestOptions options2 = new RequestOptions().centerCrop().placeholder(R.drawable.piano).error(R.drawable.piano).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getPost_img()).apply(options2).into(holder.userpagepostpimage);
         holder.userpageposttitle.setText(post.getTitle());
         holder.userpagepostartist.setText(post.getAuthor().getNickname());

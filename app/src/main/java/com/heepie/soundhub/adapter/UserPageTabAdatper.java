@@ -50,7 +50,7 @@ public class UserPageTabAdatper extends PagerAdapter{
                     uploadData.add(post);
                 }
             }
-            UserPageMyPostListAdapter adapter = new UserPageMyPostListAdapter(uploadData);
+            UserPageMyPostListAdapter adapter = new UserPageMyPostListAdapter(uploadData, activity);
             recyclerView.setAdapter(adapter);
         }else if(position == 1) {
             List<User_Post> likedData = new ArrayList<>();
@@ -59,7 +59,7 @@ public class UserPageTabAdatper extends PagerAdapter{
                     likedData.add(post);
                 }
             }
-            UserPagePostListAdapter adapter = new UserPagePostListAdapter(likedData);
+            UserPagePostListAdapter adapter = new UserPagePostListAdapter(likedData, activity);
             recyclerView.setAdapter(adapter);
         }
         else if(position == 2) {

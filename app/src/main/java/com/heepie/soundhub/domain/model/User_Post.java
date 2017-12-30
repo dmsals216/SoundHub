@@ -20,6 +20,7 @@ public class User_Post implements Parcelable {
     private String num_comments;
     private String created_date;
     private User author;
+    private String post_img;
 
     public User_Post() {
 
@@ -100,6 +101,14 @@ public class User_Post implements Parcelable {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public String getPost_img() {
+        return post_img;
+    }
+
+    public void setPost_img(String post_img) {
+        this.post_img = post_img;
     }
 
     @Override
