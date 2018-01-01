@@ -2,6 +2,7 @@ package com.heepie.soundhub.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,14 +15,23 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
+import com.heepie.soundhub.domain.logic.PostApi;
+import com.heepie.soundhub.domain.model.Post;
 import com.heepie.soundhub.domain.model.User_Post;
 import com.heepie.soundhub.utils.Const;
+import com.heepie.soundhub.utils.RetrofitUtil;
+import com.heepie.soundhub.view.DetailView;
 import com.heepie.soundhub.view.UserPageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.reactivex.Observable;
+import io.reactivex.Scheduler;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+import retrofit2.Response;
 
 /**
  * Created by eunmin on 2017-12-22.
@@ -45,19 +55,32 @@ public class UserPageMyPostListAdapter extends RecyclerView.Adapter<UserPageMyPo
 
     @Override
     public void onBindViewHolder(UserPageMyPostListAdapter.Holder holder, int position) {
-        User_Post post = data.get(position);
-        holder.textTitle.setText(post.getTitle() + "");
-        holder.textHeart.setText(post.getNum_liked() + "");
-        holder.textComments.setText(post.getNum_comments() + "");
-        holder.textArtist.setText(Const.user.getNickname());
-        RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
-        Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + Const.user.getProfile_img()).apply(options1).into(holder.userpagepostuimage);
-        RequestOptions options2 = new RequestOptions().centerCrop().placeholder(R.drawable.piano).error(R.drawable.piano).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
-        Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getPost_img()).apply(options2).into(holder.userpagepostpimage);
-        holder.userpagepostuimage.setOnClickListener(view -> {
-            Intent intent = new Intent(holder.itemView.getContext(), UserPageView.class);
-            intent.putExtra("userid", post.getAuthor().getId());
-            activity.startActivity(intent);
+        PostApi service = PostApi.getInstance();
+        final Post[] post = {new Post()};
+        Observable<Response<Post>> jsonpost = service.getPost(data.get(position).getId());
+        jsonpost.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(jasonData -> {
+            post[0] = jasonData.body();
+        }, throwable -> {
+
+        }, () -> {
+            holder.textTitle.setText(post[0].getTitle() + "");
+            holder.textHeart.setText(post[0].getNum_liked() + "");
+            holder.textComments.setText(post[0].getNum_comments() + "");
+            holder.textArtist.setText(Const.user.getNickname());
+            RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
+            Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + Const.user.getProfile_img()).apply(options1).into(holder.userpagepostuimage);
+            RequestOptions options2 = new RequestOptions().centerCrop().placeholder(R.drawable.piano).error(R.drawable.piano).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
+            Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post[0].getPost_img()).apply(options2).into(holder.userpagepostpimage);
+            holder.userpagepostuimage.setOnClickListener(view -> {
+                Intent intent = new Intent(holder.itemView.getContext(), UserPageView.class);
+                intent.putExtra("userid", post[0].getAuthor().getId());
+                activity.startActivity(intent);
+            });
+            holder.stage.setOnClickListener(view -> {
+                Intent intent = new Intent(holder.itemView.getContext(), DetailView.class);
+                intent.putExtra("model", post[0]);
+                view.getContext().startActivity(intent);
+            });
         });
     }
 
@@ -74,6 +97,7 @@ public class UserPageMyPostListAdapter extends RecyclerView.Adapter<UserPageMyPo
         TextView textComments;
         CircleImageView userpagepostuimage;
         ImageView userpagepostpimage;
+        ConstraintLayout stage;
 
         public Holder(View itemView) {
             super(itemView);
@@ -83,6 +107,7 @@ public class UserPageMyPostListAdapter extends RecyclerView.Adapter<UserPageMyPo
             textComments = itemView.findViewById(R.id.userpagecomments);
             userpagepostuimage = itemView.findViewById(R.id.userpagepostuimage);
             userpagepostpimage = itemView.findViewById(R.id.userpagepostpimage);
+            stage = itemView.findViewById(R.id.stage);
         }
     }
 }

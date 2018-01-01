@@ -5,7 +5,9 @@
     <data>
         <variable name="model" type="com.heepie.soundhub.domain.model.User_Post" />
     </data>
+
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/stage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
