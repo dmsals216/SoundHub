@@ -52,7 +52,6 @@ public class UserPageMyPostListAdapter extends RecyclerView.Adapter<UserPageMyPo
         holder.textArtist.setText(Const.user.getNickname());
         RequestOptions options1 = new RequestOptions().centerCrop().placeholder(R.drawable.user).error(R.drawable.user).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + Const.user.getProfile_img()).apply(options1).into(holder.userpagepostuimage);
-
         RequestOptions options2 = new RequestOptions().centerCrop().placeholder(R.drawable.piano).error(R.drawable.piano).skipMemoryCache(true).diskCacheStrategy(DiskCacheStrategy.NONE);
         Glide.with(holder.itemView.getContext()).load(BuildConfig.MEDIA_URL + post.getPost_img()).apply(options2).into(holder.userpagepostpimage);
         holder.userpagepostuimage.setOnClickListener(view -> {
