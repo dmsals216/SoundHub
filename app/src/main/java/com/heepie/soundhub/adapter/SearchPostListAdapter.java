@@ -16,6 +16,7 @@ import com.bumptech.glide.request.RequestOptions;
 import com.heepie.soundhub.BuildConfig;
 import com.heepie.soundhub.R;
 import com.heepie.soundhub.domain.model.Post;
+import com.heepie.soundhub.view.DetailView;
 import com.heepie.soundhub.view.UserPageView;
 
 import java.util.ArrayList;
@@ -57,6 +58,11 @@ public class SearchPostListAdapter extends RecyclerView.Adapter<SearchPostListAd
         holder.userpagepostuimage.setOnClickListener(view -> {
             Intent intent = new Intent(holder.itemView.getContext(), UserPageView.class);
             intent.putExtra("userid", post.getAuthor().getId());
+            activity.startActivity(intent);
+        });
+        holder.stage.setOnClickListener(view -> {
+            Intent intent = new Intent(holder.itemView.getContext(), DetailView.class);
+            intent.putExtra("model", post);
             activity.startActivity(intent);
         });
     }

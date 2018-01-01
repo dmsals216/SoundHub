@@ -8,7 +8,7 @@
   3. 클라이언트의 UI/UX를 결정을 협업하며 UI/UX 이해
 
 - 프로젝트 관리
-  1. Google Doc로 매주 해야할 일 작성 (추후 링크 설정)
+  1. Google Doc로 매주 해야할 일 작성 (http://bit.ly/2E6to0D)
   2. Hangout를 통한 데일리 스크럽
 
 ## 사용한 아키텍처(MVVM)
@@ -231,3 +231,5 @@
       audioTrack.play();
   }
   ```
+
+### 고은민

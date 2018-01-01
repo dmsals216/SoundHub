@@ -24,6 +24,6 @@ public interface SearchDao {
     @Delete
     void deleteItem(Search model);
 
-    @Query("delete from Search WHERE id NOT IN (SELECT MIN(id) FROM Search GROUP BY search)")
+    @Query("delete from Search WHERE id NOT IN (SELECT MAX(id) FROM Search GROUP BY search)")
     void deleteItems();
 }
