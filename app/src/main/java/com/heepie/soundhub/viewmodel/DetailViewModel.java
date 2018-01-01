@@ -124,12 +124,15 @@ public class DetailViewModel {
             exListView.expandGroup(i);
     }
 
+    String masterPahString;
+
     private void setMasterTrackWave(String url) {
         FileApi.getInstance().getMusic(context, url, post.getId(), new ICallback() {
             @Override
             public void initData(int code, String msg, Object data) {
                 Log.i("heepie", code+" " + msg + " " + data);
-                masterPath.set((String)data);
+                masterPahString = (String)data;
+                masterPath.set(masterPahString);
             }
         });
     }
@@ -236,6 +239,10 @@ public class DetailViewModel {
     public void onPause() {
         player.pause();
         player.stopPlaying();
+    }
+
+    public void onDestory() {
+        onPause();
         player.initData();
         masterPath.set(" ");
     }

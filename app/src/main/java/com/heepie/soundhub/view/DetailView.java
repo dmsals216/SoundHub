@@ -86,8 +86,23 @@ public class DetailView extends AppCompatActivity implements IGoHome {
 
     @Override
     protected void onPause() {
+        Log.d(TAG, "onPause: ");
         super.onPause();
         viewModel.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        Log.d(TAG, "onDestroy: ");
+        super.onDestroy();
+        viewModel.onDestory();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume: ");
+        super.onResume();
+        viewModel.setPost(model, binding.expnadListView, adapter);
     }
 
     @Override
