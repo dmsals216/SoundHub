@@ -103,12 +103,12 @@ public class ViewHandler {
             break;
         }
     }
-    public void onClickPostItem(View v, Post model, Activity activity, View image, View like, View comment) {
+    public void onClickPostItem(View v, String id, Activity activity, View image, View like, View comment) {
         final Post[] post = new Post[1];
         postAPI = PostApi.getInstance();
         Intent intent = new Intent(v.getContext(), DetailView.class);
 
-        Observable<Response<Post>> postObs = postAPI.getPost(model.getId());
+        Observable<Response<Post>> postObs = postAPI.getPost(id);
         postObs.subscribeOn(Schedulers.io())
                .observeOn(AndroidSchedulers.mainThread())
                .subscribe(
