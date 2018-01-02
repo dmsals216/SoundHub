@@ -10,6 +10,9 @@
 - 프로젝트 관리
   1. Google Doc로 매주 해야할 일 작성 (http://bit.ly/2E6to0D)
   2. Hangout를 통한 데일리 스크럽
+  
+- 프로젝트 시연
+  1. 동영상: https://www.youtube.com/watch?v=toBCfZmIJk0&t=7s
 
 ## 사용한 아키텍처(MVVM)
 - 아키텍처를 사용한 이유
