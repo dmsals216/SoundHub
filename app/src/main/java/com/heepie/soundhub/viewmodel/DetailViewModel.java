@@ -260,19 +260,12 @@ public class DetailViewModel {
             checkSelectedTrack();
             targetView.setVisibility(View.VISIBLE);
 
-            Observable<String> createCounter = Observable.create(new ObservableOnSubscribe<String>() {
+            Observable<Integer> createCounter = Observable.create(new ObservableOnSubscribe<Integer>() {
                 @Override
-                public void subscribe(ObservableEmitter<String> e) throws Exception {
+                public void subscribe(ObservableEmitter<Integer> e) throws Exception {
                     try {
-                        String text="";
                         for (int i=3; i>=-1; i=i-1) {
-                            if (i >= 0) {
-                                text = (i == 0) ? "START!" : i + "";
-                                e.onNext(text);
-                                Thread.sleep(1000);
-                            } else {
-                                e.onNext(i+"");
-                            }
+                            e.onNext(i);
                         }
                         e.onComplete();
                     } catch (Exception ex) {
@@ -284,18 +277,24 @@ public class DetailViewModel {
             createCounter.observeOn(Schedulers.io())
                     .subscribeOn(Schedulers.newThread())
                     .subscribe(
-                            string -> {
-                                countDown.set(string);
-                                if ("START!".equals(string)) {
-                                    player.play();
-                                    recorder.startRecording();
+                            count -> {
+                                Log.d(TAG, "onClickedRecord: " + count);
+                                if (count == 0) {
+                                    countDown.set("START!");
+
+                                } else {
+                                    countDown.set(count+"");
                                 }
+                                if (count != -1)
+                                    Thread.sleep(1000);
+
                             },
                             // Error 처리
                             throwable -> {},
                             // Complete 처리
                             () ->{
                                 player.play();
+                                recorder.startRecording();
                             }
                     );
             ((ImageButton)v).setImageResource(android.R.drawable.ic_media_pause);

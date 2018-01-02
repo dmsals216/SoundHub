@@ -102,7 +102,7 @@ public class DetailView extends AppCompatActivity implements IGoHome {
     protected void onResume() {
         Log.d(TAG, "onResume: ");
         super.onResume();
-        viewModel.setPost(model, binding.expnadListView, adapter);
+//        viewModel.setPost(model, binding.expnadListView, adapter);
     }
 
     @Override
